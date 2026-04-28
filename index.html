@@ -48,6 +48,22 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
   border-radius: var(--r-sm);
 }
 
+/* Mobile tap feedback — verwyder default grys flits, vervang met subtle scale */
+* { -webkit-tap-highlight-color: transparent; }
+.module-card:active:not(.disabled),
+.bates-hub-card:active,
+.ad-card:not(.ad-card-leaf):active,
+.eq-card:active, .veh-card:active, .trac-card:active,
+.ad-afd-card:active {
+  transform: scale(0.98);
+  transition: transform .08s ease;
+}
+.nav-link:active, .ad-bc-back:active, .ad-bc-item:active,
+.bates-back-btn:active, .bates-tab:active,
+.ad-cta-btn:active, .ad-dd-subhdr:active {
+  filter: brightness(0.92);
+}
+
 /* Polished nav */
 .nav { backdrop-filter: blur(8px); background: rgba(13,40,24,.96); }
 .nav-brand h1 { letter-spacing:-.02em; }
@@ -148,8 +164,8 @@ body { width: 100%; }
   .gsearch-input:focus { width: 130px; }
   .gsearch-icon { left: 8px; font-size: 12px; }
   .gsearch-shortcut { display: none; }
-  .home-hero { padding: 36px 16px 28px; }
-  .home-hero h2 { font-size: 26px; }
+  .home-hero { padding: 28px 16px 22px; }
+  .home-hero h2 { font-size: 22px; line-height: 1.15; }
   .home-tagline { font-size: 12px; padding: 0 8px; }
   .home-stats { padding: 12px 10px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
   .home-stat-n { font-size: 18px; }
