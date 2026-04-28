@@ -137,11 +137,12 @@ body { width: 100%; }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .nav { padding: 0; }
+  .nav { padding: 0; overflow: hidden; }
   .nav-brand { padding: 8px 12px; border-right: none; }
   .nav-brand h1, .nav-brand p { display: none; }
   .nav-brand::before { content: "BS"; font-family:"Playfair Display",serif; color:#fff; font-size:18px; font-weight:700; letter-spacing:-.02em; }
   .nav-link { padding: 10px 12px; font-size: 12px; }
+  #data-status { display: none; }
   .gsearch-wrap { padding: 6px 10px; margin-left: auto; }
   .gsearch-input { width: 120px; font-size: 12px; }
   .gsearch-input:focus { width: 150px; }
