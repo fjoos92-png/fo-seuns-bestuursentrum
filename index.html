@@ -308,6 +308,27 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
 .ad-retry-btn{padding:8px 18px;border-radius:6px;border:1px solid #14532d;background:#14532d;color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .ad-retry-btn:hover{background:#166534}
 
+/* SPAN OF CONTROL */
+.ad-span-list{background:#fff;border:1px solid #e0dbd0;border-radius:12px;padding:6px 0;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.ad-span-row{padding:10px 16px;border-bottom:1px solid #f0ece6;display:flex;align-items:center;gap:10px}
+.ad-span-row:last-child{border-bottom:none}
+.ad-span-rank{font-size:11px;font-weight:700;color:#9ca3af;width:16px;text-align:right;flex-shrink:0}
+.ad-span-body{flex:1;min-width:0}
+.ad-span-naam{font-size:13px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ad-span-track{height:5px;background:#f1ede5;border-radius:3px;overflow:hidden;margin-top:4px}
+.ad-span-fill{height:100%;border-radius:3px;background:#14532d;transition:width .4s ease}
+.ad-span-n{font-size:12px;font-weight:700;color:#374151;flex-shrink:0;min-width:22px;text-align:right}
+
+/* PLASE & BESTUURDERS */
+.ad-plaas-list{background:#fff;border:1px solid #e0dbd0;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.ad-plaas-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #f0ece6;cursor:pointer;transition:background .12s}
+.ad-plaas-row:last-child{border-bottom:none}
+.ad-plaas-row:hover{background:#f8f6f2}
+.ad-plaas-body{flex:1;min-width:0}
+.ad-plaas-naam{font-size:13px;font-weight:700;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ad-plaas-btrd{font-size:11px;color:#6b7280;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ad-plaas-cnt{font-size:12px;font-weight:700;color:#14532d;background:#f0f5ee;border-radius:9px;padding:2px 8px;flex-shrink:0}
+
 /* ── EXTRA MOBILE TWEAKS ── */
 @media (max-width: 768px) {
   .arbeid-hdr { padding: 16px 18px; }
@@ -1194,6 +1215,23 @@ function renderArbeidDashboard(){
       }).join('')}
     </div>`;
 
+  // Section A: Span of Control — top-5 managers by direct report count
+  const drMap = {};
+  data.forEach(e => { const b = e.raporteerAan?.trim(); if(b) drMap[b] = (drMap[b]||0)+1; });
+  const spanTop5 = Object.entries(drMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxSpan = Math.max(...spanTop5.map(d=>d[1]),1);
+
+  // Section D: Plase & Bestuurders — one row per plaas with responsible manager + count
+  const plaasGroepe = {};
+  data.filter(e=>e.tipe!=='Kontrakteur'&&e.plaas).forEach(e=>{
+    if(!plaasGroepe[e.plaas]) plaasGroepe[e.plaas]=[];
+    plaasGroepe[e.plaas].push(e);
+  });
+  const plaasRye = Object.entries(plaasGroepe).map(([plaas,wrs])=>{
+    const btrd = wrs.find(w=>w.vlak==='Vlak 3')||wrs.find(w=>w.vlak==='Vlak 2')||wrs[0];
+    return {plaas, btrd, tel:wrs.length};
+  }).sort((a,b)=>b.tel-a.tel);
+
   view.innerHTML = `<div class="ad-dash ad-slide-left">
     <div class="ad-section">
       <div class="ad-stat-grid">
@@ -1215,6 +1253,41 @@ function renderArbeidDashboard(){
       <div class="ad-section-title">Per Vlak</div>
       ${balkBlok(vlakData, () => '#14532d', maxVlak)}
     </div>
+    ${spanTop5.length ? `<div class="ad-section">
+      <div class="ad-section-title">Span of Control — Meeste Direkte Rapporte</div>
+      <div class="ad-span-list">
+        ${spanTop5.map(([naam,n],i)=>{
+          const pct=Math.max(4,(n/maxSpan)*100);
+          return `<div class="ad-span-row">
+            <div class="ad-span-rank">${i+1}</div>
+            <div class="ad-span-body">
+              <div class="ad-span-naam">${naam}</div>
+              <div class="ad-span-track"><div class="ad-span-fill" style="width:${pct}%"></div></div>
+            </div>
+            <div class="ad-span-n">${n}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : ''}
+    ${plaasRye.length ? `<div class="ad-section">
+      <div class="ad-section-title">Plase &amp; Bestuurders</div>
+      <div class="ad-plaas-list">
+        ${plaasRye.map(({plaas,btrd,tel})=>{
+          const kleur = ad_afdColor(btrd?.afdeling||'');
+          const init  = ad_init(btrd?.naam||'');
+          const veilig = (btrd?.naam||'').replace(/'/g,"\\'");
+          return `<div class="ad-plaas-row" onclick="arbeidNaPlaasbtrd('${veilig}')">
+            <div class="ad-init" style="background:${kleur};width:34px;height:34px;font-size:10px">${init}</div>
+            <div class="ad-plaas-body">
+              <div class="ad-plaas-naam">${plaas}</div>
+              <div class="ad-plaas-btrd">${btrd?.naam||'—'}</div>
+            </div>
+            <div class="ad-plaas-cnt">${tel}</div>
+            <div class="ad-card-arrow" style="color:#9ca3af;font-size:16px">&rsaquo;</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : ''}
     <div class="ad-cta-wrap">
       <button class="ad-cta-btn" onclick="arbeidGaanNaDrill()">Bekyk Personeel &rarr;</button>
     </div>
@@ -1260,6 +1333,16 @@ function arbeidTerugDashboard(){
   dv.style.display = '';
   window.scrollTo(0, 0);
   renderArbeidDashboard();
+}
+
+function arbeidNaPlaasbtrd(naam){
+  arbeidPath = [naam];
+  arbeidViewMode = 'drill';
+  document.getElementById('arbeid-dashboard-view').style.display = 'none';
+  const dd = document.getElementById('arbeid-drilldown-view');
+  dd.style.display = '';
+  window.scrollTo(0, 0);
+  renderArbeidDrill('right');
 }
 
 function arbeidDrillIn(naam){
@@ -1499,6 +1582,7 @@ function buildEquipmentGrid(data){
   }).join("");
 
   updateEqStats(data.length);
+  herbouEqPille();
 }
 
 function updateEqStats(visible){
@@ -1549,7 +1633,8 @@ function filterEquipment(){
 function resetFilters(){
   eqPersonFilter = '';
   ["fClass","eqSearch"].forEach(id => { const el=document.getElementById(id); if(el) el.value=""; });
-  document.querySelectorAll(".bpill[id^='eqP-']").forEach(b=>b.classList.remove("active"));
+  const ec = document.getElementById('eqP-all')?.parentElement;
+  if(ec) ec.querySelectorAll('.bpill').forEach(b=>b.classList.remove('active'));
   const ap = document.getElementById("eqP-all"); if(ap) ap.classList.add("active");
   filterEquipment();
 }
@@ -1559,15 +1644,39 @@ let eqPersonFilter = '', tracPersonFilter = '', vehKlasFilter = '';
 
 function setEqPerson(person, btn){
   eqPersonFilter = person;
-  document.querySelectorAll(".bpill[id^='eqP-']").forEach(b=>b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
+  const c = document.getElementById('eqP-all')?.parentElement;
+  if(c) c.querySelectorAll('.bpill').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
   filterEquipment();
 }
 function setTracPerson(person, btn){
   tracPersonFilter = person;
-  document.querySelectorAll(".bpill[id^='tracP-']").forEach(b=>b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
+  const c = document.getElementById('tracP-all')?.parentElement;
+  if(c) c.querySelectorAll('.bpill').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
   filterTractors();
+}
+
+function herbouEqPille(){
+  const allBtn = document.getElementById('eqP-all');
+  if(!allBtn) return;
+  const container = allBtn.parentElement;
+  const names = [...new Set(EQ_DATA.map(e=>e.verantwoordelike).filter(Boolean))].sort();
+  eqPersonFilter = '';
+  container.innerHTML =
+    `<button class="bpill active" id="eqP-all" onclick="setEqPerson('',this)">Almal</button>` +
+    names.map(n=>`<button class="bpill" onclick="setEqPerson(${JSON.stringify(n)},this)">${n}</button>`).join('');
+}
+
+function herbouTracPille(){
+  const allBtn = document.getElementById('tracP-all');
+  if(!allBtn) return;
+  const container = allBtn.parentElement;
+  const names = [...new Set(TRAC_DATA.map(t=>t.verantwoordelike).filter(Boolean))].sort();
+  tracPersonFilter = '';
+  container.innerHTML =
+    `<button class="bpill active" id="tracP-all" onclick="setTracPerson('',this)">Almal</button>` +
+    names.map(n=>`<button class="bpill" onclick="setTracPerson(${JSON.stringify(n)},this)">${n}</button>`).join('');
 }
 function setVehKlas(klas, btn){
   vehKlasFilter = klas;
@@ -1946,6 +2055,7 @@ function buildTractorGrid(data){
     </div>`;
   }).join("");
   updateTracStats(data.length);
+  herbouTracPille();
 }
 
 function updateTracStats(visible){
@@ -1990,7 +2100,8 @@ function filterTractors(){
 function resetTracFilters(){
   tracPersonFilter = '';
   ["tfKlas","tracSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
-  document.querySelectorAll(".bpill[id^='tracP-']").forEach(b=>b.classList.remove("active"));
+  const tc = document.getElementById('tracP-all')?.parentElement;
+  if(tc) tc.querySelectorAll('.bpill').forEach(b=>b.classList.remove('active'));
   const ap=document.getElementById("tracP-all"); if(ap) ap.classList.add("active");
   filterTractors();
 }
@@ -2185,8 +2296,21 @@ function sheetNaVoert(s) {
 function pasToeData(data) {
   if (data.equipment?.length)
     EQ_DATA.splice(0, EQ_DATA.length, ...data.equipment.map(sheetNaImpl));
-  if (data.tractors?.length)
-    TRAC_DATA.splice(0, TRAC_DATA.length, ...data.tractors.map(sheetNaTrek));
+  if (data.tractors?.length) {
+    // Preserve hardcoded kw/jaar/aankoop when API doesn't return these columns yet
+    const bestaand = {};
+    TRAC_DATA.forEach(t => { if (t.code) bestaand[t.code] = t; });
+    TRAC_DATA.splice(0, TRAC_DATA.length, ...data.tractors.map(s => {
+      const m = sheetNaTrek(s);
+      const v = bestaand[m.code];
+      if (v) {
+        if (m.kw_str === '—' && v.kw_str !== '—') m.kw_str = v.kw_str;
+        if (m.jaar  === '—' && v.jaar  !== '—') m.jaar  = v.jaar;
+        if (m.aankoop === '—' && v.aankoop !== '—') m.aankoop = v.aankoop;
+      }
+      return m;
+    }));
+  }
   if (data.vehicles?.length)
     VEH_DATA.splice(0, VEH_DATA.length, ...data.vehicles.map(sheetNaVoert));
   if (data.employees?.length)
