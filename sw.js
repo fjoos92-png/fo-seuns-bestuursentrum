@@ -5,7 +5,7 @@
 // die nuwe weergawe kry by volgende app-oopmaak.
 // ================================================================
 
-const CACHE_NAME = 'bestuursentrum-v21';
+const CACHE_NAME = 'bestuursentrum-v22';
 
 // Kernlêers wat altyd gecache word (verpligtend vir offline)
 const CORE_ASSETS = [
