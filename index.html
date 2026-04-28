@@ -396,8 +396,10 @@ body { width: 100%; }
   .ad-breadcrumb { padding: 12px 14px 10px; }
   .ad-stat-n { font-size: 26px; }
   .bates-search-input, .bates-search-input:focus { width: 100%; }
-  .bates-search-wrap { width: 100%; }
-  .bates-toolbar-main { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 8px; }
+  .bates-search-wrap { width: 100%; grid-column: 1 / -1; }
+  .bates-toolbar-main { padding: 10px 14px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 6px; align-items: center; }
+  .bates-toolbar-main .bates-select { width: 100%; min-width: 0; max-width: 100%; padding: 6px 6px; font-size: 11px; }
+  .bates-reset-btn { width: 34px; height: 32px; }
   .bates-person-bar { padding: 6px 14px 10px; }
   .bates-nav { padding: 0 10px; }
   .bates-tab { padding: 10px 14px; font-size: 12px; }
@@ -2613,6 +2615,33 @@ function sheetNaImpl(s) {
   return { code: s.id || '', name: s.naam, classification: s.klassifikasie,
            afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike };
 }
+function formaatDatumFE(val){
+  if (val == null || val === '' || val === '—') return '—';
+  if (typeof val === 'string'){
+    const s = val.trim();
+    if (/^[A-Za-z]{3}\s+\d{4}$/.test(s)) return s;
+    if (/^[A-Za-z]{3}-\d{2}$/.test(s)){
+      const [m,y] = s.split('-');
+      return m + ' 20' + y;
+    }
+  }
+  const d = new Date(val);
+  if (!isNaN(d.getTime())){
+    const m = ['Jan','Feb','Mrt','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Des'];
+    return m[d.getMonth()] + ' ' + d.getFullYear();
+  }
+  return String(val).trim() || '—';
+}
+
+function formaatJaarFE(val){
+  if (val == null || val === '' || val === '—') return '—';
+  const s = String(val).trim();
+  if (/^\d{4}$/.test(s)) return s;
+  const d = new Date(val);
+  if (!isNaN(d.getTime())) return String(d.getFullYear());
+  return s || '—';
+}
+
 function sheetNaTrek(s) {
   if (!sheetIsAktief(s)) return null;
   const enjin = sheetVeld(s, 'enjingrootteKw','enjingrootteKW','enjingrootte','enjingrootteKwh','kw','enjingroottekw');
@@ -2625,8 +2654,8 @@ function sheetNaTrek(s) {
     afdeling: s.afdeling,
     plaas: s.plaas,
     verantwoordelike: s.verantwoordelike,
-    jaar: sheetVeld(s, 'jaarmodel','jaar') || '—',
-    aankoop: sheetVeld(s, 'aankoopdatum','aankoop') || '—',
+    jaar: formaatJaarFE(sheetVeld(s, 'jaarmodel','jaar')),
+    aankoop: formaatDatumFE(sheetVeld(s, 'aankoopdatum','aankoop')),
     kw_str: kwStr,
     hours_str: '—',
     hours: 0
@@ -2641,8 +2670,8 @@ function sheetNaVoert(s) {
     afdeling: s.afdeling,
     plaas: s.plaas,
     verantwoordelike: s.verantwoordelike,
-    jaar: sheetVeld(s, 'jaarmodel','jaar') || '—',
-    aankoop: sheetVeld(s, 'aankoopdatum','aankoop') || '—',
+    jaar: formaatJaarFE(sheetVeld(s, 'jaarmodel','jaar')),
+    aankoop: formaatDatumFE(sheetVeld(s, 'aankoopdatum','aankoop')),
     km_str: '—',
     repair_str: '—',
     km: 0,
