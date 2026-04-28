@@ -326,6 +326,13 @@ body { width: 100%; }
 .ad-init{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;letter-spacing:.02em}
 .ad-kbadge{position:absolute;top:8px;right:10px;background:#fb923c;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:9px;text-transform:uppercase;letter-spacing:.05em}
 
+.ad-afd-grid{display:flex;flex-direction:column;gap:14px;padding:4px 0}
+.ad-afd-card{background:#fff;border:1px solid #e0dbd0;border-radius:14px;border-left:5px solid var(--afd-kleur,#14532d);padding:20px 22px;cursor:pointer;transition:all .15s;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.ad-afd-card:hover{box-shadow:0 5px 16px rgba(0,0,0,.1);transform:translateY(-2px)}
+.ad-afd-card-naam{font-size:17px;font-weight:700;color:#0d2818;margin-bottom:3px}
+.ad-afd-card-sub{font-size:12px;color:#6b7280}
+.ad-afd-card-n{font-size:38px;font-weight:700;color:var(--afd-kleur,#14532d);font-family:"Playfair Display",serif;line-height:1}
+
 /* afdeling-kleure */
 .ad-afd-Suiwel{border-left-color:#1d4ed8}
 .ad-afd-Saai{border-left-color:#0f6e56}
@@ -1190,6 +1197,7 @@ window.addEventListener("resize",()=>{ if(document.getElementById("svgLines")) s
 let ARBEID_DATA = [];
 let arbeidPath = [];          // stapel van naam-stringe vir drill-down
 let arbeidViewMode = 'dash';  // 'dash' of 'drill'
+let arbeidAfdelingFilter = null;
 let arbeidSoekActief = false;
 
 const AFD_COLORS = {
@@ -1361,18 +1369,62 @@ function renderArbeidSkelett(){
 
 // ── DRILL-DOWN ─────────────────────────────────────────
 function arbeidGaanNaDrill(){
+  arbeidAfdelingFilter = null;
   arbeidPath = [];
   arbeidViewMode = 'drill';
   document.getElementById('arbeid-dashboard-view').style.display = 'none';
   const dd = document.getElementById('arbeid-drilldown-view');
   dd.style.display = '';
   window.scrollTo(0, 0);
+  renderAfdelingHub();
+}
+
+function renderAfdelingHub(){
+  const view = document.getElementById('arbeid-drilldown-view');
+  if(!view) return;
+  const afdConfig = [
+    {id:'Saai',    label:'Graan & Saai', kleur:'#0f6e56'},
+    {id:'Suiwel',  label:'Suiwel',       kleur:'#1d4ed8'},
+    {id:'Wingerd', label:'Wingerd',      kleur:'#7c3aed'},
+  ];
+  const cards = afdConfig.map(({id, label, kleur}) => {
+    const n = ARBEID_DATA.filter(e => e.afdeling === id).length;
+    return `<div class="ad-afd-card" onclick="arbeidKlikAfdeling('${id}')" style="--afd-kleur:${kleur}">
+      <div>
+        <div class="ad-afd-card-naam">${label}</div>
+        <div class="ad-afd-card-sub">${n} werknemers</div>
+      </div>
+      <div class="ad-afd-card-n">${n}</div>
+    </div>`;
+  }).join('');
+  view.innerHTML = `<div class="ad-dd">
+    <div class="ad-breadcrumb">
+      <button class="ad-bc-back" onclick="arbeidTerugDashboard()">&#8592; Dashboard</button>
+      <span class="ad-bc-sep">/</span>
+      <span class="ad-bc-current">Afdelings</span>
+    </div>
+    <div class="ad-dd-list ad-slide-right"><div class="ad-afd-grid">${cards}</div></div>
+  </div>`;
+}
+
+function arbeidKlikAfdeling(afd){
+  arbeidAfdelingFilter = afd;
+  arbeidPath = [];
+  window.scrollTo(0, 0);
   renderArbeidDrill('right');
+}
+
+function arbeidTerugHub(){
+  arbeidAfdelingFilter = null;
+  arbeidPath = [];
+  window.scrollTo(0, 0);
+  renderAfdelingHub();
 }
 
 function arbeidTerugDashboard(){
   arbeidViewMode = 'dash';
   arbeidPath = [];
+  arbeidAfdelingFilter = null;
   document.getElementById('arbeid-drilldown-view').style.display = 'none';
   const dv = document.getElementById('arbeid-dashboard-view');
   dv.style.display = '';
@@ -1426,33 +1478,76 @@ function renderArbeidDrill(richting){
 
   let employees;
   if(arbeidPath.length === 0){
-    // Top-vlak: Vlak 1 / geen raporteerAan / rapporteer aan "Direksie" (virtuele wortel)
-    const seen = new Set();
-    employees = ARBEID_DATA.filter(e => {
-      if(seen.has(e.naam)) return false;
-      const topVlak = e.vlak === 'Vlak 1';
-      const baas = (e.raporteerAan || '').trim();
-      const geenBaas = !baas || baas.toLowerCase() === 'direksie';
-      if(topVlak || geenBaas){ seen.add(e.naam); return true; }
-      return false;
-    });
+    if(arbeidAfdelingFilter){
+      // Wys slegs direkteure wie se direkte rapporte in hierdie afdeling is
+      const seen = new Set();
+      const isTop = e => { const b=(e.raporteerAan||'').trim(); return e.vlak==='Vlak 1'||!b||b.toLowerCase()==='direksie'; };
+      const hetRapporte = naam => ARBEID_DATA.some(e => (e.raporteerAan||'').trim()===naam && e.afdeling===arbeidAfdelingFilter);
+      employees = ARBEID_DATA.filter(e => {
+        if(seen.has(e.naam)||!isTop(e)) return false;
+        if(hetRapporte(e.naam)){ seen.add(e.naam); return true; }
+        return false;
+      });
+      // Terugval: as geen direkte rapporte gevind, wys diegene in die afdeling self
+      if(!employees.length){
+        const seen2 = new Set();
+        employees = ARBEID_DATA.filter(e => {
+          if(seen2.has(e.naam)||!isTop(e)) return false;
+          if(e.afdeling===arbeidAfdelingFilter){ seen2.add(e.naam); return true; }
+          return false;
+        });
+      }
+    } else {
+      // Top-vlak: Vlak 1 / geen raporteerAan / rapporteer aan "Direksie" (virtuele wortel)
+      const seen = new Set();
+      employees = ARBEID_DATA.filter(e => {
+        if(seen.has(e.naam)) return false;
+        const topVlak = e.vlak === 'Vlak 1';
+        const baas = (e.raporteerAan || '').trim();
+        const geenBaas = !baas || baas.toLowerCase() === 'direksie';
+        if(topVlak || geenBaas){ seen.add(e.naam); return true; }
+        return false;
+      });
+    }
   } else {
     const huidige = arbeidPath[arbeidPath.length - 1];
     employees = ARBEID_DATA.filter(e => (e.raporteerAan || '').trim() === huidige);
   }
 
-  const bcParts = [`<button class="ad-bc-back" onclick="arbeidTerugDashboard()">&#8592; Dashboard</button>`,
-                   `<span class="ad-bc-sep">/</span>`,
-                   `<span class="ad-bc-item" onclick="arbeidBcKlik(-1)">FO Seuns</span>`];
-  arbeidPath.forEach((naam, i) => {
-    const eersteN = naam.split(/\s+/)[0];
-    bcParts.push(`<span class="ad-bc-sep">&rsaquo;</span>`);
-    if(i === arbeidPath.length - 1){
-      bcParts.push(`<span class="ad-bc-current">${eersteN}</span>`);
+  const afdLabels = {'Saai':'Graan & Saai','Suiwel':'Suiwel','Wingerd':'Wingerd'};
+  let bcParts;
+  if(arbeidAfdelingFilter){
+    const afdLabel = afdLabels[arbeidAfdelingFilter] || arbeidAfdelingFilter;
+    bcParts = [`<button class="ad-bc-back" onclick="arbeidTerugHub()">&#8592; Afdelings</button>`,
+               `<span class="ad-bc-sep">/</span>`];
+    if(arbeidPath.length === 0){
+      bcParts.push(`<span class="ad-bc-current">${afdLabel}</span>`);
     } else {
-      bcParts.push(`<span class="ad-bc-item" onclick="arbeidBcKlik(${i})">${eersteN}</span>`);
+      bcParts.push(`<span class="ad-bc-item" onclick="arbeidKlikAfdeling('${arbeidAfdelingFilter}')">${afdLabel}</span>`);
+      arbeidPath.forEach((naam, i) => {
+        const eersteN = naam.split(/\s+/)[0];
+        bcParts.push(`<span class="ad-bc-sep">&rsaquo;</span>`);
+        if(i === arbeidPath.length - 1){
+          bcParts.push(`<span class="ad-bc-current">${eersteN}</span>`);
+        } else {
+          bcParts.push(`<span class="ad-bc-item" onclick="arbeidBcKlik(${i})">${eersteN}</span>`);
+        }
+      });
     }
-  });
+  } else {
+    bcParts = [`<button class="ad-bc-back" onclick="arbeidTerugDashboard()">&#8592; Dashboard</button>`,
+               `<span class="ad-bc-sep">/</span>`,
+               `<span class="ad-bc-item" onclick="arbeidBcKlik(-1)">FO Seuns</span>`];
+    arbeidPath.forEach((naam, i) => {
+      const eersteN = naam.split(/\s+/)[0];
+      bcParts.push(`<span class="ad-bc-sep">&rsaquo;</span>`);
+      if(i === arbeidPath.length - 1){
+        bcParts.push(`<span class="ad-bc-current">${eersteN}</span>`);
+      } else {
+        bcParts.push(`<span class="ad-bc-item" onclick="arbeidBcKlik(${i})">${eersteN}</span>`);
+      }
+    });
+  }
 
   let lysHtml = '';
   if(!employees.length){
