@@ -2369,11 +2369,13 @@ function bsSkryfKas(data) {
 
 // ── Vertaal Sheet-velde na die formaat wat die grids verwag ──
 function sheetIsAktief(s) {
-  // Sheet "Aktief" column: "Yes" / "No". Treat missing as active for safety.
   if (s == null) return false;
   const a = s.aktief;
   if (a == null || a === '') return true;
-  return String(a).trim().toLowerCase() === 'yes';
+  if (a === true) return true;
+  if (a === false) return false;
+  const str = String(a).trim().toLowerCase();
+  return str === 'yes' || str === 'true' || str === 'ja';
 }
 
 function sheetVeld(s, ...sleutels) {
