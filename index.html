@@ -1383,18 +1383,32 @@ function renderAfdelingHub(){
   const view = document.getElementById('arbeid-drilldown-view');
   if(!view) return;
   const afdConfig = [
-    {id:'Saai',    label:'Graan & Saai', kleur:'#0f6e56'},
-    {id:'Suiwel',  label:'Suiwel',       kleur:'#1d4ed8'},
-    {id:'Wingerd', label:'Wingerd',      kleur:'#7c3aed'},
+    {id:'Saai',    label:'Graan & Saai',  ikoon:'&#127806;', beskr:'Saai-aktiwiteite, graanproduksie en meganies.',   bg:'#dcfce7', kleur:'#0f6e56'},
+    {id:'Suiwel',  label:'Suiwel',         ikoon:'&#128004;', beskr:'Suiwelbedrywighede, melkery en veestapel.',        bg:'#dbeafe', kleur:'#1d4ed8'},
+    {id:'Wingerd', label:'Wingerd',         ikoon:'&#127815;', beskr:'Wingerd, druiweproduksie en snoeiwerk.',           bg:'#ede9fe', kleur:'#7c3aed'},
+    {id:'Admin',   label:'Administrasie',   ikoon:'&#127970;', beskr:'Hoofkantoor, administrasie en bestuurspersoneel.', bg:'#f3f4f6', kleur:'#6b7280'},
   ];
-  const cards = afdConfig.map(({id, label, kleur}) => {
+  const isTop = e => { const b=(e.raporteerAan||'').trim(); return e.vlak==='Vlak 1'||!b||b.toLowerCase()==='direksie'; };
+  const hetRapporte = (naam, afd) => ARBEID_DATA.some(e => (e.raporteerAan||'').trim()===naam && e.afdeling===afd);
+  const cards = afdConfig.map(({id, label, ikoon, beskr, bg, kleur}) => {
     const n = ARBEID_DATA.filter(e => e.afdeling === id).length;
-    return `<div class="ad-afd-card" onclick="arbeidKlikAfdeling('${id}')" style="--afd-kleur:${kleur}">
-      <div>
-        <div class="ad-afd-card-naam">${label}</div>
-        <div class="ad-afd-card-sub">${n} werknemers</div>
+    const seen = new Set();
+    const dirs = ARBEID_DATA.filter(e => {
+      if(seen.has(e.naam)||!isTop(e)) return false;
+      if(hetRapporte(e.naam, id)){ seen.add(e.naam); return true; }
+      return false;
+    });
+    const miniHtml = dirs.map(e => `<span style="font-size:11px;font-weight:600;color:${kleur}">${e.naam.split(' ').slice(0,2).join(' ')}</span>`).join('<span style="color:#d1d5db;margin:0 5px">&middot;</span>');
+    return `<div class="module-card bates-hub-card" onclick="arbeidKlikAfdeling('${id}')">
+      <div class="module-top">
+        <div class="module-icon">${ikoon}</div>
+        <div class="module-info"><h3>${label}</h3><p>${beskr}</p></div>
       </div>
-      <div class="ad-afd-card-n">${n}</div>
+      ${miniHtml ? `<div class="bates-hub-mini">${miniHtml}</div>` : ''}
+      <div class="module-footer">
+        <span class="module-badge" style="background:${bg};color:${kleur}">${n} werknemers</span>
+        <span class="module-arrow">&rarr;</span>
+      </div>
     </div>`;
   }).join('');
   view.innerHTML = `<div class="ad-dd">
@@ -1403,7 +1417,9 @@ function renderAfdelingHub(){
       <span class="ad-bc-sep">/</span>
       <span class="ad-bc-current">Afdelings</span>
     </div>
-    <div class="ad-dd-list ad-slide-right"><div class="ad-afd-grid">${cards}</div></div>
+    <div class="bates-hub" style="padding:20px 24px 40px;min-height:unset">
+      <div class="bates-hub-grid">${cards}</div>
+    </div>
   </div>`;
 }
 
@@ -1514,7 +1530,7 @@ function renderArbeidDrill(richting){
     employees = ARBEID_DATA.filter(e => (e.raporteerAan || '').trim() === huidige);
   }
 
-  const afdLabels = {'Saai':'Graan & Saai','Suiwel':'Suiwel','Wingerd':'Wingerd'};
+  const afdLabels = {'Saai':'Graan & Saai','Suiwel':'Suiwel','Wingerd':'Wingerd','Admin':'Administrasie'};
   let bcParts;
   if(arbeidAfdelingFilter){
     const afdLabel = afdLabels[arbeidAfdelingFilter] || arbeidAfdelingFilter;
