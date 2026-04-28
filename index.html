@@ -509,6 +509,35 @@ svg.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:n
 .bates-hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .bates-hdr h2{font-family:"Playfair Display",serif;color:#fff;font-size:22px}
 .bates-hdr p{color:#bfdbfe;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+
+/* Bates HUB landing — module-card style */
+.bates-hub{background:#f5f2eb;padding:36px 32px 56px;min-height:calc(100vh - 200px)}
+.bates-hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;margin:0 auto}
+.bates-hub-card{padding:22px 22px 16px;display:flex;flex-direction:column;gap:14px}
+.bates-hub-card .module-top{display:flex;gap:14px;align-items:flex-start}
+.bates-hub-card .module-icon{font-size:34px;line-height:1;flex-shrink:0}
+.bates-hub-card .module-info h3{font-family:"Playfair Display",serif;font-size:20px;font-weight:600;color:#1a1a1a;margin-bottom:4px;letter-spacing:-.015em}
+.bates-hub-card .module-info p{font-size:12px;color:#6b7280;line-height:1.5}
+.bates-hub-mini{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 4px;border-top:1px dashed #e0dbd0;border-bottom:1px dashed #e0dbd0;min-height:32px;align-items:center}
+.bates-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 8px;border-radius:11px;background:rgba(0,0,0,.03);border:1px solid #e0dbd0;font-size:11px;color:#374151;font-weight:500;line-height:1.4;border-left:3px solid var(--chip,#475569)}
+.bates-chip b{font-weight:700;color:#0d2818;font-variant-numeric:tabular-nums}
+.bates-chip-empty{font-size:11px;color:#9ca3af;font-style:italic}
+.bates-hub-card .module-footer{display:flex;justify-content:space-between;align-items:center;padding-top:4px;margin-top:auto}
+.bates-hub-card .module-arrow{color:#94a3b8;font-size:18px;transition:transform .25s var(--ease),color .25s var(--ease)}
+.bates-hub-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(29,78,216,.15);border-color:#bfdbfe}
+.bates-hub-card:hover .module-arrow{transform:translateX(4px);color:#1d4ed8}
+
+/* Back-to-hub button on each Bates category */
+.bates-back-btn{display:inline-flex;align-items:center;gap:6px;margin:14px 28px 0;padding:7px 14px;background:#fff;border:1px solid #e0dbd0;border-radius:8px;color:#1d4ed8;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-1)}
+.bates-back-btn:hover{background:#eff6ff;border-color:#bfdbfe;transform:translateX(-2px)}
+
+@media (max-width: 768px) {
+  .bates-hub{padding:20px 16px 36px}
+  .bates-hub-grid{grid-template-columns:1fr;gap:14px}
+  .bates-hub-card{padding:18px 18px 14px}
+  .bates-back-btn{margin:12px 14px 0}
+}
+
 /* Bates tab nav bar (sits below dark header) */
 .bates-nav{background:#fff;border-bottom:2px solid #e0dbd0;display:flex;gap:0;padding:0 24px;overflow-x:auto}
 .bates-tab{padding:13px 22px;border:none;border-bottom:2px solid transparent;background:transparent;font-family:"DM Sans",sans-serif;font-size:13px;font-weight:600;color:#6b7280;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:8px;margin-bottom:-2px;white-space:nowrap}
@@ -897,12 +926,36 @@ const PAGES = {
         <div><h2>Bates</h2><p>Frikkie Oosthuizen &amp; Seuns (Edms) Bpk</p></div>
       </div>
     </div>
-    <div class="bates-nav">
-      <button class="bates-tab active" id="tab-equipment" onclick="switchBatesTab('equipment')">&#9881; Implemente<span class="btab-count" id="btab-eq-n"></span></button>
-      <button class="bates-tab" id="tab-tractors" onclick="switchBatesTab('tractors')">&#128668; Trekkers<span class="btab-count" id="btab-trac-n"></span></button>
-      <button class="bates-tab" id="tab-vehicles" onclick="switchBatesTab('vehicles')">&#128665; Voertuie<span class="btab-count" id="btab-veh-n"></span></button>
+    <div id="bates-hub" class="bates-hub">
+      <div class="bates-hub-grid">
+        <div class="module-card bates-hub-card" onclick="showBatesCat('equipment')">
+          <div class="module-top">
+            <div class="module-icon">&#9881;</div>
+            <div class="module-info"><h3>Implemente</h3><p>Balers, planters, harkers en ander toerusting per afdeling.</p></div>
+          </div>
+          <div class="bates-hub-mini" id="hub-mini-eq"></div>
+          <div class="module-footer"><span class="module-badge badge-aktief"><span id="hub-cnt-eq">0</span> items</span><span class="module-arrow">&rarr;</span></div>
+        </div>
+        <div class="module-card bates-hub-card" onclick="showBatesCat('tractors')">
+          <div class="module-top">
+            <div class="module-icon">&#128668;</div>
+            <div class="module-info"><h3>Trekkers</h3><p>Trekkers, kerwers, parsmasjiene en spesialis-masjiene.</p></div>
+          </div>
+          <div class="bates-hub-mini" id="hub-mini-trac"></div>
+          <div class="module-footer"><span class="module-badge badge-aktief"><span id="hub-cnt-trac">0</span> items</span><span class="module-arrow">&rarr;</span></div>
+        </div>
+        <div class="module-card bates-hub-card" onclick="showBatesCat('vehicles')">
+          <div class="module-top">
+            <div class="module-icon">&#128665;</div>
+            <div class="module-info"><h3>Voertuie</h3><p>Bakkies, SUV's, lorries — voertuigregister per klas en afdeling.</p></div>
+          </div>
+          <div class="bates-hub-mini" id="hub-mini-veh"></div>
+          <div class="module-footer"><span class="module-badge badge-aktief"><span id="hub-cnt-veh">0</span> items</span><span class="module-arrow">&rarr;</span></div>
+        </div>
+      </div>
     </div>
-    <div id="bates-equipment">
+    <div id="bates-equipment" style="display:none">
+      <button class="bates-back-btn" onclick="terugBatesHub()">&larr; Terug na Bates</button>
       <div class="bates-toolbar">
         <div class="bates-toolbar-main">
           <div class="bates-search-wrap">
@@ -933,6 +986,7 @@ const PAGES = {
       </div>
     </div>
     <div id="bates-tractors" style="display:none">
+      <button class="bates-back-btn" onclick="terugBatesHub()">&larr; Terug na Bates</button>
       <div class="bates-toolbar">
         <div class="bates-toolbar-main">
           <div class="bates-search-wrap">
@@ -963,6 +1017,7 @@ const PAGES = {
       </div>
     </div>
     <div id="bates-vehicles" style="display:none">
+      <button class="bates-back-btn" onclick="terugBatesHub()">&larr; Terug na Bates</button>
       <div class="bates-toolbar">
         <div class="bates-toolbar-main">
           <div class="bates-search-wrap">
@@ -1686,29 +1741,66 @@ function setVehKlas(klas, btn){
 }
 
 function updateBatesTabCounts(){
-  const eq  = document.getElementById("btab-eq-n");
-  const tr  = document.getElementById("btab-trac-n");
-  const vh  = document.getElementById("btab-veh-n");
-  if(eq)  eq.textContent  = EQ_DATA.length;
-  if(tr)  tr.textContent  = TRAC_DATA.length;
-  if(vh)  vh.textContent  = VEH_DATA.length;
+  const eq  = document.getElementById("hub-cnt-eq");
+  const tr  = document.getElementById("hub-cnt-trac");
+  const vh  = document.getElementById("hub-cnt-veh");
+  if(eq) eq.textContent = EQ_DATA.length;
+  if(tr) tr.textContent = TRAC_DATA.length;
+  if(vh) vh.textContent = VEH_DATA.length;
 }
 
-function switchBatesTab(tab){
+function batesAfdMini(items, key){
+  // Group items by afdeling -> {afd: count}
+  const m = {};
+  items.forEach(i => { const a = i[key] || '—'; m[a] = (m[a]||0)+1; });
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]);
+}
+
+function vehKlasMini(items){
+  const m = {A:0,B:0,C:0,D:0};
+  items.forEach(v => { if(m[v.klas]!==undefined) m[v.klas]++; });
+  return Object.entries(m).filter(([,n])=>n>0);
+}
+
+function rendererBatesHub(){
+  updateBatesTabCounts();
+  const eqMini  = document.getElementById('hub-mini-eq');
+  const trMini  = document.getElementById('hub-mini-trac');
+  const vhMini  = document.getElementById('hub-mini-veh');
+  const chip = (label,n,kleur) =>
+    `<span class="bates-chip" style="--chip:${kleur||'#475569'}">${label}<b>${n}</b></span>`;
+  const afdKleure = {Suiwel:'#1d4ed8',Saai:'#0f6e56','Saai en Meganies':'#0f6e56','Saaie en Meganies':'#0f6e56',Wingerd:'#7c3aed',Hoofkantoor:'#888780',Meganies:'#374151',Admin:'#888780'};
+  if(eqMini)  eqMini.innerHTML = batesAfdMini(EQ_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('') || '<span class="bates-chip-empty">Geen data</span>';
+  if(trMini)  trMini.innerHTML = batesAfdMini(TRAC_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('') || '<span class="bates-chip-empty">Geen data</span>';
+  const klasKleure = {A:'#0d2818',B:'#14532d',C:'#15803d',D:'#65a30d'};
+  if(vhMini)  vhMini.innerHTML = vehKlasMini(VEH_DATA).map(([k,n])=>chip('Klas '+k,n,klasKleure[k])).join('') || '<span class="bates-chip-empty">Geen data</span>';
+}
+
+function showBatesCat(cat){
+  document.getElementById('bates-hub').style.display = 'none';
   ["equipment","tractors","vehicles"].forEach(t => {
     const el = document.getElementById("bates-"+t);
-    if(el) el.style.display = t===tab ? "block" : "none";
-    const btn = document.getElementById("tab-"+t);
-    if(btn) btn.classList.toggle("active", t===tab);
+    if(el) el.style.display = t===cat ? "block" : "none";
   });
-  if(tab==="equipment") buildEquipmentGrid(EQ_DATA);
-  if(tab==="vehicles")  buildVehicleGrid(VEH_DATA);
-  if(tab==="tractors")  buildTractorGrid(TRAC_DATA);
+  window.scrollTo(0, 0);
+  if(cat==="equipment") buildEquipmentGrid(EQ_DATA);
+  if(cat==="vehicles")  buildVehicleGrid(VEH_DATA);
+  if(cat==="tractors")  buildTractorGrid(TRAC_DATA);
+}
+
+function terugBatesHub(){
+  ["equipment","tractors","vehicles"].forEach(t => {
+    const el = document.getElementById("bates-"+t);
+    if(el) el.style.display = "none";
+  });
+  const hub = document.getElementById('bates-hub');
+  if(hub) hub.style.display = '';
+  window.scrollTo(0, 0);
+  rendererBatesHub();
 }
 
 function initBates(){
-  updateBatesTabCounts();
-  switchBatesTab("equipment");
+  rendererBatesHub();
 }
 
 
@@ -1901,9 +1993,9 @@ function selectGSearch(idx) {
   showPage(item.page);
 
   setTimeout(()=>{
-    // Switch bates tab if needed
+    // Open Bates category if needed
     if(item.tab) {
-      switchBatesTab(item.tab);
+      showBatesCat(item.tab);
       setTimeout(()=>highlightItem(item), 400);
     } else {
       highlightItem(item);
@@ -2316,11 +2408,15 @@ function pasToeData(data) {
   if (data.employees?.length)
     ARBEID_DATA = data.employees;
 
-  // Herbou aktiewe Bates-tab
-  const t = document.querySelector('.bates-tab.active')?.id?.replace('tab-','');
-  if (t === 'equipment') buildEquipmentGrid(EQ_DATA);
-  else if (t === 'tractors') buildTractorGrid(TRAC_DATA);
-  else if (t === 'vehicles') buildVehicleGrid(VEH_DATA);
+  // Herbou aktiewe Bates-aansig (hub of een van die kategorieë)
+  const hub = document.getElementById('bates-hub');
+  if (hub && hub.style.display !== 'none') {
+    rendererBatesHub();
+  } else {
+    if (document.getElementById('bates-equipment')?.style.display === 'block') buildEquipmentGrid(EQ_DATA);
+    else if (document.getElementById('bates-tractors')?.style.display === 'block') buildTractorGrid(TRAC_DATA);
+    else if (document.getElementById('bates-vehicles')?.style.display === 'block') buildVehicleGrid(VEH_DATA);
+  }
 
   // Herbou Arbeid indien aktief
   if (data.employees?.length && document.getElementById('arbeid-dashboard-view'))
