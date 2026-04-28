@@ -1248,6 +1248,7 @@ function arbeidGaanNaDrill(){
   document.getElementById('arbeid-dashboard-view').style.display = 'none';
   const dd = document.getElementById('arbeid-drilldown-view');
   dd.style.display = '';
+  window.scrollTo(0, 0);
   renderArbeidDrill('right');
 }
 
@@ -1257,17 +1258,20 @@ function arbeidTerugDashboard(){
   document.getElementById('arbeid-drilldown-view').style.display = 'none';
   const dv = document.getElementById('arbeid-dashboard-view');
   dv.style.display = '';
+  window.scrollTo(0, 0);
   renderArbeidDashboard();
 }
 
 function arbeidDrillIn(naam){
   arbeidPath.push(naam);
+  window.scrollTo(0, 0);
   renderArbeidDrill('right');
 }
 
 function arbeidBcKlik(idx){
   if(idx < 0) arbeidPath = [];
   else arbeidPath = arbeidPath.slice(0, idx + 1);
+  window.scrollTo(0, 0);
   renderArbeidDrill('left');
 }
 
@@ -1285,7 +1289,15 @@ function renderArbeidDrill(richting){
 
   let employees;
   if(arbeidPath.length === 0){
-    employees = ARBEID_DATA.filter(e => e.vlak === 'Vlak 1');
+    // Top-vlak: eksplisiet Vlak 1 OF geen raporteerAan (ware wortel-node)
+    const seen = new Set();
+    employees = ARBEID_DATA.filter(e => {
+      if(seen.has(e.naam)) return false;
+      const topVlak = e.vlak === 'Vlak 1';
+      const geenBaas = !e.raporteerAan || e.raporteerAan.trim() === '';
+      if(topVlak || geenBaas){ seen.add(e.naam); return true; }
+      return false;
+    });
   } else {
     const huidige = arbeidPath[arbeidPath.length - 1];
     employees = ARBEID_DATA.filter(e => e.raporteerAan === huidige);
