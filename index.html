@@ -2151,16 +2151,35 @@ function sheetNaImpl(s) {
            afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike };
 }
 function sheetNaTrek(s) {
-  // Sheet: {id, naam, klassifikasie, afdeling, plaas, verantwoordelike}
-  return { code: s.id || '', name: s.naam, klassifikasie: s.klassifikasie,
-           afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike,
-           hours_str: '—', kw_str: '—', jaar: '—', aankoop: '—', hours: 0 };
+  return {
+    code: s.id || '',
+    name: s.naam,
+    klassifikasie: s.klassifikasie,
+    afdeling: s.afdeling,
+    plaas: s.plaas,
+    verantwoordelike: s.verantwoordelike,
+    jaar: s.jaarmodel || '—',
+    aankoop: s.aankoopdatum || '—',
+    kw_str: s.enjingrootte || '—',
+    hours_str: '—',
+    hours: 0
+  };
 }
 function sheetNaVoert(s) {
-  // Sheet: {id, naam, klas, afdeling, plaas, verantwoordelike}
-  return { code: s.id || '', name: s.naam, klas: s.klas,
-           afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike,
-           km_str: '—', repair_str: '—', jaar: '—', aankoop: '—', km: 0, repair: 0 };
+  return {
+    code: s.id || '',
+    name: s.naam,
+    klas: s.klas,
+    afdeling: s.afdeling,
+    plaas: s.plaas,
+    verantwoordelike: s.verantwoordelike,
+    jaar: s.jaarmodel || '—',
+    aankoop: s.aankoopdatum || '—',
+    km_str: '—',
+    repair_str: '—',
+    km: 0,
+    repair: 0
+  };
 }
 
 function pasToeData(data) {
