@@ -1149,7 +1149,7 @@ function renderArbeidDashboard(){
   }
 
   const data = ARBEID_DATA;
-  const w = data.filter(e => e.tipe === 'Werknemer').length;
+  const w = data.filter(e => e.tipe !== 'Kontrakteur').length;
   const k = data.filter(e => e.tipe === 'Kontrakteur').length;
   const plase = [...new Set(data.map(e => e.plaas).filter(Boolean))];
   const vlakke = [...new Set(data.map(e => e.vlak).filter(Boolean))];
@@ -2178,7 +2178,7 @@ function pasToeData(data) {
 function dateerStatistieke(data){
   const stel=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
   if(data.employees){
-    stel('stat-werknemers',  data.employees.filter(e=>e.tipe==='Werknemer').length);
+    stel('stat-werknemers',  data.employees.filter(e=>e.tipe!=='Kontrakteur').length);
     stel('stat-kontrakteurs',data.employees.filter(e=>e.tipe==='Kontrakteur').length);
   }
   if(data.equipment) stel('stat-implemente', data.equipment.length);
