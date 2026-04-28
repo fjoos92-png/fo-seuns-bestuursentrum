@@ -1471,8 +1471,8 @@ function renderArbeidDrill(richting){
     lysHtml = DRILL_GROUP_ORDER.concat(['Ander']).filter(g => groepe[g] && groepe[g].length).map(g => {
       const label = DRILL_GROUP_LABELS[g] || g;
       let inhoud;
-      // Sub-group Werknemers (Vlak 5) by posbeskrywing — collapsible, default toe
-      if (g === 'Vlak 5' && groepe[g].length > 1) {
+      // Sub-group Werknemers (Vlak 5) and Kontrakteurs by posbeskrywing — collapsible, default toe
+      if ((g === 'Vlak 5' || g === 'Kontrakteurs') && groepe[g].length > 1) {
         const subGroepe = {};
         groepe[g].forEach(e => {
           const pb = (e.posbeskrywing || 'Ander').trim();
