@@ -155,7 +155,7 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
 
 /* Print polish */
 @media print {
-  .nav, .gsearch-wrap, .ot-toolbar, .home-stats, .bates-hdr, .eq-toolbar, .vreg-toolbar, .trac-toolbar, .tab-summary-bar { display: none !important; }
+  .nav, .gsearch-wrap, .ot-toolbar, .home-stats, .bates-hdr, .bates-nav, .bates-toolbar, .eq-toolbar, .vreg-toolbar, .trac-toolbar, .tab-summary-bar { display: none !important; }
   .home-hero { padding: 20px; background: #fff !important; color:#0d2818 !important; }
   .home-hero h2, .home-hero p, .home-tagline { color:#0d2818 !important; }
   .ot-card, .eq-card, .veh-card, .trac-card { box-shadow: none !important; border: 1px solid #999 !important; break-inside: avoid; }
@@ -242,7 +242,11 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
   .ot-toolbar-group { justify-content: flex-start; }
   .ot-toolbar-label { width: 100%; margin-bottom: 2px; }
   .bates-search-input, .bates-search-input:focus { width: 100%; }
-  .bates-search-wrap { width: 100%; margin-bottom: 6px; }
+  .bates-search-wrap { width: 100%; }
+  .bates-toolbar-main { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 8px; }
+  .bates-person-bar { padding: 6px 14px 10px; }
+  .bates-nav { padding: 0 10px; }
+  .bates-tab { padding: 10px 14px; font-size: 12px; }
   .eq-toolbar, .vreg-toolbar, .trac-toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
   .eq-filters, .vreg-filters, .trac-filters { width: 100%; }
   .eq-filters select, .vreg-filters select, .trac-filters select { flex: 1; min-width: 130px; }
@@ -408,10 +412,33 @@ svg.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:n
 .bates-hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .bates-hdr h2{font-family:"Playfair Display",serif;color:#fff;font-size:22px}
 .bates-hdr p{color:#bfdbfe;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
-.bates-tabs{display:flex;gap:6px}
-.bates-tab{padding:8px 18px;border-radius:6px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s}
-.bates-tab:hover{background:rgba(255,255,255,.2)}
-.bates-tab.active{background:#fff;color:#1e3a5f}
+/* Bates tab nav bar (sits below dark header) */
+.bates-nav{background:#fff;border-bottom:2px solid #e0dbd0;display:flex;gap:0;padding:0 24px;overflow-x:auto}
+.bates-tab{padding:13px 22px;border:none;border-bottom:2px solid transparent;background:transparent;font-family:"DM Sans",sans-serif;font-size:13px;font-weight:600;color:#6b7280;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:8px;margin-bottom:-2px;white-space:nowrap}
+.bates-tab:hover{color:#1d4ed8;background:rgba(29,78,216,.04)}
+.bates-tab.active{color:#1d4ed8;border-bottom-color:#1d4ed8}
+.btab-count{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:#e0dbd0;color:#6b7280;transition:all .18s}
+.bates-tab.active .btab-count{background:#dbeafe;color:#1e3a5f}
+
+/* Bates unified toolbar */
+.bates-toolbar{background:#fff;border-bottom:1px solid #e0dbd0}
+.bates-toolbar-main{padding:12px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bates-select{padding:7px 11px;border:1px solid #e0dbd0;border-radius:6px;font-family:"DM Sans",sans-serif;font-size:12px;color:#374151;background:#fff;cursor:pointer;outline:none}
+.bates-select:focus{border-color:#1d4ed8}
+.bates-reset-btn{padding:7px 12px;border:1px solid #fca5a5;border-radius:6px;background:#fff;color:#dc2626;font-family:"DM Sans",sans-serif;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s;white-space:nowrap}
+.bates-reset-btn:hover{background:#fef2f2}
+
+/* Person / quick-filter pills */
+.bates-person-bar{padding:6px 28px 10px;border-top:1px solid #f0ece6;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bates-person-label{font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.bpills{display:flex;gap:6px;flex-wrap:wrap}
+.bpill{padding:5px 14px;border-radius:20px;border:1px solid #e0dbd0;background:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;color:#374151;cursor:pointer;transition:all .15s;white-space:nowrap}
+.bpill:hover{background:#eff6ff;border-color:#1d4ed8;color:#1d4ed8}
+.bpill.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+.bpill-a.active{background:#14532d;border-color:#14532d}
+.bpill-b.active{background:#1d4ed8;border-color:#1d4ed8}
+.bpill-c.active{background:#d97706;border-color:#d97706}
+.bpill-d.active{background:#9d174d;border-color:#9d174d}
 .eq-toolbar{padding:14px 28px;background:#fff;border-bottom:1px solid #e0dbd0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .eq-stats{display:flex;gap:20px;flex-wrap:wrap}
 .eq-stat-n{font-size:20px;font-weight:700;color:#1e3a5f;line-height:1}
@@ -768,10 +795,11 @@ const PAGES = {
     <div class="ot-toolbar">
       <div class="ot-toolbar-group">
         <span class="ot-toolbar-label">Vlak</span>
-        <button class="ot-filter-btn active" id="btn-vlak-direksie" onclick="setLevel('direksie',this)">Direksie</button>
-        <button class="ot-filter-btn" id="btn-vlak-bestuur" onclick="setLevel('bestuur',this)">Bestuur</button>
-        <button class="ot-filter-btn" id="btn-vlak-toesig" onclick="setLevel('toesig',this)">Toesighouers</button>
-        <button class="ot-filter-btn" id="btn-vlak-almal" onclick="setLevel('almal',this)">Almal</button>
+        <button class="ot-filter-btn active" id="btn-vlak-1" onclick="setLevel('1',this)">Vlak 1</button>
+        <button class="ot-filter-btn" id="btn-vlak-2" onclick="setLevel('2',this)">Vlak 2</button>
+        <button class="ot-filter-btn" id="btn-vlak-3" onclick="setLevel('3',this)">Vlak 3</button>
+        <button class="ot-filter-btn" id="btn-vlak-4" onclick="setLevel('4',this)">Vlak 4</button>
+        <button class="ot-filter-btn" id="btn-vlak-5" onclick="setLevel('5',this)">Vlak 5</button>
       </div>
       <div class="ot-toolbar-divider"></div>
       <div class="ot-toolbar-group">
@@ -1106,27 +1134,35 @@ const PAGES = {
     <div class="bates-hdr">
       <div class="bates-hdr-top">
         <div><h2>Bates</h2><p>Frikkie Oosthuizen &amp; Seuns (Edms) Bpk</p></div>
-        <div class="bates-tabs">
-          <button class="bates-tab active" id="tab-equipment" onclick="switchBatesTab('equipment')">&#9881; Implemente</button>
-          <button class="bates-tab" id="tab-tractors" onclick="switchBatesTab('tractors')">&#128668; Trekkers</button>
-          <button class="bates-tab" id="tab-vehicles" onclick="switchBatesTab('vehicles')">&#128665; Voertuie</button>
-        </div>
       </div>
     </div>
+    <div class="bates-nav">
+      <button class="bates-tab active" id="tab-equipment" onclick="switchBatesTab('equipment')">&#9881; Implemente<span class="btab-count" id="btab-eq-n"></span></button>
+      <button class="bates-tab" id="tab-tractors" onclick="switchBatesTab('tractors')">&#128668; Trekkers<span class="btab-count" id="btab-trac-n"></span></button>
+      <button class="bates-tab" id="tab-vehicles" onclick="switchBatesTab('vehicles')">&#128665; Voertuie<span class="btab-count" id="btab-veh-n"></span></button>
+    </div>
     <div id="bates-equipment">
-      <div class="tab-summary-bar" id="eqStats"></div>
-      <div class="eq-toolbar">
-        <div class="bates-search-wrap">
-          <span class="bates-search-icon">&#128269;</span>
-          <input class="bates-search-input" id="eqSearch" type="text" placeholder="Soek implement..." oninput="filterEquipment()" autocomplete="off">
+      <div class="bates-toolbar">
+        <div class="bates-toolbar-main">
+          <div class="bates-search-wrap">
+            <span class="bates-search-icon">&#128269;</span>
+            <input class="bates-search-input" id="eqSearch" type="text" placeholder="Soek implement of kode..." oninput="filterEquipment()" autocomplete="off">
+          </div>
+          <select id="fClass" class="bates-select" onchange="filterEquipment()"><option value="">Alle Klassifikasies</option><option>Baler</option><option>Bossiekapper</option><option>Dieselkar</option><option>Generator</option><option>Lusernhark</option><option>Menger</option><option>Milktaxi</option><option>Planter</option><option>Ploeg/hak</option><option>Snytafel</option><option>Spuit</option><option>Strooier</option><option>Topper</option><option>Trailer</option><option>Vangwa</option><option>Waterkar</option><option>Wrapper</option></select>
+          <button class="bates-reset-btn" onclick="resetFilters()">&#10006; Stel terug</button>
         </div>
-        <div class="eq-filters">
-          <select id="fAfdeling" onchange="filterEquipment()"><option value="">Alle Afdelings</option><option>Saai en Meganies</option><option>Suiwel</option><option>Wingerd</option></select>
-          <select id="fPlaas" onchange="filterEquipment()"><option value="">Alle Plase</option><option>Saai en Meganies</option><option>Vaandrigsdrift</option><option>Pleasant View</option><option>Voorhuis</option><option>Uitvlugt</option></select>
-          <select id="fVerant" onchange="filterEquipment()"><option value="">Alle Verantwoordelikes</option><option>Cornelis</option><option>David</option><option>Dian</option><option>Frikkie</option><option>Rikus</option></select>
-          <select id="fClass" onchange="filterEquipment()"><option value="">Alle Klassifikasies</option><option>Baler</option><option>Bossiekapper</option><option>Dieselkar</option><option>Generator</option><option>Lusernhark</option><option>Menger</option><option>Milktaxi</option><option>Planter</option><option>Ploeg/hak</option><option>Snytafel</option><option>Spuit</option><option>Strooier</option><option>Topper</option><option>Trailer</option><option>Vangwa</option><option>Waterkar</option><option>Wrapper</option></select>
-          <button class="eq-reset" onclick="resetFilters()">&#10006; Stel terug</button>
+        <div class="bates-person-bar">
+          <span class="bates-person-label">Verantwoordelike</span>
+          <div class="bpills">
+            <button class="bpill active" id="eqP-all" onclick="setEqPerson('',this)">Almal</button>
+            <button class="bpill" id="eqP-Cornelis" onclick="setEqPerson('Cornelis',this)">Cornelis</button>
+            <button class="bpill" id="eqP-David" onclick="setEqPerson('David',this)">David</button>
+            <button class="bpill" id="eqP-Dian" onclick="setEqPerson('Dian',this)">Dian</button>
+            <button class="bpill" id="eqP-Frikkie" onclick="setEqPerson('Frikkie',this)">Frikkie</button>
+            <button class="bpill" id="eqP-Rikus" onclick="setEqPerson('Rikus',this)">Rikus</button>
+          </div>
         </div>
+        <div class="tab-summary-bar" id="eqStats"></div>
       </div>
       <div id="eqGrid" class="eq-grid"></div>
       <div id="eqEmpty" class="bates-empty" style="display:none">
@@ -1136,19 +1172,27 @@ const PAGES = {
       </div>
     </div>
     <div id="bates-tractors" style="display:none">
-      <div class="tab-summary-bar" id="tracStats"></div>
-      <div class="trac-toolbar">
-        <div class="bates-search-wrap">
-          <span class="bates-search-icon">&#128269;</span>
-          <input class="bates-search-input" id="tracSearch" type="text" placeholder="Soek trekker / masjien..." oninput="filterTractors()" autocomplete="off">
+      <div class="bates-toolbar">
+        <div class="bates-toolbar-main">
+          <div class="bates-search-wrap">
+            <span class="bates-search-icon">&#128269;</span>
+            <input class="bates-search-input" id="tracSearch" type="text" placeholder="Soek trekker of kode..." oninput="filterTractors()" autocomplete="off">
+          </div>
+          <select id="tfKlas" class="bates-select" onchange="filterTractors()"><option value="">Alle Klassifikasies</option><option>Digger</option><option>Kerwer</option><option>Lorrie</option><option>Macdon</option><option>Parsmasjien</option><option>Selflooperspuit</option><option>Trekker</option><option>Trekker &lt;90kw</option><option>Virk trekker</option></select>
+          <button class="bates-reset-btn" onclick="resetTracFilters()">&#10006; Stel terug</button>
         </div>
-        <div class="trac-filters">
-          <select id="tfKlas" onchange="filterTractors()"><option value="">Alle Klassifikasies</option><option>Digger</option><option>Kerwer</option><option>Lorrie</option><option>Macdon</option><option>Parsmasjien</option><option>Selflooperspuit</option><option>Trekker</option><option>Trekker &lt;90kw</option><option>Virk trekker</option></select>
-          <select id="tfAfd" onchange="filterTractors()"><option value="">Alle Afdelings</option><option>Saaie en Meganies</option><option>Suiwel</option><option>Wingerd</option></select>
-          <select id="tfPlaas" onchange="filterTractors()"><option value="">Alle Plase</option><option>Saaie en Meganies</option><option>Vaandrigsdrift</option><option>Pleasant View</option><option>Voorhuis</option><option>Uitvlug</option></select>
-          <select id="tfVerant" onchange="filterTractors()"><option value="">Alle Verantwoordelikes</option><option>Cornelis</option><option>David</option><option>Dian</option><option>Frikkie</option><option>Rikus</option></select>
-          <button class="trac-reset" onclick="resetTracFilters()">&#10006; Stel terug</button>
+        <div class="bates-person-bar">
+          <span class="bates-person-label">Verantwoordelike</span>
+          <div class="bpills">
+            <button class="bpill active" id="tracP-all" onclick="setTracPerson('',this)">Almal</button>
+            <button class="bpill" id="tracP-Cornelis" onclick="setTracPerson('Cornelis',this)">Cornelis</button>
+            <button class="bpill" id="tracP-David" onclick="setTracPerson('David',this)">David</button>
+            <button class="bpill" id="tracP-Dian" onclick="setTracPerson('Dian',this)">Dian</button>
+            <button class="bpill" id="tracP-Frikkie" onclick="setTracPerson('Frikkie',this)">Frikkie</button>
+            <button class="bpill" id="tracP-Rikus" onclick="setTracPerson('Rikus',this)">Rikus</button>
+          </div>
         </div>
+        <div class="tab-summary-bar" id="tracStats"></div>
       </div>
       <div id="tracGrid" class="trac-grid"></div>
       <div id="tracEmpty" class="bates-empty" style="display:none">
@@ -1158,19 +1202,26 @@ const PAGES = {
       </div>
     </div>
     <div id="bates-vehicles" style="display:none">
-      <div class="tab-summary-bar" id="vehStats"></div>
-      <div class="vreg-toolbar">
-        <div class="bates-search-wrap">
-          <span class="bates-search-icon">&#128269;</span>
-          <input class="bates-search-input" id="vehSearch" type="text" placeholder="Soek voertuig..." oninput="filterVehicles()" autocomplete="off">
+      <div class="bates-toolbar">
+        <div class="bates-toolbar-main">
+          <div class="bates-search-wrap">
+            <span class="bates-search-icon">&#128269;</span>
+            <input class="bates-search-input" id="vehSearch" type="text" placeholder="Soek voertuig of kode..." oninput="filterVehicles()" autocomplete="off">
+          </div>
+          <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()"><option value="">Alle Afdelings</option><option>Hoofkantoor</option><option>Saai</option><option>Suiwel</option><option>Meganies</option><option>Wingerd</option></select>
+          <button class="bates-reset-btn" onclick="resetVehFilters()">&#10006; Stel terug</button>
         </div>
-        <div class="vreg-filters">
-          <select id="vfAfdeling" onchange="filterVehicles()"><option value="">Alle Afdelings</option><option>Hoofkantoor</option><option>Saai</option><option>Suiwel</option><option>Meganies</option><option>Wingerd</option></select>
-          <select id="vfPlaas" onchange="filterVehicles()"><option value="">Alle Plase</option><option>Pleasant view</option><option>Vaandrigsdrift</option><option>Voorhuis</option></select>
-          <select id="vfVerant" onchange="filterVehicles()"><option value="">Alle Verantwoordelikes</option><option>Cornelis Oosthuizen</option><option>Dian Oosthuizen</option><option>Erik Oosthuizen</option><option>Frikkie Oosthuizen</option><option>Frihan Oosthuizen</option><option>Ian Oosthuizen</option><option>Johan Pienaar</option><option>Johan Van Rooyen</option><option>Rikus Oosthuizen</option></select>
-          <select id="vfKlas" onchange="filterVehicles()"><option value="">Alle Klasse</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
-          <button class="vreg-reset" onclick="resetVehFilters()">&#10006; Stel terug</button>
+        <div class="bates-person-bar">
+          <span class="bates-person-label">Voertuigklas</span>
+          <div class="bpills">
+            <button class="bpill active" id="vehK-all" onclick="setVehKlas('',this)">Almal</button>
+            <button class="bpill bpill-a" id="vehK-A" onclick="setVehKlas('A',this)">Klas A</button>
+            <button class="bpill bpill-b" id="vehK-B" onclick="setVehKlas('B',this)">Klas B</button>
+            <button class="bpill bpill-c" id="vehK-C" onclick="setVehKlas('C',this)">Klas C</button>
+            <button class="bpill bpill-d" id="vehK-D" onclick="setVehKlas('D',this)">Klas D</button>
+          </div>
         </div>
+        <div class="tab-summary-bar" id="vehStats"></div>
       </div>
       <div id="vehGrid" class="vreg-grid"></div>
       <div id="vehEmpty" class="bates-empty" style="display:none">
@@ -1376,9 +1427,7 @@ function updateEqStats(visible){
 }
 
 function filterEquipment(){
-  const afd  = document.getElementById("fAfdeling")?.value || "";
-  const plaas= document.getElementById("fPlaas")?.value || "";
-  const ver  = document.getElementById("fVerant")?.value || "";
+  const ver  = eqPersonFilter;
   const cls  = document.getElementById("fClass")?.value || "";
   const q    = (document.getElementById("eqSearch")?.value || "").trim().toLowerCase();
 
@@ -1386,9 +1435,7 @@ function filterEquipment(){
   document.querySelectorAll(".eq-card").forEach(card => {
     const name = card.querySelector(".eq-card-name")?.textContent.toLowerCase() || "";
     const code = card.querySelector(".eq-card-code")?.textContent.toLowerCase() || "";
-    const show = (!afd  || card.dataset.afdeling === afd)
-              && (!plaas|| card.dataset.plaas    === plaas)
-              && (!ver  || card.dataset.verant   === ver)
+    const show = (!ver  || card.dataset.verant   === ver)
               && (!cls  || card.dataset.class    === cls)
               && (!q    || name.includes(q) || code.includes(q));
     card.classList.toggle("hidden", !show);
@@ -1412,11 +1459,42 @@ function filterEquipment(){
 }
 
 function resetFilters(){
-  ["fAfdeling","fPlaas","fVerant","fClass","eqSearch"].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.value = "";
-  });
+  eqPersonFilter = '';
+  ["fClass","eqSearch"].forEach(id => { const el=document.getElementById(id); if(el) el.value=""; });
+  document.querySelectorAll(".bpill[id^='eqP-']").forEach(b=>b.classList.remove("active"));
+  const ap = document.getElementById("eqP-all"); if(ap) ap.classList.add("active");
   filterEquipment();
+}
+
+// ── Bates person / klas quick-filter state ──────────────
+let eqPersonFilter = '', tracPersonFilter = '', vehKlasFilter = '';
+
+function setEqPerson(person, btn){
+  eqPersonFilter = person;
+  document.querySelectorAll(".bpill[id^='eqP-']").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  filterEquipment();
+}
+function setTracPerson(person, btn){
+  tracPersonFilter = person;
+  document.querySelectorAll(".bpill[id^='tracP-']").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  filterTractors();
+}
+function setVehKlas(klas, btn){
+  vehKlasFilter = klas;
+  document.querySelectorAll(".bpill[id^='vehK-']").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  filterVehicles();
+}
+
+function updateBatesTabCounts(){
+  const eq  = document.getElementById("btab-eq-n");
+  const tr  = document.getElementById("btab-trac-n");
+  const vh  = document.getElementById("btab-veh-n");
+  if(eq)  eq.textContent  = EQ_DATA.length;
+  if(tr)  tr.textContent  = TRAC_DATA.length;
+  if(vh)  vh.textContent  = VEH_DATA.length;
 }
 
 function switchBatesTab(tab){
@@ -1427,11 +1505,12 @@ function switchBatesTab(tab){
     if(btn) btn.classList.toggle("active", t===tab);
   });
   if(tab==="equipment") buildEquipmentGrid(EQ_DATA);
-  if(tab==="vehicles") buildVehicleGrid(VEH_DATA);
-  if(tab==="tractors") buildTractorGrid(TRAC_DATA);
+  if(tab==="vehicles")  buildVehicleGrid(VEH_DATA);
+  if(tab==="tractors")  buildTractorGrid(TRAC_DATA);
 }
 
 function initBates(){
+  updateBatesTabCounts();
   switchBatesTab("equipment");
 }
 
@@ -1506,17 +1585,13 @@ function updateVehStats(visible){
 
 function filterVehicles(){
   const afd=document.getElementById("vfAfdeling")?.value||"";
-  const plaas=document.getElementById("vfPlaas")?.value||"";
-  const ver=document.getElementById("vfVerant")?.value||"";
-  const klas=document.getElementById("vfKlas")?.value||"";
+  const klas=vehKlasFilter;
   const q=(document.getElementById("vehSearch")?.value||"").trim().toLowerCase();
   let visible=0;
   document.querySelectorAll(".veh-card").forEach(card=>{
     const name=card.querySelector(".veh-card-name")?.textContent.toLowerCase()||"";
     const code=card.querySelector(".veh-card-code")?.textContent.toLowerCase()||"";
     const show=(!afd||card.dataset.afdeling===afd)
-            &&(!plaas||card.dataset.plaas===plaas)
-            &&(!ver||card.dataset.verant===ver)
             &&(!klas||card.dataset.klas===klas)
             &&(!q||name.includes(q)||code.includes(q));
     card.classList.toggle("hidden",!show);
@@ -1536,7 +1611,10 @@ function filterVehicles(){
 }
 
 function resetVehFilters(){
-  ["vfAfdeling","vfPlaas","vfVerant","vfKlas","vehSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  vehKlasFilter = '';
+  ["vfAfdeling","vehSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  document.querySelectorAll(".bpill[id^='vehK-']").forEach(b=>b.classList.remove("active"));
+  const ap=document.getElementById("vehK-all"); if(ap) ap.classList.add("active");
   filterVehicles();
 }
 
@@ -1786,17 +1864,13 @@ function updateTracStats(visible){
 
 function filterTractors(){
   const klas=document.getElementById("tfKlas")?.value||"";
-  const afd=document.getElementById("tfAfd")?.value||"";
-  const plaas=document.getElementById("tfPlaas")?.value||"";
-  const ver=document.getElementById("tfVerant")?.value||"";
+  const ver=tracPersonFilter;
   const q=(document.getElementById("tracSearch")?.value||"").trim().toLowerCase();
   let visible=0;
   document.querySelectorAll(".trac-card").forEach(card=>{
     const name=card.querySelector(".trac-card-name")?.textContent.toLowerCase()||"";
     const code=card.querySelector(".trac-card-code")?.textContent.toLowerCase()||"";
     const show=(!klas||card.dataset.klas===klas)
-            &&(!afd||card.dataset.afd===afd)
-            &&(!plaas||card.dataset.plaas===plaas)
             &&(!ver||card.dataset.verant===ver)
             &&(!q||name.includes(q)||code.includes(q));
     card.classList.toggle("hidden",!show);
@@ -1816,7 +1890,10 @@ function filterTractors(){
 }
 
 function resetTracFilters(){
-  ["tfKlas","tfAfd","tfPlaas","tfVerant","tracSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  tracPersonFilter = '';
+  ["tfKlas","tracSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  document.querySelectorAll(".bpill[id^='tracP-']").forEach(b=>b.classList.remove("active"));
+  const ap=document.getElementById("tracP-all"); if(ap) ap.classList.add("active");
   filterTractors();
 }
 
@@ -1901,7 +1978,7 @@ function collapseToRoot(){
   if(card) card.classList.add("ot-expanded");
   // Update vlak buttons
   document.querySelectorAll("[id^='btn-vlak-']").forEach(b=>b.classList.remove("active"));
-  const db = document.getElementById("btn-vlak-direksie");
+  const db = document.getElementById("btn-vlak-1");
   if(db) db.classList.add("active");
   setTimeout(updateConnectors,50);
 }
@@ -1924,7 +2001,7 @@ function setLevel(level, btn){
   }
 
   // Map level to depth
-  const depth = {direksie:1, bestuur:2, toesig:3, almal:9}[level] || 1;
+  const depth = {'1':1, '2':2, '3':3, '4':4, '5':9}[level] || 1;
 
   // Expand to depth
   let current = [companyLi];
@@ -2124,7 +2201,7 @@ function expandToLevel(level){
     current = next;
   }
   // Update active button
-  const btnMap = {1:"btn-vlak-direksie",2:"btn-vlak-bestuur",4:"btn-vlak-toesig",9:"btn-vlak-almal"};
+  const btnMap = {1:"btn-vlak-1",2:"btn-vlak-2",3:"btn-vlak-3",4:"btn-vlak-4",9:"btn-vlak-5"};
   document.querySelectorAll("[id^='btn-vlak-']").forEach(b=>b.classList.remove("active"));
   const active = document.getElementById(btnMap[level]);
   if(active) active.classList.add("active");
