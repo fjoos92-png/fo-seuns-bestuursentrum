@@ -137,11 +137,12 @@ body { width: 100%; }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .nav { padding: 0; }
+  .nav { padding: 0; overflow: hidden; }
   .nav-brand { padding: 8px 12px; border-right: none; }
   .nav-brand h1, .nav-brand p { display: none; }
   .nav-brand::before { content: "BS"; font-family:"Playfair Display",serif; color:#fff; font-size:18px; font-weight:700; letter-spacing:-.02em; }
   .nav-link { padding: 10px 12px; font-size: 12px; }
+  #data-status { display: none; }
   .gsearch-wrap { padding: 6px 10px; margin-left: auto; }
   .gsearch-input { width: 120px; font-size: 12px; }
   .gsearch-input:focus { width: 150px; }
@@ -355,6 +356,20 @@ body { width: 100%; }
 .ad-span-track{height:5px;background:#f1ede5;border-radius:3px;overflow:hidden;margin-top:4px}
 .ad-span-fill{height:100%;border-radius:3px;background:#14532d;transition:width .4s ease}
 .ad-span-n{font-size:12px;font-weight:700;color:#374151;flex-shrink:0;min-width:22px;text-align:right}
+
+/* POSBESKRYWING BREAKDOWN */
+.ad-pb-list{display:flex;flex-direction:column;gap:0;background:#fff;border:1px solid #e0dbd0;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.ad-pb-row{padding:12px 16px;border-bottom:1px solid #f0ece6}
+.ad-pb-row:last-child{border-bottom:none}
+.ad-pb-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;gap:8px}
+.ad-pb-naam{font-size:13px;font-weight:600;color:#1a1a1a;flex:1;min-width:0}
+.ad-pb-n{font-size:14px;font-weight:700;color:#0d2818;font-family:"Playfair Display",serif;flex-shrink:0}
+.ad-pb-bar-track{height:8px;background:#f1ede5;border-radius:4px;overflow:hidden;margin-bottom:7px}
+.ad-pb-bar-fill{height:100%;border-radius:4px;display:flex;overflow:hidden;transition:width .4s ease}
+.ad-pb-bar-seg{height:100%}
+.ad-pb-chips{display:flex;flex-wrap:wrap;gap:4px}
+.ad-pb-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:9px;letter-spacing:.01em}
+.ad-section-sub{font-size:11px;color:#9ca3af;margin-top:-6px;margin-bottom:10px;padding-left:2px}
 
 /* PLASE & BESTUURDERS */
 .ad-plaas-list{background:#fff;border:1px solid #e0dbd0;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
@@ -1045,7 +1060,7 @@ const PAGES = {
             <span class="bates-search-icon">&#128269;</span>
             <input class="bates-search-input" id="vehSearch" type="text" placeholder="Soek voertuig of kode..." oninput="filterVehicles()" autocomplete="off">
           </div>
-          <select id="vfKlas" class="bates-select" onchange="filterVehicles()"><option value="">Alle Klasse</option><option>A+</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+          <select id="vfKlas" class="bates-select" onchange="filterVehicles()"><option value="">Alle Klasse</option></select>
           <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()"><option value="">Alle Afdelings</option></select>
           <select id="vfVerant" class="bates-select" onchange="filterVehicles()"><option value="">Alle Verantwoordelikes</option></select>
           <button class="bates-reset-btn" onclick="resetVehFilters()" title="Stel terug" aria-label="Stel terug">&#10006;</button>
@@ -1341,6 +1356,38 @@ function renderArbeidDashboard(){
         }).join('')}
       </div>
     </div>` : ''}
+    ${(() => {
+      const entry = data.filter(e => e.vlak === 'Vlak 5' || e.tipe === 'Kontrakteur');
+      if(!entry.length) return '';
+      const pbMap = {};
+      entry.forEach(e => {
+        const pb = (e.posbeskrywing||'').trim() || 'Ander';
+        if(!pbMap[pb]) pbMap[pb] = {};
+        const afd = e.afdeling || 'Ander';
+        pbMap[pb][afd] = (pbMap[pb][afd]||0)+1;
+      });
+      const rye = Object.entries(pbMap)
+        .map(([pb,ac]) => ({pb, ac, tot:Object.values(ac).reduce((s,n)=>s+n,0)}))
+        .sort((a,b)=>b.tot-a.tot);
+      const maks = rye[0]?.tot || 1;
+      const afdOrdre = ['Suiwel','Saai','Wingerd','Admin'];
+      const pbHtml = rye.map(({pb,ac,tot}) => {
+        const barPct = Math.max(3,(tot/maks)*100);
+        const afdLys = afdOrdre.filter(a=>ac[a]).concat(Object.keys(ac).filter(a=>!afdOrdre.includes(a)));
+        const segs = afdLys.map(a=>`<div class="ad-pb-bar-seg" style="width:${(ac[a]/tot)*100}%;background:${AFD_COLORS[a]||'#94a3b8'}"></div>`).join('');
+        const chips = afdLys.map(a=>{const k=AFD_COLORS[a]||'#94a3b8';return `<span class="ad-pb-chip" style="background:${k}22;color:${k}">${a}&nbsp;${ac[a]}</span>`;}).join('');
+        return `<div class="ad-pb-row">
+          <div class="ad-pb-top"><span class="ad-pb-naam">${pb}</span><span class="ad-pb-n">${tot}</span></div>
+          <div class="ad-pb-bar-track"><div class="ad-pb-bar-fill" style="width:${barPct}%">${segs}</div></div>
+          <div class="ad-pb-chips">${chips}</div>
+        </div>`;
+      }).join('');
+      return `<div class="ad-section">
+        <div class="ad-section-title">Intreevlak Arbeid — Posbeskrywing</div>
+        <div class="ad-section-sub">Werknemers (Vlak 5) &amp; Kontrakteurs</div>
+        <div class="ad-pb-list">${pbHtml}</div>
+      </div>`;
+    })()}
     <div class="ad-cta-wrap">
       <button class="ad-cta-btn" onclick="arbeidGaanNaDrill()">Bekyk Personeel &rarr;</button>
     </div>
@@ -1855,8 +1902,12 @@ function herbouTracDropdowns(){
 }
 
 function herbouVehDropdowns(){
+  const klasOrdre = ['A+','A','B','C','D'];
+  const alleKlas = [...new Set(VEH_DATA.map(v=>v.klas).filter(Boolean))];
+  const klasse = klasOrdre.filter(k=>alleKlas.includes(k)).concat(alleKlas.filter(k=>!klasOrdre.includes(k)).sort());
   const afd = [...new Set(VEH_DATA.map(v=>v.afdeling).filter(Boolean))].sort();
   const ver = [...new Set(VEH_DATA.map(v=>v.verantwoordelike).filter(Boolean))].sort();
+  herbouDropdown('vfKlas', klasse, 'Alle Klasse');
   herbouDropdown('vfAfdeling', afd, 'Alle Afdelings');
   herbouDropdown('vfVerant', ver, 'Alle Verantwoordelikes');
 }
@@ -2015,7 +2066,7 @@ function filterVehicles(){
     const name=card.querySelector(".veh-card-name")?.textContent.toLowerCase()||"";
     const code=card.querySelector(".veh-card-code")?.textContent.toLowerCase()||"";
     const show=(!afd||card.dataset.afdeling===afd)
-            &&(!klas||card.dataset.klas===klas)
+            &&(!klas||(card.dataset.klas||'').replace(/\s+/g,'').toUpperCase()===klas.replace(/\s+/g,'').toUpperCase())
             &&(!ver||card.dataset.verant===ver)
             &&(!q||name.includes(q)||code.includes(q));
     card.classList.toggle("hidden",!show);
@@ -2535,7 +2586,7 @@ function sheetNaVoert(s) {
   return {
     code: s.id || '',
     name: s.naam,
-    klas: String(s.klas || '').trim(),
+    klas: String(s.klas || '').replace(/\s+/g,'').toUpperCase() || '',
     afdeling: s.afdeling,
     plaas: s.plaas,
     verantwoordelike: s.verantwoordelike,
