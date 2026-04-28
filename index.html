@@ -1149,7 +1149,7 @@ function renderArbeidDashboard(){
   }
 
   const data = ARBEID_DATA;
-  const w = data.filter(e => e.tipe === 'Werknemer').length;
+  const w = data.filter(e => e.tipe !== 'Kontrakteur').length;
   const k = data.filter(e => e.tipe === 'Kontrakteur').length;
   const plase = [...new Set(data.map(e => e.plaas).filter(Boolean))];
   const vlakke = [...new Set(data.map(e => e.vlak).filter(Boolean))];
@@ -1248,6 +1248,7 @@ function arbeidGaanNaDrill(){
   document.getElementById('arbeid-dashboard-view').style.display = 'none';
   const dd = document.getElementById('arbeid-drilldown-view');
   dd.style.display = '';
+  window.scrollTo(0, 0);
   renderArbeidDrill('right');
 }
 
@@ -1257,17 +1258,20 @@ function arbeidTerugDashboard(){
   document.getElementById('arbeid-drilldown-view').style.display = 'none';
   const dv = document.getElementById('arbeid-dashboard-view');
   dv.style.display = '';
+  window.scrollTo(0, 0);
   renderArbeidDashboard();
 }
 
 function arbeidDrillIn(naam){
   arbeidPath.push(naam);
+  window.scrollTo(0, 0);
   renderArbeidDrill('right');
 }
 
 function arbeidBcKlik(idx){
   if(idx < 0) arbeidPath = [];
   else arbeidPath = arbeidPath.slice(0, idx + 1);
+  window.scrollTo(0, 0);
   renderArbeidDrill('left');
 }
 
@@ -1285,7 +1289,15 @@ function renderArbeidDrill(richting){
 
   let employees;
   if(arbeidPath.length === 0){
-    employees = ARBEID_DATA.filter(e => e.vlak === 'Vlak 1');
+    // Top-vlak: eksplisiet Vlak 1 OF geen raporteerAan (ware wortel-node)
+    const seen = new Set();
+    employees = ARBEID_DATA.filter(e => {
+      if(seen.has(e.naam)) return false;
+      const topVlak = e.vlak === 'Vlak 1';
+      const geenBaas = !e.raporteerAan || e.raporteerAan.trim() === '';
+      if(topVlak || geenBaas){ seen.add(e.naam); return true; }
+      return false;
+    });
   } else {
     const huidige = arbeidPath[arbeidPath.length - 1];
     employees = ARBEID_DATA.filter(e => e.raporteerAan === huidige);
@@ -2139,16 +2151,35 @@ function sheetNaImpl(s) {
            afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike };
 }
 function sheetNaTrek(s) {
-  // Sheet: {id, naam, klassifikasie, afdeling, plaas, verantwoordelike}
-  return { code: s.id || '', name: s.naam, klassifikasie: s.klassifikasie,
-           afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike,
-           hours_str: '—', kw_str: '—', jaar: '—', aankoop: '—', hours: 0 };
+  return {
+    code: s.id || '',
+    name: s.naam,
+    klassifikasie: s.klassifikasie,
+    afdeling: s.afdeling,
+    plaas: s.plaas,
+    verantwoordelike: s.verantwoordelike,
+    jaar: s.jaarmodel || '—',
+    aankoop: s.aankoopdatum || '—',
+    kw_str: s.enjingrootte || '—',
+    hours_str: '—',
+    hours: 0
+  };
 }
 function sheetNaVoert(s) {
-  // Sheet: {id, naam, klas, afdeling, plaas, verantwoordelike}
-  return { code: s.id || '', name: s.naam, klas: s.klas,
-           afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike,
-           km_str: '—', repair_str: '—', jaar: '—', aankoop: '—', km: 0, repair: 0 };
+  return {
+    code: s.id || '',
+    name: s.naam,
+    klas: s.klas,
+    afdeling: s.afdeling,
+    plaas: s.plaas,
+    verantwoordelike: s.verantwoordelike,
+    jaar: s.jaarmodel || '—',
+    aankoop: s.aankoopdatum || '—',
+    km_str: '—',
+    repair_str: '—',
+    km: 0,
+    repair: 0
+  };
 }
 
 function pasToeData(data) {
@@ -2178,7 +2209,7 @@ function pasToeData(data) {
 function dateerStatistieke(data){
   const stel=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
   if(data.employees){
-    stel('stat-werknemers',  data.employees.filter(e=>e.tipe==='Werknemer').length);
+    stel('stat-werknemers',  data.employees.filter(e=>e.tipe!=='Kontrakteur').length);
     stel('stat-kontrakteurs',data.employees.filter(e=>e.tipe==='Kontrakteur').length);
   }
   if(data.equipment) stel('stat-implemente', data.equipment.length);
