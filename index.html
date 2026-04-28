@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frikkie Oosthuizen & Seuns – Bestuursentrum</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════════════
+   DESIGN SYSTEM — World-class polish layer
+═══════════════════════════════════════════════════════════ */
+:root {
+  /* Spacing scale (4px base) */
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px; --s-8:32px; --s-10:40px; --s-12:48px;
+  /* Type scale */
+  --fs-xs:11px; --fs-sm:12px; --fs-base:13px; --fs-md:14px; --fs-lg:16px; --fs-xl:20px; --fs-2xl:24px; --fs-3xl:32px;
+  /* Shadows — proper elevation system */
+  --shadow-1: 0 1px 2px rgba(15,23,42,.04), 0 1px 3px rgba(15,23,42,.06);
+  --shadow-2: 0 2px 4px rgba(15,23,42,.05), 0 4px 8px rgba(15,23,42,.06);
+  --shadow-3: 0 4px 8px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.08);
+  --shadow-4: 0 12px 32px rgba(15,23,42,.10), 0 4px 12px rgba(15,23,42,.06);
+  /* Easing */
+  --ease: cubic-bezier(.4,0,.2,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  /* Radii */
+  --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-2xl:20px;
+  /* Brand */
+  --brand:#0d2818; --brand-2:#14532d; --brand-3:#15803d; --accent:#4ade80;
+  --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0; --gray-300:#cbd5e1;
+  --gray-400:#94a3b8; --gray-500:#64748b; --gray-600:#475569; --gray-700:#334155; --gray-800:#1e293b;
+}
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { letter-spacing:-0.01em; }
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* Refined focus states (accessibility) */
+button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+/* Polished nav */
+.nav { backdrop-filter: blur(8px); background: rgba(13,40,24,.96); }
+.nav-brand h1 { letter-spacing:-.02em; }
+.nav-link { transition:all .2s var(--ease); }
+.nav-link::before {
+  content:""; position:absolute; bottom:0; left:50%; width:0; height:3px;
+  background:var(--accent); border-radius:3px 3px 0 0; transition:all .25s var(--ease);
+  transform:translateX(-50%);
+}
+.nav-link.active::before { width:60%; }
+.nav-link { position:relative; border-bottom:none !important; }
+.nav-link.active { background:transparent !important; }
+
+/* Refined search */
+.gsearch-input { transition:all .25s var(--ease); }
+.gsearch-shortcut {
+  position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  font-size:10px; color:rgba(255,255,255,.4); padding:2px 6px;
+  border:1px solid rgba(255,255,255,.15); border-radius:4px;
+  font-family:"SF Mono",monospace; pointer-events:none;
+}
+.gsearch-input:focus ~ .gsearch-shortcut { display:none; }
+
+/* World-class home hero */
+.home-hero { padding:80px 48px 64px; }
+.home-hero h2 { letter-spacing:-.025em; font-size:42px; }
+.home-hero p { font-size:13px; opacity:.9; }
+.home-tagline { font-size:14px; opacity:.65; margin-top:18px; max-width:520px; margin-inline:auto; }
+
+/* Stats bar refined */
+.home-stats { padding:24px 48px; box-shadow: 0 1px 0 rgba(15,23,42,.04); }
+.home-stat-n { letter-spacing:-.02em; }
+
+/* Module cards — premium feel */
+.home-modules { padding: 48px 48px 56px; gap: 24px; }
+.module-card {
+  border-radius: var(--r-lg);
+  transition: all .3s var(--ease);
+  border: 1px solid var(--gray-200);
+  background: linear-gradient(180deg,#fff 0%,#fafaf7 100%);
+}
+.module-card:not(.disabled):hover { transform: translateY(-6px); box-shadow: var(--shadow-3); border-color:var(--accent); }
+.module-icon { transition: transform .4s var(--ease-spring); }
+.module-card:not(.disabled):hover .module-icon { transform: scale(1.1) rotate(-3deg); }
+.module-info h3 { letter-spacing:-.015em; }
+
+/* Refined badges */
+.module-badge { padding:4px 12px; font-size:10px; letter-spacing:.03em; }
+
+/* Polished filter pills */
+.ot-filter-btn, .ot-afd-btn {
+  transition: all .2s var(--ease);
+  font-weight:500;
+}
+.ot-filter-btn:not(.active):hover, .ot-afd-btn:not(.active):hover {
+  border-color: var(--brand-2);
+  color: var(--brand-2);
+}
+
+/* Smooth tree animations */
+.ot-root ul { transition: all .3s var(--ease); }
+.ot-card { transition: all .25s var(--ease); }
+.ot-card.ot-expanded { box-shadow: var(--shadow-2); }
+.ot-expand-btn { transition: all .2s var(--ease); }
+.ot-card.ot-expandable:hover .ot-expand-btn { background:#dcfce7; }
+
+/* Refined cards across the app */
+.eq-card, .veh-card, .trac-card {
+  transition: all .25s var(--ease);
+  border-radius: var(--r-md);
+}
+.eq-card:hover, .veh-card:hover, .trac-card:hover {
+  border-color: var(--gray-300);
+  box-shadow: var(--shadow-2);
+}
+
+/* Polished bates tabs */
+.bates-tab {
+  transition: all .2s var(--ease);
+  letter-spacing: .01em;
+}
+.bates-tab.active { box-shadow: var(--shadow-1); }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .nav { padding: 8px 16px; }
+  .nav-brand { padding: 8px 16px; }
+  .nav-brand h1 { font-size: 14px; }
+  .nav-link { padding: 12px 14px; font-size: 12px; }
+  .gsearch-wrap { padding: 6px 12px; }
+  .gsearch-input { width: 140px; }
+  .gsearch-input:focus { width: 180px; }
+  .home-hero { padding: 48px 20px 40px; }
+  .home-hero h2 { font-size: 26px; }
+  .home-stats { padding: 16px 20px; gap: 20px; }
+  .home-stat-n { font-size: 22px; }
+  .home-modules { padding: 28px 20px; gap: 14px; grid-template-columns: 1fr; }
+  .ot-toolbar { padding: 12px 16px; gap: 6px; }
+  .ot-filter-btn, .ot-afd-btn { padding: 6px 12px; font-size: 11px; }
+  .eq-toolbar, .vreg-toolbar, .trac-toolbar { padding: 12px 16px; }
+  .eq-grid, .vreg-grid, .trac-grid { padding: 16px; }
+  .tab-summary-bar { padding: 12px 16px; gap: 16px; }
+  .bates-hdr { padding: 16px 20px; }
+}
+
+/* Print polish */
+@media print {
+  .nav, .gsearch-wrap, .ot-toolbar, .home-stats, .bates-hdr, .eq-toolbar, .vreg-toolbar, .trac-toolbar, .tab-summary-bar { display: none !important; }
+  .home-hero { padding: 20px; background: #fff !important; color:#0d2818 !important; }
+  .home-hero h2, .home-hero p, .home-tagline { color:#0d2818 !important; }
+  .ot-card, .eq-card, .veh-card, .trac-card { box-shadow: none !important; border: 1px solid #999 !important; break-inside: avoid; }
+  body { background: #fff; }
+  @page { margin: 1cm; size: landscape; }
+}
+
+/* Subtle grain texture on backgrounds */
+.bg-grain {
+  position: relative;
+}
+
+/* Improved expand button */
+.ot-expand-btn {
+  background: var(--gray-100);
+  border-color: var(--gray-200);
+  color: var(--gray-600);
+}
+.ot-card.ot-expanded .ot-expand-btn {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+/* Better card name readability */
+.ot-name { letter-spacing: -.005em; }
+.eq-card-name, .veh-card-name, .trac-card-name { letter-spacing:-.005em; }
+
+/* Loading skeleton (for future use) */
+@keyframes skeleton-shimmer {
+  0% { background-position:-200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 37%,#f1f5f9 63%);
+  background-size: 400px 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+/* ── RESET & BASE ── */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:"DM Sans",sans-serif;color:#1a1a1a;background:#f5f2eb}
+
+/* ── NAV ── */
+.nav{background:#0d2818;display:flex;align-items:center;position:sticky;top:0;z-index:999;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.nav-brand{padding:13px 24px;border-right:1px solid rgba(255,255,255,.1);flex-shrink:0}
+.nav-brand h1{font-family:"Playfair Display",serif;color:#fff;font-size:15px;line-height:1.2}
+.nav-brand p{color:#86efac;font-size:9px;text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.nav-links{display:flex}
+.nav-link{padding:14px 22px;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;font-family:"DM Sans",sans-serif;border-bottom:3px solid transparent;transition:all .18s;white-space:nowrap}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-bottom-color:#4ade80;background:rgba(255,255,255,.05)}
+/* ── GLOBAL SEARCH ── */
+.gsearch-wrap{position:relative;margin-left:auto;padding:8px 16px;display:flex;align-items:center;gap:0}
+.gsearch-input-wrap{position:relative;display:flex;align-items:center}
+.gsearch-icon{position:absolute;left:10px;color:rgba(255,255,255,.5);font-size:13px;pointer-events:none}
+.gsearch-input{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:7px 14px 7px 32px;color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;width:220px;outline:none;transition:all .2s}
+.gsearch-input::placeholder{color:rgba(255,255,255,.45)}
+.gsearch-input:focus{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);width:280px}
+.gsearch-clear{position:absolute;right:10px;color:rgba(255,255,255,.5);cursor:pointer;font-size:14px;display:none}
+.gsearch-dropdown{position:absolute;top:calc(100% + 4px);right:0;width:380px;background:#fff;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.18);border:1px solid #e0dbd0;z-index:9999;max-height:420px;overflow-y:auto;display:none}
+.gsearch-dropdown.open{display:block}
+.gsearch-group-label{padding:8px 14px 4px;font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;border-top:1px solid #f0ece6}
+.gsearch-group-label:first-child{border-top:none}
+.gsearch-result{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;transition:background .12s}
+.gsearch-result:hover{background:#f5f2eb}
+.gsearch-result-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.gsearch-result-label{font-size:13px;font-weight:500;color:#1a1a1a;line-height:1.2}
+.gsearch-result-sub{font-size:11px;color:#9ca3af;margin-top:1px}
+.gsearch-result-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;margin-left:auto;flex-shrink:0}
+.gsearch-empty{padding:20px;text-align:center;color:#9ca3af;font-size:13px}
+.gsearch-highlight{background:#fef9c3;border-radius:2px;padding:0 1px}
+.card-flash, .eq-card-flash, .veh-card-flash, .trac-card-flash{
+  background:#fecaca !important;
+  border-color:#ef4444 !important;
+  border-left-color:#dc2626 !important;
+  box-shadow:0 0 0 3px #ef4444, 0 8px 24px rgba(239,68,68,.3) !important;
+  transform:scale(1.03) !important;
+  transition:all .3s !important;
+  position:relative;
+  z-index:10;
+}
+
+
+/* ── SINGLE PAGE CONTAINER ── */
+#app{width:100%}
+
+/* ══════════════════════════════════
+   HOME PAGE STYLES
+══════════════════════════════════ */
+.home-hero{background:linear-gradient(135deg,#0d2818 0%,#14532d 60%,#166534 100%);padding:64px 48px 56px;text-align:center;position:relative;overflow:hidden}
+.home-hero::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.home-hero h2{font-family:"Playfair Display",serif;color:#fff;font-size:36px;font-weight:700;position:relative;line-height:1.2}
+.home-hero p{color:#86efac;font-size:14px;margin-top:10px;position:relative;letter-spacing:.05em;text-transform:uppercase}
+.home-tagline{color:rgba(255,255,255,.7);font-size:15px;margin-top:14px;position:relative;font-style:italic}
+.home-stats{background:#fff;border-bottom:1px solid #e0dbd0;padding:20px 48px;display:flex;gap:36px;flex-wrap:wrap;justify-content:center}
+.home-stat{text-align:center}
+.home-stat-n{font-size:28px;font-weight:700;color:#0d2818;font-family:"Playfair Display",serif}
+.home-stat-l{font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.home-modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;padding:40px 48px;max-width:1100px;margin:0 auto}
+.module-card{background:#fff;border-radius:var(--r-lg);border:1px solid #e0dbd0;overflow:hidden;cursor:pointer;transition:all .3s var(--ease);box-shadow:var(--shadow-1)}
+.module-card:hover:not(.disabled){transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.module-card.disabled{opacity:.5;cursor:not-allowed}
+.module-top{padding:28px 24px 20px;display:flex;align-items:flex-start;gap:16px}
+.module-icon{font-size:36px;flex-shrink:0;line-height:1}
+.module-info h3{font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.module-info p{font-size:12px;color:#6b7280;line-height:1.5}
+.module-footer{padding:14px 24px;border-top:1px solid #f0ece6;display:flex;align-items:center;justify-content:space-between}
+.module-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px}
+.badge-aktief{background:#dcfce7;color:#14532d}
+.badge-binnekort{background:#fef9c3;color:#713f12}
+.badge-toekomstig{background:#f1f5f9;color:#64748b}
+.module-arrow{color:#9ca3af;font-size:16px;transition:transform .2s}
+.module-card:not(.disabled):hover .module-arrow{transform:translateX(4px);color:#14532d}
+.home-footer{text-align:center;padding:24px;color:#9ca3af;font-size:11px}
+
+/* ══════════════════════════════════
+   ORG CHART STYLES
+══════════════════════════════════ */
+:root{
+  --co:#0d2818;--dir:#2d1b69;--exec:#14532d;--fin:#1e3a5f;
+  --dairy:#166534;--grain:#7c2d12;--vine:#713f12;--warn:#92400e;
+  --bg:#f5f2eb;--card:#fff;--border:#e0dbd0;--text:#1a1a1a;--muted:#6b7280;
+  --line:#cbd5e1;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+.hdr{background:var(--co);padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hdr h1{font-family:"Playfair Display",serif;color:#fff;font-size:19px}
+.hdr p{color:#86efac;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+select{padding:7px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;cursor:pointer;outline:none}
+select option{background:#1a3d2b;color:#fff}
+.btn{padding:7px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:"DM Sans",sans-serif;transition:all .15s}
+.btn-sm{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.btn-sm:hover{background:rgba(255,255,255,.25)}
+.btn-sm.active{background:rgba(255,255,255,.35)}
+.btn-print{background:#15803d;color:#fff}
+
+.stats{background:#fff;border-bottom:1px solid var(--border);padding:10px 28px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.stat{display:flex;align-items:center;gap:8px}
+.stat-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.stat-n{font-size:16px;font-weight:600}
+.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:1px}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px;padding:8px 28px;background:#fff;border-bottom:1px solid var(--border)}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.leg-dot{width:8px;height:8px;border-radius:2px}
+
+/* CHART */
+.chart-outer{padding:28px;overflow-x:auto}
+.chart-inner{position:relative;min-width:100%}
+svg.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}
+
+/* ROWS */
+.org-row{display:flex;justify-content:center;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:40px;position:relative;z-index:2}
+.org-row.all-hidden{display:none!important}
+
+/* SECTION ROWS — sub-groups sit in their own row per manager-section */
+.section-wrap{display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;margin-bottom:40px}
+.section-wrap.hidden-section{display:none!important}
+.section-mgr{display:flex;justify-content:center;margin-bottom:0}
+.section-groups{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:36px;position:relative;z-index:2}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-top:3px solid #ccc;border-radius:8px;padding:10px 13px;min-width:165px;max-width:205px;box-shadow:0 1px 3px rgba(0,0,0,.06);position:relative;transition:box-shadow .15s,transform .1s}
+.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.11);transform:translateY(-2px)}
+.card-name{font-size:12px;font-weight:600;line-height:1.3;color:var(--text)}
+.card-title{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
+.card-loc{font-size:9px;color:var(--muted);margin-top:4px;font-style:italic}
+.card-badge{font-size:9px;font-weight:600;padding:2px 6px;border-radius:10px;margin-top:5px;display:inline-block}
+.badge-count{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+.badge-warn{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.badge-contract{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+.card.hidden{display:none !important}
+.worker-group{border-style:dashed;opacity:.88}.worker-group.hidden{display:none !important}.worker-group .card-title{max-height:48px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+
+.d-company{border-top-color:var(--co);background:var(--co);min-width:270px;max-width:330px}
+.d-company .card-name{color:#fff;font-size:14px;font-family:"Playfair Display",serif}
+.d-company .card-title{color:#86efac}
+.d-direksie{border-top-color:var(--dir)}
+.d-exec{border-top-color:var(--exec)}
+.d-finance{border-top-color:var(--fin)}
+.d-warn{border-top-color:var(--warn);background:#fffdf5}
+.d-suiwel-mgr{border-top-color:var(--dairy)}
+.d-dairy-w{border-top-color:#4ade80;background:#f9fffe}
+.d-grain{border-top-color:var(--grain)}
+.d-grain-w{border-top-color:#fb923c;background:#fffcfa}
+.d-wingerd{border-top-color:var(--vine);background:#fffdf0}
+.d-vine-w{border-top-color:#ca8a04;background:#fffef0}
+
+/* ══════════════════════════════════
+   BATES PAGE STYLES
+══════════════════════════════════ */
+.bates-hdr{background:linear-gradient(135deg,#1e3a5f 0%,#1d4ed8 100%);padding:22px 32px}
+.bates-hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.bates-hdr h2{font-family:"Playfair Display",serif;color:#fff;font-size:22px}
+.bates-hdr p{color:#bfdbfe;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.bates-tabs{display:flex;gap:6px}
+.bates-tab{padding:8px 18px;border-radius:6px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s}
+.bates-tab:hover{background:rgba(255,255,255,.2)}
+.bates-tab.active{background:#fff;color:#1e3a5f}
+.eq-toolbar{padding:14px 28px;background:#fff;border-bottom:1px solid #e0dbd0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.eq-stats{display:flex;gap:20px;flex-wrap:wrap}
+.eq-stat-n{font-size:20px;font-weight:700;color:#1e3a5f;line-height:1}
+.eq-stat-l{font-size:9px;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-top:1px}
+.eq-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.eq-filters select{padding:7px 11px;border:1px solid #e0dbd0;border-radius:6px;font-family:"DM Sans",sans-serif;font-size:12px;color:#374151;background:#fff;cursor:pointer;outline:none}
+.eq-filters select:focus{border-color:#1d4ed8}
+.eq-reset{padding:7px 12px;border:1px solid #fca5a5;border-radius:6px;background:#fff;color:#dc2626;font-family:"DM Sans",sans-serif;font-size:12px;cursor:pointer;font-weight:500}
+.eq-reset:hover{background:#fef2f2}
+.eq-grid{padding:24px 28px;display:flex;flex-direction:column;gap:28px;background:#f5f2eb;min-height:400px}
+.eq-section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.eq-section-title{font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.08em}
+.eq-section-count{font-size:11px;color:#9ca3af;background:#fff;border:1px solid #e0dbd0;padding:2px 8px;border-radius:10px}
+.eq-section-line{flex:1;height:1px;background:#e0dbd0}
+.eq-cards{display:flex;flex-wrap:wrap;gap:10px}
+.eq-section.all-hidden{display:none}
+.eq-card{background:#fff;border-radius:10px;border:1px solid #e0dbd0;border-left:4px solid #ccc;padding:12px 14px;min-width:185px;max-width:215px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:box-shadow .15s,transform .1s}
+.eq-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-2px)}
+.eq-card.hidden{display:none !important}
+.eq-card-code{font-size:9px;color:#9ca3af;font-weight:500;letter-spacing:.05em;margin-bottom:3px}
+.eq-card-name{font-size:13px;font-weight:600;color:#1a1a1a;line-height:1.3;margin-bottom:8px}
+.eq-card-meta-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280;margin-top:3px}
+.eq-afd-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;margin-top:7px;display:inline-block}
+.afd-saai{border-left-color:#d97706}.afd-saai .eq-afd-badge{background:#fef3c7;color:#92400e}
+.afd-suiwel{border-left-color:#16a34a}.afd-suiwel .eq-afd-badge{background:#dcfce7;color:#14532d}
+.afd-wingerd{border-left-color:#ca8a04}.afd-wingerd .eq-afd-badge{background:#fef9c3;color:#713f12}
+.coming-soon-wrap{padding:60px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;background:#f5f2eb;min-height:300px;justify-content:center}
+.coming-soon-icon{font-size:52px;opacity:.3}
+.coming-soon-badge{background:#fef9c3;color:#713f12;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:1px solid #fde68a}
+.coming-soon-msg{font-size:16px;font-weight:600;color:#6b7280}
+
+/* VEHICLES REGISTER */
+.vreg-toolbar{padding:14px 28px;background:#fff;border-bottom:1px solid #e0dbd0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.vreg-stats{display:flex;gap:20px;flex-wrap:wrap}
+.vreg-stat-n{font-size:20px;font-weight:700;color:#1e3a5f;line-height:1}
+.vreg-stat-l{font-size:9px;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-top:1px}
+.vreg-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.vreg-filters select{padding:7px 11px;border:1px solid #e0dbd0;border-radius:6px;font-family:"DM Sans",sans-serif;font-size:12px;color:#374151;background:#fff;cursor:pointer;outline:none}
+.vreg-reset{padding:7px 12px;border:1px solid #fca5a5;border-radius:6px;background:#fff;color:#dc2626;font-family:"DM Sans",sans-serif;font-size:12px;cursor:pointer;font-weight:500}
+.vreg-grid{padding:24px 28px;display:flex;flex-direction:column;gap:28px;background:#f5f2eb;min-height:400px}
+.vreg-section{margin-bottom:4px}
+.vreg-section.all-hidden{display:none}
+.vreg-section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.vreg-section-title{font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.08em}
+.vreg-section-count{font-size:11px;color:#9ca3af;background:#fff;border:1px solid #e0dbd0;padding:2px 8px;border-radius:10px}
+.vreg-section-line{flex:1;height:1px;background:#e0dbd0}
+.vreg-cards{display:flex;flex-wrap:wrap;gap:10px}
+.veh-card{background:#fff;border-radius:10px;border:1px solid #e0dbd0;border-left:4px solid #ccc;padding:12px 14px;min-width:210px;max-width:250px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:box-shadow .15s,transform .1s}
+.veh-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-2px)}
+.veh-card.hidden{display:none !important}
+.veh-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:6px}
+.veh-card-code{font-size:9px;color:#9ca3af;font-weight:500;letter-spacing:.04em}
+.veh-klas{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;flex-shrink:0}
+.klas-A{background:#dcfce7;color:#14532d}
+.klas-B{background:#dbeafe;color:#1e3a5f}
+.klas-C{background:#fef9c3;color:#713f12}
+.klas-D{background:#fce7f3;color:#9d174d}
+.veh-card-name{font-size:12px;font-weight:600;color:#1a1a1a;line-height:1.3;margin-bottom:8px}
+.veh-card-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280;margin-top:3px}
+.veh-card-divider{height:1px;background:#f0ece6;margin:8px 0}
+.veh-card-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}
+.veh-stat-box{background:#f8fafc;border-radius:5px;padding:5px 7px}
+.veh-stat-box-n{font-size:11px;font-weight:700;color:#1e3a5f}
+.veh-stat-box-l{font-size:9px;color:#9ca3af;margin-top:1px}
+.veh-repair-high .veh-stat-box-n{color:#dc2626}
+.veh-afd-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;margin-top:7px;display:inline-block}
+.vafd-hoofkantoor{border-left-color:#2563eb}.vafd-hoofkantoor .veh-afd-badge{background:#dbeafe;color:#1e3a5f}
+.vafd-suiwel{border-left-color:#16a34a}.vafd-suiwel .veh-afd-badge{background:#dcfce7;color:#14532d}
+.vafd-saai{border-left-color:#d97706}.vafd-saai .veh-afd-badge{background:#fef3c7;color:#92400e}
+.vafd-meganies{border-left-color:#7c3aed}.vafd-meganies .veh-afd-badge{background:#ede9fe;color:#4c1d95}
+.vafd-wingerd{border-left-color:#ca8a04}.vafd-wingerd .veh-afd-badge{background:#fef9c3;color:#713f12}
+
+.veh-wrap{background:#f5f2eb;padding:24px 28px;min-height:400px}
+.veh-section-title{font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.veh-section-title::after{content:"";flex:1;height:1px;background:#e0dbd0}
+.veh-panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:700px){.veh-panels{grid-template-columns:1fr}}
+.veh-panel{background:#fff;border-radius:10px;border:1px solid #e0dbd0;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.veh-panel-hdr{padding:12px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.veh-panel-hdr.current{background:#1e3a5f;color:#fff}
+.veh-panel-hdr.proposed{background:#14532d;color:#fff}
+.veh-panel-hdr span{font-size:20px;font-weight:700;opacity:.9}
+.veh-row{display:flex;align-items:flex-start;gap:0;border-bottom:1px solid #f0ece6;padding:10px 16px}
+.veh-row:last-child{border-bottom:none}
+.veh-afd{font-size:11px;font-weight:600;color:#374151;width:110px;flex-shrink:0;padding-top:1px}
+.veh-plaas{font-size:10px;color:#9ca3af;width:40px;flex-shrink:0;padding-top:2px}
+.veh-count{font-size:18px;font-weight:700;color:#1e3a5f;width:32px;flex-shrink:0;text-align:right;padding-right:10px}
+.veh-count.proposed{color:#14532d}
+.veh-people{font-size:11px;color:#6b7280;line-height:1.4;flex:1}
+.veh-dots{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.veh-dot{width:28px;height:28px;border-radius:50%;background:#e0dbd0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#374151;flex-shrink:0;border:2px solid #fff}
+.veh-type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:24px}
+.veh-type-card{background:#fff;border-radius:8px;border:1px solid #e0dbd0;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.veh-type-n{font-size:24px;font-weight:700;color:#1e3a5f}
+.veh-type-l{font-size:11px;color:#6b7280;font-weight:500}
+.veh-notice{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:11px;color:#92400e;margin-bottom:16px}
+
+
+/* TRACTORS */
+.trac-toolbar{padding:14px 28px;background:#fff;border-bottom:1px solid #e0dbd0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.trac-stats{display:flex;gap:20px;flex-wrap:wrap}
+.trac-stat-n{font-size:20px;font-weight:700;color:#14532d;line-height:1}
+.trac-stat-l{font-size:9px;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-top:1px}
+.trac-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.trac-filters select{padding:7px 11px;border:1px solid #e0dbd0;border-radius:6px;font-family:"DM Sans",sans-serif;font-size:12px;color:#374151;background:#fff;cursor:pointer;outline:none}
+.trac-reset{padding:7px 12px;border:1px solid #fca5a5;border-radius:6px;background:#fff;color:#dc2626;font-family:"DM Sans",sans-serif;font-size:12px;cursor:pointer;font-weight:500}
+.trac-grid{padding:24px 28px;display:flex;flex-direction:column;gap:28px;background:#f5f2eb;min-height:400px}
+.trac-section{margin-bottom:4px}
+.trac-section.all-hidden{display:none}
+.trac-section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.trac-section-title{font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.08em}
+.trac-section-count{font-size:11px;color:#9ca3af;background:#fff;border:1px solid #e0dbd0;padding:2px 8px;border-radius:10px}
+.trac-section-line{flex:1;height:1px;background:#e0dbd0}
+.trac-cards{display:flex;flex-wrap:wrap;gap:10px}
+.trac-card{background:#fff;border-radius:10px;border:1px solid #e0dbd0;border-left:4px solid #15803d;padding:12px 14px;min-width:200px;max-width:240px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:box-shadow .15s,transform .1s}
+.trac-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-2px)}
+.trac-card.hidden{display:none !important}
+.trac-card-code{font-size:9px;color:#9ca3af;font-weight:500;letter-spacing:.04em;margin-bottom:3px}
+.trac-card-name{font-size:12px;font-weight:600;color:#1a1a1a;line-height:1.3;margin-bottom:8px}
+.trac-card-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280;margin-top:3px}
+.trac-card-divider{height:1px;background:#f0ece6;margin:8px 0}
+.trac-card-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}
+.trac-stat-box{background:#f0fdf4;border-radius:5px;padding:5px 7px}
+.trac-stat-box-n{font-size:12px;font-weight:700;color:#14532d}
+.trac-stat-box-l{font-size:9px;color:#9ca3af;margin-top:1px}
+.tafd-saai{border-left-color:#d97706}
+.tafd-suiwel{border-left-color:#16a34a}
+.tafd-wingerd{border-left-color:#ca8a04}
+.tafd-stukkend{border-left-color:#dc2626;background:#fff8f8}
+.trac-afd-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;margin-top:7px;display:inline-block}
+.tafd-saai .trac-afd-badge{background:#fef3c7;color:#92400e}
+.tafd-suiwel .trac-afd-badge{background:#dcfce7;color:#14532d}
+.tafd-wingerd .trac-afd-badge{background:#fef9c3;color:#713f12}
+.tafd-stukkend .trac-afd-badge{background:#fee2e2;color:#dc2626}
+
+
+/* TAB SUMMARY BAR */
+.tab-summary-bar{display:flex;gap:28px;padding:14px 28px;background:#fff;border-bottom:1px solid #e0dbd0;flex-wrap:wrap}
+.tab-summary-bar > div{display:flex;flex-direction:column}
+
+
+/* TOGGLE SWITCHES */
+.toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer}
+.toggle-label{font-size:12px;font-weight:500;color:rgba(255,255,255,.8)}
+.toggle-switch{position:relative;width:38px;height:20px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,.2);border-radius:20px;transition:background .2s;border:1px solid rgba(255,255,255,.25)}
+.toggle-slider::before{content:"";position:absolute;width:14px;height:14px;left:2px;top:2px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+input:checked + .toggle-slider{background:#4ade80}
+input:checked + .toggle-slider::before{transform:translateX(18px)}
+.toggle-wrap:hover .toggle-slider{border-color:rgba(255,255,255,.5)}
+
+
+/* ══════════════════════════════════
+   CSS ORG TREE
+══════════════════════════════════ */
+:root { --lc: #94a3b8; --lw: 2px; --lh: 32px; }
+.ot-wrap { overflow-x: auto; padding: 28px 16px 40px; background: #f5f2eb; min-height: 300px; }
+.ot-toolbar { display:flex; align-items:center; gap:10px; padding:12px 28px; background:#fff; border-bottom:1px solid #e0dbd0; flex-wrap:wrap; }
+.ot-filter-btn, .ot-afd-btn { padding:7px 16px; border-radius:20px; border:1px solid #e0dbd0; background:#fff; font-family:"DM Sans",sans-serif; font-size:12px; font-weight:500; cursor:pointer; color:#374151; transition:all .15s; }
+.ot-filter-btn:hover, .ot-afd-btn:hover { background:#f5f2eb; }
+.ot-filter-btn.active, .ot-afd-btn.active { background:#0d2818; color:#fff; border-color:#0d2818; }
+
+/* Tree structure */
+.ot-root { display:flex; justify-content:center; }
+.ot-root ul, .ot-root li { list-style:none; margin:0; padding:0; }
+.ot-root ul { display:flex; justify-content:center; position:relative; padding-top:var(--lh); gap:4px; flex-wrap:wrap; }
+.ot-root ul.ot-collapsed { display:none; }
+.ot-root ul:not(.ot-collapsed) { animation: tree-expand .3s var(--ease); }
+@keyframes tree-expand {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ot-root ul::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:var(--lw); height:var(--lh); background:var(--lc);
+}
+.ot-root > ul::before { display:none; }
+.ot-root li {
+  display:flex; flex-direction:column; align-items:center; position:relative; padding:var(--lh) 8px 0;
+}
+.ot-root > ul > li { padding-top:0; } /* root company node */
+.ot-root li::before {
+  content:''; position:absolute; top:0; right:50%; width:50%; height:var(--lh);
+  border-top:var(--lw) solid var(--lc); border-right:var(--lw) solid var(--lc);
+}
+.ot-root li::after {
+  content:''; position:absolute; top:0; left:50%; width:50%; height:var(--lh);
+  border-top:var(--lw) solid var(--lc); border-left:var(--lw) solid var(--lc);
+}
+.ot-root li.ot-li-first::before { border:none; }
+.ot-root li.ot-li-last::after { border:none; }
+.ot-root li.ot-li-only::before, .ot-root li.ot-li-only::after { border:none; }
+
+/* Cards */
+.ot-card {
+  background:#fff; border:1px solid #e0dbd0; border-radius:10px; border-top:3px solid #ccc;
+  padding:10px 14px; min-width:165px; max-width:210px; text-align:left;
+  box-shadow:0 1px 3px rgba(0,0,0,.06); cursor:default;
+  transition:box-shadow .15s, transform .1s;
+}
+.ot-card:hover { box-shadow:0 4px 14px rgba(0,0,0,.1); transform:translateY(-2px); }
+.ot-card.ot-worker { border-style:dashed; opacity:.85; }
+.ot-li-worker { padding-top:16px; }
+.ot-li-contract { padding-top:16px; }
+.ot-card.ot-contract { border-style:dashed; border-top-color:#3b82f6; background:#f0f7ff; }
+.ot-name { font-size:13px; font-weight:600; color:#1a1a1a; line-height:1.3; margin-bottom:3px; }
+.ot-title { font-size:10px; color:#6b7280; line-height:1.3; margin-bottom:4px; }
+.ot-loc { font-size:10px; color:#9ca3af; margin-top:3px; font-style:italic; }
+.ot-names { font-size:10px; color:#9ca3af; margin-top:2px; line-height:1.3; max-height:32px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+.ot-badge { font-size:9px; font-weight:600; padding:2px 7px; border-radius:10px; margin-top:5px; display:inline-block; }
+.ot-badge-count { background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; }
+.ot-badge-warn  { background:#fef3c7; color:#92400e; border:1px solid #fde68a; }
+.ot-badge-contract { background:#eff6ff; color:#1e40af; border:1px solid #bfdbfe; }
+
+/* Dept colours */
+.ot-company { border-top-color:#0d2818; background:#0d2818; min-width:240px; }
+.ot-company .ot-name  { color:#fff; font-size:14px; font-family:"Playfair Display",serif; }
+.ot-company .ot-title { color:#86efac; }
+.ot-dir     { border-top-color:#2d1b69; }
+.ot-exec    { border-top-color:#14532d; }
+.ot-fin     { border-top-color:#1e3a5f; }
+.ot-warn    { border-top-color:#92400e; background:#fffdf5; }
+.ot-suiwel  { border-top-color:#16a34a; }
+.ot-dairy   { border-top-color:#4ade80; background:#f9fffe; }
+.ot-grain   { border-top-color:#7c2d12; }
+.ot-wingerd { border-top-color:#ca8a04; background:#fffdf0; }
+.ot-worker  { border-top-color:#94a3b8; background:#f8fafc; max-width:160px; min-width:130px; }
+.ot-contract{ border-top-color:#3b82f6; background:#f0f7ff; max-width:160px; min-width:130px; }
+
+.card-flash, .ot-card.flash { background:#fecaca !important; border-color:#ef4444 !important; border-left-color:#dc2626 !important; box-shadow:0 0 0 3px #ef4444, 0 8px 24px rgba(239,68,68,.3) !important; transform:scale(1.03) !important; }
+
+/* ── SUIWEL VIEW ── */
+.sv-wrap { background:#f5f2eb; padding:24px 28px; }
+.sv-header { text-align:center; margin-bottom:20px; padding:14px; background:#fff; border-radius:10px; border:1px solid #e0dbd0; display:inline-block; min-width:300px; }
+.sv-header-wrap { display:flex; justify-content:center; }
+.sv-header-name { font-size:16px; font-weight:700; color:#14532d; }
+.sv-header-title { font-size:11px; color:#6b7280; margin-top:3px; }
+.sv-farms { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:16px; }
+@media(max-width:900px){ .sv-farms { grid-template-columns:1fr; } }
+.sv-farm { background:#fff; border-radius:12px; border:1px solid #e0dbd0; border-top:4px solid #16a34a; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,.06); }
+.sv-mgr-name { font-size:15px; font-weight:700; color:#1a1a1a; }
+.sv-mgr-title { font-size:11px; color:#6b7280; margin-top:2px; }
+.sv-mgr-loc { font-size:10px; color:#9ca3af; font-style:italic; margin-top:3px; }
+.sv-divider { height:1px; background:#f0ece6; margin:10px 0; }
+.sv-supervisor { font-size:12px; color:#374151; }
+.sv-sup-name { font-weight:600; }
+.sv-sup-title { font-size:11px; color:#9ca3af; margin-top:2px; }
+.sv-groups { display:flex; flex-direction:column; gap:8px; }
+.sv-group { background:#f8fafc; border-radius:6px; border:1px solid #e0dbd0; padding:8px 10px; }
+.sv-group-title { font-size:11px; font-weight:600; color:#374151; display:flex; align-items:center; gap:6px; }
+.sv-group-n { background:#dcfce7; color:#14532d; font-size:9px; padding:1px 6px; border-radius:8px; font-weight:700; }
+.sv-group-names { font-size:10px; color:#9ca3af; margin-top:3px; }
+
+
+/* EXPAND/COLLAPSE */
+.ot-card.ot-expandable { cursor:pointer; }
+.ot-card.ot-expandable:hover { box-shadow:0 4px 14px rgba(0,0,0,.12); transform:translateY(-2px); }
+.ot-expand-btn {
+  display:inline-flex; align-items:center; gap:4px;
+  margin-top:7px; font-size:10px; font-weight:600;
+  padding:3px 9px; border-radius:12px;
+  background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0;
+  transition:all .2s; user-select:none;
+}
+.ot-card.ot-expanded .ot-expand-btn { background:#dcfce7; }
+.ot-expand-arrow { transition:transform .2s; display:inline-block; }
+.ot-card.ot-expanded .ot-expand-arrow { transform:rotate(180deg); }
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <h1>FO &amp; Seuns</h1>
+    <p>Bestuursentrum</p>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" id="link-home"   onclick="showPage('home')">&#127968; Tuis</button>
+    <button class="nav-link"        id="link-arbeid" onclick="showPage('arbeid')">&#128119; Arbeid</button>
+    <button class="nav-link"        id="link-bates"  onclick="showPage('bates')">&#127959; Bates</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;padding:0 8px 0 0;margin-left:auto">
+    <span id="data-status" onclick="verfrisData()" title="Klik om data te verfris"
+      style="font-size:10px;font-weight:600;letter-spacing:.03em;color:#94a3b8;cursor:pointer;
+             padding:4px 10px;border:1px solid rgba(255,255,255,.12);border-radius:20px;
+             transition:all .2s;white-space:nowrap;user-select:none">&#8635; Laai...</span>
+    <div class="gsearch-wrap" style="margin-left:0;padding-left:0">
+      <div class="gsearch-input-wrap">
+        <span class="gsearch-icon">&#128269;</span>
+        <input class="gsearch-input" id="gSearchInput" type="text" placeholder="Soek..." oninput="onGSearch(this.value)" onkeydown="onGSearchKey(event)" autocomplete="off">
+        <span class="gsearch-shortcut" id="gSearchShortcut">⌘K</span>
+        <span class="gsearch-clear" id="gSearchClear" onclick="clearGSearch()">&#10005;</span>
+      </div>
+      <div class="gsearch-dropdown" id="gSearchDropdown"></div>
+    </div>
+  </div>
+</nav>
+
+<div id="app"></div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// PAGE CONTENT — only the active page is ever in the DOM
+// ══════════════════════════════════════════════════════
+
+const PAGES = {
+  home: `
+    <div class="home-hero">
+      <h2>Frikkie Oosthuizen &amp; Seuns (Edms) Bpk</h2>
+      <p>Najaag van Uitnemendheid</p>
+      <div class="home-tagline">Ge&iuml;ntegreerde bestuursentrum vir personeel, bates, produksie en finansies &mdash; alles in een plek.</div>
+    </div>
+    <div class="home-stats">
+      <div class="home-stat"><div class="home-stat-n">172</div><div class="home-stat-l">Werknemers</div></div>
+      <div class="home-stat"><div class="home-stat-n">20</div><div class="home-stat-l">Kontrakteurs</div></div>
+      <div class="home-stat"><div class="home-stat-n">5</div><div class="home-stat-l">Direkteure</div></div>
+      <div class="home-stat"><div class="home-stat-n">3</div><div class="home-stat-l">Suiwelplase</div></div>
+      <div class="home-stat"><div class="home-stat-n">4</div><div class="home-stat-l">Afdelings</div></div>
+    </div>
+    <div class="home-modules">
+      <div class="module-card" onclick="showPage('arbeid')">
+        <div class="module-top"><div class="module-icon">&#128119;</div><div class="module-info"><h3>Arbeid</h3><p>Volledige organisasiestruktuur, rapporteringslyn per werknemer, groep indeling per plaas en afdelingsfilters.</p></div></div>
+        <div class="module-footer"><span class="module-badge badge-aktief">Aktief</span><span class="module-arrow">&#8594;</span></div>
+      </div>
+      <div class="module-card" onclick="showPage('bates')">
+        <div class="module-top"><div class="module-icon">&#127959;</div><div class="module-info"><h3>Bates</h3><p>Voertuie, implemente, trekkers, geboue en grond. Bateregister met waardebepaling en onderhoudstatus.</p></div></div>
+        <div class="module-footer"><span class="module-badge badge-binnekort">In ontwikkeling</span><span class="module-arrow">&#8594;</span></div>
+      </div>
+      <div class="module-card disabled">
+        <div class="module-top"><div class="module-icon">&#127807;</div><div class="module-info"><h3>Produksie</h3><p>Melkproduksie, suiwelprestasie, graanskote en druiwe-oeste per seisoen en per plaas.</p></div></div>
+        <div class="module-footer"><span class="module-badge badge-toekomstig">Toekomstig</span><span class="module-arrow">&#8594;</span></div>
+      </div>
+      <div class="module-card disabled">
+        <div class="module-top"><div class="module-icon">&#128200;</div><div class="module-info"><h3>Finansies</h3><p>KPI-dashboard, koste-analise per afdeling, bedryfswinsgewendheid en strategiese teikens.</p></div></div>
+        <div class="module-footer"><span class="module-badge badge-toekomstig">Toekomstig</span><span class="module-arrow">&#8594;</span></div>
+      </div>
+    </div>
+    <div class="home-footer">
+      <div style="font-weight:500;color:#475569;margin-bottom:4px">Frikkie Oosthuizen &amp; Seuns (Edms) Bpk</div>
+      <div>Bestuursentrum &middot; Najaag van Uitnemendheid &middot; April 2026</div>
+    </div>
+  `,
+
+  arbeid: `
+
+    <div class="ot-toolbar">
+      <span style="font-size:12px;font-weight:600;color:#374151;margin-right:8px">Vlak:</span>
+      <button class="ot-filter-btn active" id="btn-vlak-direksie" onclick="setLevel('direksie',this)">Direksie</button>
+      <button class="ot-filter-btn" id="btn-vlak-bestuur" onclick="setLevel('bestuur',this)">Bestuur</button>
+      <button class="ot-filter-btn" id="btn-vlak-toesig" onclick="setLevel('toesig',this)">Toesighouers</button>
+      <button class="ot-filter-btn" id="btn-vlak-almal" onclick="setLevel('almal',this)">Almal</button>
+      <div style="width:1px;background:#e0dbd0;height:20px;margin:0 12px"></div>
+      <span style="font-size:12px;font-weight:600;color:#374151;margin-right:8px">Afdeling:</span>
+      <button class="ot-afd-btn active" id="btn-afd-all" onclick="setFilter('all',this)">Alle</button>
+      <button class="ot-afd-btn" id="btn-afd-suiwel" onclick="setFilter('suiwel',this)">🐄 Suiwel</button>
+      <button class="ot-afd-btn" id="btn-afd-wingerd" onclick="setFilter('wingerd',this)">🍇 Wingerd</button>
+      <button class="ot-afd-btn" id="btn-afd-graan" onclick="setFilter('graan',this)">🌾 Graan</button>
+      <button class="ot-afd-btn" id="btn-afd-finansies" onclick="setFilter('finansies',this)">💼 Finansies</button>
+    </div>
+      <span style="font-size:12px;font-weight:600;color:#374151;margin-right:8px">Afdeling:</span>
+      <button class="ot-filter-btn" onclick="setFilter('suiwel',this)">🐄 Suiwel</button>
+      <button class="ot-filter-btn" onclick="setFilter('wingerd',this)">🍇 Wingerd</button>
+      <button class="ot-filter-btn" onclick="setFilter('graan',this)">🌾 Graan</button>
+      <button class="ot-filter-btn" onclick="setFilter('finansies',this)">💼 Finansies</button>
+      <div style="width:1px;background:#e0dbd0;height:20px;margin:0 8px"></div>
+      <label class="toggle-wrap" style="cursor:pointer">
+        <div class="toggle-switch">
+          <input type="checkbox" id="btnW" checked onchange="toggleWorkers()">
+          <span class="toggle-slider"></span>
+        </div>
+        <span class="toggle-label" style="color:#374151">Werkers</span>
+      </label>
+      <label class="toggle-wrap" style="cursor:pointer">
+        <div class="toggle-switch">
+          <input type="checkbox" id="btnC" checked onchange="toggleContract()">
+          <span class="toggle-slider"></span>
+        </div>
+        <span class="toggle-label" style="color:#374151">Kontrakteurs</span>
+      </label>
+    </div>
+    <div id="ot-tree-view">
+      <div class="ot-wrap" id="otWrap">
+        <div class="ot-root">
+  <ul><li data-top="company"><div class="ot-card ot-company">
+        <div class="ot-name">Frikkie Oosthuizen & Seuns (Edms) Bpk</div>
+        <div class="ot-title">Geregistreerde Maatskappy</div>
+        
+      </div><ul><li data-afd="erik"><div class="ot-card ot-dir">
+        <div class="ot-name">Erik Oosthuizen</div>
+        <div class="ot-title">Voorsitter / CEO</div>
+        <div class="ot-loc">📍 Hoofkantoor</div>
+      </div><ul><li id="li-david"><div class="ot-card ot-wingerd">
+        <div class="ot-name">David J. Le Roux</div>
+        <div class="ot-title">Wingerd Bestuurder</div>
+        <div class="ot-loc">📍 Wingerd / Bonnievale</div>
+      </div><ul><li id="gwbon" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Bonnievale – Wingerd (7)</div>
+        <div class="ot-names">A. Jaco Africa, André Witbooi, Avril Kuhn...</div>
+        <div class="ot-loc">📍 Wingerd / Bonnievale</div>
+        
+      </div></li>
+<li id="gwang" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Angora – Wingerd (3)</div>
+        <div class="ot-names">Abraham Blom, Antony (Ronnie) Bokbaard, Moses Witbooi</div>
+        <div class="ot-loc">📍 Angora</div>
+        
+      </div></li>
+<li id="gjacob" data-contract="1"><div class="ot-card ot-contract">
+        <div class="ot-name">Jacob Span – Kontrakteurs (10)</div>
+        <div class="ot-names">Jacob Werker 1, Jacob Werker 2, Jacob Werker 3...</div>
+        <div class="ot-loc">📍 Wingerd / Bonnievale</div>
+        <div class="ot-badge ot-badge-contract">Kontrakteur >90%</div>
+      </div></li>
+</ul></li>
+<li id="li-frikkie"><div class="ot-card ot-exec">
+        <div class="ot-name">Frikkie Oosthuizen</div>
+        <div class="ot-title">Hoof: Graan & Meganies</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+      </div><ul><li ><div class="ot-card ot-grain">
+        <div class="ot-name">Johan Van Rooyen</div>
+        <div class="ot-title">Werkswinkel 1 – Meganies</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+      </div></li>
+<li ><div class="ot-card ot-grain">
+        <div class="ot-name">Marcel Goosen</div>
+        <div class="ot-title">Werkswinkel 1 – Meganies</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+      </div></li>
+<li ><div class="ot-card ot-grain">
+        <div class="ot-name">Joh. (Vickus) Vermeulen</div>
+        <div class="ot-title">Werkswinkel 2 – Bestuur</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+      </div></li>
+<li id="gspv" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Pleasantview – Saai (3)</div>
+        <div class="ot-names">Jason Bezuidenhout-Seunie, John Baadjies, Jonathan Abrams</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+        
+      </div></li>
+<li id="gssw" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Swellendam – Saai (17)</div>
+        <div class="ot-names">Gert Jooste, Marius Afrikander, John J. Windvoël...</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+        
+      </div></li>
+<li id="gsut" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Uitvlugt – Saai (3)</div>
+        <div class="ot-names">Guswan Jooste, Warren Beineveldt, David Hartnick</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+        
+      </div></li>
+<li id="gsvh" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Voorhuis – Saai (1)</div>
+        <div class="ot-names">Dawid Oerson</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+        
+      </div></li>
+<li id="ghassan" data-contract="1"><div class="ot-card ot-contract">
+        <div class="ot-name">Hassan Span – Kontrakteurs (10)</div>
+        <div class="ot-names">Hassan Werker 1, Hassan Werker 2, Hassan Werker 3...</div>
+        <div class="ot-loc">📍 Saai en Meganies</div>
+        <div class="ot-badge ot-badge-contract">Kontrakteur >90%</div>
+      </div></li>
+</ul></li>
+</ul></li>
+<li data-afd="direksie"><div class="ot-card ot-dir">
+        <div class="ot-name">Ian Oosthuizen</div>
+        <div class="ot-title">Direkteur</div>
+        <div class="ot-loc">📍 Hoofkantoor</div>
+      </div></li>
+<li data-afd="direksie"><div class="ot-card ot-dir">
+        <div class="ot-name">Jeff Every</div>
+        <div class="ot-title">Direkteur</div>
+        <div class="ot-loc">📍 Hoofkantoor</div>
+      </div></li>
+<li data-afd="direksie"><div class="ot-card ot-dir">
+        <div class="ot-name">Pieter Willemse</div>
+        <div class="ot-title">Onafhanklike Direkteur</div>
+        <div class="ot-loc">📍 Hoofkantoor</div>
+      </div></li>
+<li data-afd="frihan"><div class="ot-card ot-dir">
+        <div class="ot-name">Frihan Oosthuizen</div>
+        <div class="ot-title">Finansiële Direkteur</div>
+        <div class="ot-loc">📍 Hoofkantoor</div>
+      </div><ul><li ><div class="ot-card ot-fin">
+        <div class="ot-name">Dwayne</div>
+        <div class="ot-title">Geoktrooieerde Rekenmeester</div>
+        <div class="ot-loc">📍 Hoofkantoor</div>
+      </div></li>
+<li ><div class="ot-card ot-fin">
+        <div class="ot-name">Elrie</div>
+        <div class="ot-title">HR & Verskaffers</div>
+        <div class="ot-loc">📍 Hoofkantoor</div>
+      </div></li>
+<li ><div class="ot-card ot-warn">
+        <div class="ot-name">Marlene Oosthuizen</div>
+        <div class="ot-title">Resepsie & Admin (08:00–13:00)</div>
+        <div class="ot-loc">📍 Hoofkantoor</div><div class="ot-badge ot-badge-warn">⚠ Opvolgpos benodig</div>
+      </div></li>
+<li ><div class="ot-card ot-fin">
+        <div class="ot-name">Monique van Rensburg</div>
+        <div class="ot-title">Finansiële Administrasie</div>
+        <div class="ot-loc">📍 Hoofkantoor</div>
+      </div></li>
+<li id="li-cornelis"><div class="ot-card ot-suiwel">
+        <div class="ot-name">Cornelis Oosthuizen</div>
+        <div class="ot-title">Plaasbestuurder – Suiwel & Verse</div>
+        <div class="ot-loc">📍 Vaandrigsdrift</div><div class="ot-badge ot-badge-count">43 werkers</div>
+      </div><ul><li ><div class="ot-card ot-dairy">
+        <div class="ot-name">Jabes Hattingh</div>
+        <div class="ot-title">Junior Plaasbestuurder – Vers & Kalf</div>
+        <div class="ot-loc">📍 Vaandrigsdrift</div>
+      </div><ul><li id="gvdab" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Angora – Buite (14)</div>
+        <div class="ot-names">Andries Ross, Celvin Windvogel, Jason Bennie Hendriks...</div>
+        <div class="ot-loc">📍 Angora</div>
+        
+      </div></li>
+<li id="gvdb" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Vaandrigsdrift – Buite (15)</div>
+        <div class="ot-names">Andrey Warney, Dawie Morkel, Hilda Mwambipile...</div>
+        <div class="ot-loc">📍 Vaandrigsdrift</div>
+        
+      </div></li>
+</ul></li>
+<li ><div class="ot-card ot-dairy">
+        <div class="ot-name">Werner Daniels</div>
+        <div class="ot-title">Kalf Aanteelt</div>
+        <div class="ot-loc">📍 Vaandrigsdrift</div>
+      </div></li>
+<li ><div class="ot-card ot-suiwel">
+        <div class="ot-name">Paul</div>
+        <div class="ot-title">Stalbestuurder</div>
+        <div class="ot-loc">📍 Vaandrigsdrift</div>
+      </div><ul><li id="gvdm" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Vaandrigsdrift – Melk (14)</div>
+        <div class="ot-names">Alungile Cekiso, Buhlebenkosi Madela, Lindelo Ndingazwe...</div>
+        <div class="ot-loc">📍 Vaandrigsdrift</div>
+        
+      </div></li>
+</ul></li>
+</ul></li>
+<li id="li-rikus"><div class="ot-card ot-suiwel">
+        <div class="ot-name">Rikus Oosthuizen</div>
+        <div class="ot-title">Plaasbestuurder – Suiwel & Maalstoor</div>
+        <div class="ot-loc">📍 Pleasantview / Maalstoor</div><div class="ot-badge ot-badge-count">31 werkers</div>
+      </div><ul><li ><div class="ot-card ot-suiwel">
+        <div class="ot-name">Anton</div>
+        <div class="ot-title">Stalbestuurder</div>
+        <div class="ot-loc">📍 Pleasantview</div>
+      </div><ul><li id="gpvb" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Pleasantview – Buite (16)</div>
+        <div class="ot-names">Alan Abrams, Alfred Ludick, Alida Abrams...</div>
+        <div class="ot-loc">📍 Pleasantview</div>
+        
+      </div></li>
+<li id="gpvm" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Pleasantview – Melk (13)</div>
+        <div class="ot-names">Siphelo Ngubo, Athenkosi Ndinisa, Elfredo Rossouw...</div>
+        <div class="ot-loc">📍 Pleasantview</div>
+        
+      </div></li>
+<li id="gpsw" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Swellendam Groep (2)</div>
+        <div class="ot-names">Riaan Bernard Jonkers, Piet Windvoel</div>
+        <div class="ot-loc">📍 Swellendam</div>
+        
+      </div></li>
+</ul></li>
+</ul></li>
+<li id="li-dian"><div class="ot-card ot-suiwel">
+        <div class="ot-name">Dian Oosthuizen</div>
+        <div class="ot-title">Plaasbestuurder – Suiwel & Verse</div>
+        <div class="ot-loc">📍 Voorhuis / Uitvlugt</div><div class="ot-badge ot-badge-count">26 werkers</div>
+      </div><ul><li ><div class="ot-card ot-suiwel">
+        <div class="ot-name">Jacques</div>
+        <div class="ot-title">Stalbestuurder</div>
+        <div class="ot-loc">📍 Voorhuis</div>
+      </div><ul><li id="gvhu" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Uitvlugt – Buite (4)</div>
+        <div class="ot-names">Anne Blignaut, Arend Philander, Dian Swart...</div>
+        <div class="ot-loc">📍 Uitvlugt</div>
+        
+      </div></li>
+<li id="gvhb" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Voorhuis – Buite (6)</div>
+        <div class="ot-names">Celestine Petersen, Elfredo Saayman, Franklen Scheepers...</div>
+        <div class="ot-loc">📍 Voorhuis</div>
+        
+      </div></li>
+<li id="gvhk" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Voorhuis – Kalwers (5)</div>
+        <div class="ot-names">Myeki Mzwenceba, Amanda Mkumbeni, Nola Siloti...</div>
+        <div class="ot-loc">📍 Voorhuis</div>
+        
+      </div></li>
+<li id="gvhm" data-worker="1"><div class="ot-card ot-worker">
+        <div class="ot-name">Voorhuis – Melk (11)</div>
+        <div class="ot-names">Lihle Plaatjie, Lucas Madubela, M. Alfred Mazeka...</div>
+        <div class="ot-loc">📍 Voorhuis</div>
+        
+      </div></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+      </div>
+    </div>
+    <div id="ot-suiwel-view" style="display:none">
+      <div class="sv-header-wrap" style="display:flex;justify-content:center;padding:20px 0 0">
+        <div class="sv-header">
+          <div class="sv-header-name">Frihan Oosthuizen</div>
+          <div class="sv-header-title">Finansiële Direkteur – Hoof: Suiwel</div>
+        </div>
+      </div>
+      <div class="sv-wrap">
+  <div style="display:none">
+    <div class="sv-header-mgr">
+      <div class="sv-header-name">Frihan Oosthuizen</div>
+      <div class="sv-header-title">Finansiële Direkteur – Hoof: Suiwel</div>
+    </div>
+  </div>
+  <div class="sv-farms">
+    <div class="sv-farm" style="border-top-color:#16a34a">
+      <div class="sv-mgr">
+        <div class="sv-mgr-name">Cornelis Oosthuizen</div>
+        <div class="sv-mgr-title">Plaasbestuurder – Suiwel & Verse</div>
+        <div class="sv-mgr-loc">📍 Vaandrigsdrift</div>
+        <div class="ot-badge ot-badge-count">43 werkers</div>
+      </div>
+      <div class="sv-divider"></div>
+      <div class="sv-supervisor">
+        <div class="sv-sup-name">👤 Jabes Hattingh</div>
+        <div class="sv-sup-title">Junior Plaasbestuurder · Vaandrigsdrift</div>
+      </div>
+      <div class="sv-divider"></div>
+      <div class="sv-groups"><div class="sv-group"><div class="sv-group-title">Vaandrigsdrift – Melk (via Paul) <span class="sv-group-n">14</span></div><div class="sv-group-names">Alungile Cekiso, Buhlebenkosi Madela, Lindelo Ndingazwe, Liyema Selana...</div></div><div class="sv-group"><div class="sv-group-title">Vaandrigsdrift – Buite (via Jabes) <span class="sv-group-n">15</span></div><div class="sv-group-names">Andrey Warney, Dawie Morkel, Hilda Mwambipile, Janine Daniels...</div></div><div class="sv-group"><div class="sv-group-title">Angora – Buite (via Jabes) <span class="sv-group-n">14</span></div><div class="sv-group-names">Andries Ross, Celvin Windvogel, Jason Bennie Hendriks, Jeremy Siegelaar...</div></div><div class="sv-group"><div class="sv-group-title">Angora – Wingerd <span class="sv-group-n">3</span></div><div class="sv-group-names">Abraham Blom, Antony (Ronnie) Bokbaard, Moses Witbooi</div></div><div class="sv-group"><div class="sv-group-title">Bonnievale – Wingerd <span class="sv-group-n">7</span></div><div class="sv-group-names">A. Jaco Africa, André Witbooi, Avril Kuhn, Donovan Windvogel...</div></div></div>
+    </div>
+    <div class="sv-farm" style="border-top-color:#0d9488">
+      <div class="sv-mgr">
+        <div class="sv-mgr-name">Rikus Oosthuizen</div>
+        <div class="sv-mgr-title">Plaasbestuurder – Suiwel & Maalstoor</div>
+        <div class="sv-mgr-loc">📍 Pleasantview / Maalstoor</div>
+        <div class="ot-badge ot-badge-count">31 werkers</div>
+      </div>
+      <div class="sv-divider"></div>
+      <div class="sv-supervisor">
+        <div class="sv-sup-name">👤 Anton</div>
+        <div class="sv-sup-title">Stalbestuurder · Pleasantview</div>
+      </div>
+      <div class="sv-divider"></div>
+      <div class="sv-groups"><div class="sv-group"><div class="sv-group-title">Pleasantview – Buite <span class="sv-group-n">16</span></div><div class="sv-group-names">Alan Abrams, Alfred Ludick, Alida Abrams, Christo De Flame...</div></div><div class="sv-group"><div class="sv-group-title">Pleasantview – Melk <span class="sv-group-n">13</span></div><div class="sv-group-names">Siphelo Ngubo, Athenkosi Ndinisa, Elfredo Rossouw, Fielies Oerson...</div></div><div class="sv-group"><div class="sv-group-title">Swellendam Groep <span class="sv-group-n">2</span></div><div class="sv-group-names">Riaan Bernard Jonkers, Piet Windvoel</div></div></div>
+    </div>
+    <div class="sv-farm" style="border-top-color:#7c3aed">
+      <div class="sv-mgr">
+        <div class="sv-mgr-name">Dian Oosthuizen</div>
+        <div class="sv-mgr-title">Plaasbestuurder – Suiwel & Verse</div>
+        <div class="sv-mgr-loc">📍 Voorhuis / Uitvlugt</div>
+        <div class="ot-badge ot-badge-count">26 werkers</div>
+      </div>
+      <div class="sv-divider"></div>
+      <div class="sv-supervisor">
+        <div class="sv-sup-name">👤 Jacques</div>
+        <div class="sv-sup-title">Stalbestuurder · Voorhuis</div>
+      </div>
+      <div class="sv-divider"></div>
+      <div class="sv-groups"><div class="sv-group"><div class="sv-group-title">Voorhuis – Melk <span class="sv-group-n">11</span></div><div class="sv-group-names">Lihle Plaatjie, Lucas Madubela, M. Alfred Mazeka, M. Maxwell Mphunga...</div></div><div class="sv-group"><div class="sv-group-title">Voorhuis – Buite <span class="sv-group-n">6</span></div><div class="sv-group-names">Celestine Petersen, Elfredo Saayman, Franklen Scheepers, Izak (Sakkie) Hendricks...</div></div><div class="sv-group"><div class="sv-group-title">Voorhuis – Kalwers <span class="sv-group-n">5</span></div><div class="sv-group-names">Myeki Mzwenceba, Amanda Mkumbeni, Nola Siloti, Phumlani (John) Dyamdeki...</div></div><div class="sv-group"><div class="sv-group-title">Uitvlugt – Buite <span class="sv-group-n">4</span></div><div class="sv-group-names">Anne Blignaut, Arend Philander, Dian Swart, Phillipus Blignaut</div></div></div>
+    </div>
+  </div>
+</div>
+    </div>
+
+  
+  `,
+
+  bates: `
+    <div class="bates-hdr">
+      <div class="bates-hdr-top">
+        <div><h2>Bates</h2><p>Frikkie Oosthuizen &amp; Seuns (Edms) Bpk</p></div>
+        <div class="bates-tabs">
+          <button class="bates-tab active" id="tab-equipment" onclick="switchBatesTab('equipment')">&#9881; Implemente</button>
+          <button class="bates-tab" id="tab-tractors" onclick="switchBatesTab('tractors')">&#128668; Trekkers</button>
+          <button class="bates-tab" id="tab-vehicles" onclick="switchBatesTab('vehicles')">&#128665; Voertuie</button>
+        </div>
+      </div>
+    </div>
+    <div id="bates-equipment">
+      <div class="tab-summary-bar" id="eqStats"></div>
+      <div class="eq-toolbar">
+        <div class="eq-filters">
+          <select id="fAfdeling" onchange="filterEquipment()"><option value="">Alle Afdelings</option><option>Saai en Meganies</option><option>Suiwel</option><option>Wingerd</option></select>
+          <select id="fPlaas" onchange="filterEquipment()"><option value="">Alle Plase</option><option>Saai en Meganies</option><option>Vaandrigsdrift</option><option>Pleasant View</option><option>Voorhuis</option><option>Uitvlugt</option></select>
+          <select id="fVerant" onchange="filterEquipment()"><option value="">Alle Verantwoordelikes</option><option>Cornelis</option><option>David</option><option>Dian</option><option>Frikkie</option><option>Rikus</option></select>
+          <select id="fClass" onchange="filterEquipment()"><option value="">Alle Klassifikasies</option><option>Baler</option><option>Bossiekapper</option><option>Dieselkar</option><option>Generator</option><option>Lusernhark</option><option>Menger</option><option>Milktaxi</option><option>Planter</option><option>Ploeg/hak</option><option>Snytafel</option><option>Spuit</option><option>Strooier</option><option>Topper</option><option>Trailer</option><option>Vangwa</option><option>Waterkar</option><option>Wrapper</option></select>
+          <button class="eq-reset" onclick="resetFilters()">&#10006; Stel terug</button>
+        </div>
+      </div>
+      <div id="eqGrid" class="eq-grid"></div>
+    </div>
+    <div id="bates-tractors" style="display:none">
+      <div class="tab-summary-bar" id="tracStats"></div>
+      <div class="trac-toolbar">
+        <div class="trac-filters">
+          <select id="tfKlas" onchange="filterTractors()"><option value="">Alle Klassifikasies</option><option>Digger</option><option>Kerwer</option><option>Lorrie</option><option>Macdon</option><option>Parsmasjien</option><option>Selflooperspuit</option><option>Trekker</option><option>Trekker &lt;90kw</option><option>Virk trekker</option></select>
+          <select id="tfAfd" onchange="filterTractors()"><option value="">Alle Afdelings</option><option>Saaie en Meganies</option><option>Suiwel</option><option>Wingerd</option></select>
+          <select id="tfPlaas" onchange="filterTractors()"><option value="">Alle Plase</option><option>Saaie en Meganies</option><option>Vaandrigsdrift</option><option>Pleasant View</option><option>Voorhuis</option><option>Uitvlug</option></select>
+          <select id="tfVerant" onchange="filterTractors()"><option value="">Alle Verantwoordelikes</option><option>Cornelis</option><option>David</option><option>Dian</option><option>Frikkie</option><option>Rikus</option></select>
+          <button class="trac-reset" onclick="resetTracFilters()">&#10006; Stel terug</button>
+        </div>
+      </div>
+      <div id="tracGrid" class="trac-grid"></div>
+    </div>
+    <div id="bates-vehicles" style="display:none">
+      <div class="tab-summary-bar" id="vehStats"></div>
+      <div class="vreg-toolbar">
+        <div class="vreg-filters">
+          <select id="vfAfdeling" onchange="filterVehicles()"><option value="">Alle Afdelings</option><option>Hoofkantoor</option><option>Saai</option><option>Suiwel</option><option>Meganies</option><option>Wingerd</option></select>
+          <select id="vfPlaas" onchange="filterVehicles()"><option value="">Alle Plase</option><option>Pleasant view</option><option>Vaandrigsdrift</option><option>Voorhuis</option></select>
+          <select id="vfVerant" onchange="filterVehicles()"><option value="">Alle Verantwoordelikes</option><option>Cornelis Oosthuizen</option><option>Dian Oosthuizen</option><option>Erik Oosthuizen</option><option>Frikkie Oosthuizen</option><option>Frihan Oosthuizen</option><option>Ian Oosthuizen</option><option>Johan Pienaar</option><option>Johan Van Rooyen</option><option>Rikus Oosthuizen</option></select>
+          <select id="vfKlas" onchange="filterVehicles()"><option value="">Alle Klasse</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+          <button class="vreg-reset" onclick="resetVehFilters()">&#10006; Stel terug</button>
+        </div>
+      </div>
+      <div id="vehGrid" class="vreg-grid"></div>
+    </div>
+`
+};
+
+// ── NAVIGATION ──────────────────────────────────────────
+function showPage(id){
+  const svg=document.getElementById("svgLines");
+  if(svg && id!=="arbeid") svg.innerHTML="";
+  document.getElementById("app").innerHTML = PAGES[id] || "";
+  document.querySelectorAll(".nav-link").forEach(l=>l.classList.remove("active"));
+  const link = document.getElementById("link-"+id);
+  if(link) link.classList.add("active");
+  window.scrollTo(0,0);
+  if(id==="arbeid") setTimeout(()=>{ initCollapsibleTree(); applyFilters(); }, 150);
+  if(id==="bates")  setTimeout(initBates, 100);
+}
+
+// ── ORG CHART LOGIC ─────────────────────────────────────
+function initOrgChart(){
+  // Deprecated - showPage now calls initCollapsibleTree directly
+}
+
+function getPos(el,cont){
+  const e=el.getBoundingClientRect(),c=cont.getBoundingClientRect();
+  return{x:e.left-c.left+e.width/2,top:e.top-c.top,bottom:e.top-c.top+e.height};
+}
+
+function drawLines(){
+  const svg=document.getElementById("svgLines");
+  const cont=document.getElementById("chartInner");
+  if(!svg||!cont)return;
+  svg.innerHTML="";
+  document.querySelectorAll(".card:not(.hidden)").forEach(card=>{
+    const pid=card.dataset.parent;
+    if(!pid)return;
+    const par=document.getElementById(pid);
+    if(!par||par.classList.contains("hidden"))return;
+    const p=getPos(par,cont),ch=getPos(card,cont);
+    const midY=p.bottom+(ch.top-p.bottom)/2;
+    const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+    path.setAttribute("d",`M${p.x} ${p.bottom}L${p.x} ${midY}L${ch.x} ${midY}L${ch.x} ${ch.top}`);
+    path.setAttribute("fill","none");
+    const isContract=card.id.startsWith("gc_");
+    path.setAttribute("stroke",isContract?"#3b82f6":"#94a3b8");
+    path.setAttribute("stroke-width",isContract?"1.5":"2");
+    if(isContract)path.setAttribute("stroke-dasharray","5 3");
+    svg.appendChild(path);
+  });
+  const h=cont.scrollHeight;
+  svg.setAttribute("height",h);
+  svg.setAttribute("viewBox",`0 0 ${cont.scrollWidth} ${h}`);
+}
+
+let workersOn=true,contractOn=true,deptVal="all",locVal="all";
+
+function applyFilters(){
+  // ot-tree workers
+  document.querySelectorAll("[data-worker='1']").forEach(li=>{
+    li.style.display = workersOn ? "" : "none";
+  });
+  document.querySelectorAll("[data-contract='1']").forEach(li=>{
+    li.style.display = contractOn ? "" : "none";
+  });
+  // Also hide ot-card worker elements directly
+  document.querySelectorAll(".ot-worker").forEach(c=>{
+    const li = c.closest("li[data-worker]");
+    if(!li) c.style.display = workersOn ? "" : "none";
+  });
+  document.querySelectorAll(".ot-contract").forEach(c=>{
+    const li = c.closest("li[data-contract]");
+    if(!li) c.style.display = contractOn ? "" : "none";
+  });
+
+  if(!document.getElementById("deptFilter"))return;
+  deptVal=document.getElementById("deptFilter").value;
+  locVal=document.getElementById("locFilter").value;
+  document.querySelectorAll(".card").forEach(card=>{
+    const f=card.dataset.filter||"all";
+    const l=card.dataset.loc||"";
+    const isTop=card.id==="CO";
+    const isDir=f==="direksie"||isTop;
+    const isW=card.classList.contains("worker-group")||card.dataset.workers==="1";
+    const isCt=card.id.startsWith("gc_");
+    let show=true;
+    if(deptVal!=="all"&&!isTop&&!isDir) show=show&&(f===deptVal);
+    if(locVal!=="all"&&!isTop&&!isDir) show=show&&l.includes(locVal.split("/")[0].trim().split(" ")[0]);
+    if(isW&&!isCt) show=show&&workersOn;
+    if(isCt) show=show&&contractOn;
+    card.classList.toggle("hidden",!show);
+  });
+  document.querySelectorAll(".org-row").forEach(row=>{
+    const any=Array.from(row.querySelectorAll(".card")).some(c=>!c.classList.contains("hidden"));
+    row.classList.toggle("all-hidden",!any);
+  });
+  setTimeout(drawLines,60);
+  updateConnectors();
+}
+
+function toggleWorkers(){const cb=document.getElementById("btnW");workersOn=cb?cb.checked:!workersOn;applyFilters();}
+function toggleContract(){const cb=document.getElementById("btnC");contractOn=cb?cb.checked:!contractOn;applyFilters();}
+
+window.addEventListener("resize",()=>{ if(document.getElementById("svgLines")) setTimeout(drawLines,100); });
+
+
+
+// ══════════════════════════════════════════════════════
+// EQUIPMENT DATA & LOGIC
+// ══════════════════════════════════════════════════════
+const EQ_DATA = [{"code": "3582/034", "name": "Welger Baler RP202", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Baler", "verantwoordelike": "Frikkie"}, {"code": "3582/141", "name": "Welger Baler RP245 no 1", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Baler", "verantwoordelike": "Frikkie"}, {"code": "3582/142", "name": "Welger Baler RP245 no 2", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Baler", "verantwoordelike": "Frikkie"}, {"code": "3582/084", "name": "Dieselkar Rond", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Dieselkar", "verantwoordelike": "Frikkie"}, {"code": "3582/143", "name": "Dieselkar Moov", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Dieselkar", "verantwoordelike": "Frikkie"}, {"code": "3582/102", "name": "Lusern hark Kuhn CR 300 GM", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Lusernhark", "verantwoordelike": "Frikkie"}, {"code": "3582/145", "name": "Lusern hark 12 wheel V-Rake", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Lusernhark", "verantwoordelike": "Frikkie"}, {"code": "3582/019", "name": "Planter Ausplough 36 tand", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Planter", "verantwoordelike": "Frikkie"}, {"code": "3582/044", "name": "Planter Equalizer 25 tand 7500E No 1", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Planter", "verantwoordelike": "Frikkie"}, {"code": "3582/061", "name": "Planter Equaliser 25 tand 7500E No 2", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Planter", "verantwoordelike": "Frikkie"}, {"code": "3582/066", "name": "Planter Equalizer Precision SL 6 Mielies", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Planter", "verantwoordelike": "Frikkie"}, {"code": "3582/021", "name": "Hak Innovator 9 tand", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Ploeg/hak", "verantwoordelike": "Frikkie"}, {"code": "3582/064", "name": "Hak Blanton 23 tand", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Ploeg/hak", "verantwoordelike": "Frikkie"}, {"code": "3582/085", "name": "Ploeg John Shearer 5GP 22 plates no 1", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Ploeg/hak", "verantwoordelike": "Frikkie"}, {"code": "3582/099", "name": "Ploeg Degelman Pro Till 20", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Ploeg/hak", "verantwoordelike": "Frikkie"}, {"code": "3582/134", "name": "Hak Trash Field Span 5.5m", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Ploeg/hak", "verantwoordelike": "Frikkie"}, {"code": "3582/147", "name": "Ploeg John Shearer 5GP 22 plates no 2", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Ploeg/hak", "verantwoordelike": "Frikkie"}, {"code": "3582/148", "name": "Ploeg John Shearer 5GP 22 plates no 3", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Ploeg/hak", "verantwoordelike": "Frikkie"}, {"code": "3582/011", "name": "Macdon 9350 Snytafel 972 21FT", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Snytafel", "verantwoordelike": "Frikkie"}, {"code": "3582/050", "name": "Moco JD Sleep Haybine snyer 946 13FT", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Snytafel", "verantwoordelike": "Frikkie"}, {"code": "3582/135", "name": "Macdon M155 Auger header A40D 18FT", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Snytafel", "verantwoordelike": "Frikkie"}, {"code": "3582/149", "name": "Macdon 9350 Haybine & Kneuser 920 14FT", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Snytafel", "verantwoordelike": "Frikkie"}, {"code": "3582/150", "name": "Macdon 9350 Snytafel 972 30FT", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Snytafel", "verantwoordelike": "Frikkie"}, {"code": "3582/151", "name": "Macdon M155 Snytafel FD135 35FT", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Snytafel", "verantwoordelike": "Frikkie"}, {"code": "3582/152", "name": "Macdon Sleep Haybine snyer 5020 Tongue 18FT", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Snytafel", "verantwoordelike": "Frikkie"}, {"code": "3583/130", "name": "Spuit Hardi Sprayer 4000L 2011", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Spuit", "verantwoordelike": "Frikkie"}, {"code": "3582/042", "name": "Strooier Joskin misstrooier 19M3", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Strooier", "verantwoordelike": "Frikkie"}, {"code": "3582/080", "name": "Strooier Amazone ZAV 2000 2019", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Strooier", "verantwoordelike": "Frikkie"}, {"code": "3582/101", "name": "Strooier Radium no 1 5M3", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Strooier", "verantwoordelike": "Frikkie"}, {"code": "3582/153", "name": "Strooier Radium no 2 5M3", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Strooier", "verantwoordelike": "Frikkie"}, {"code": "3582/026", "name": "Kuilvoerwaens", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Trailer", "verantwoordelike": "Frikkie"}, {"code": "3582/037", "name": "Tipkarre", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Trailer", "verantwoordelike": "Frikkie"}, {"code": "3582/056", "name": "Truck Brocker Sleepwa CER 1956", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Trailer", "verantwoordelike": "Frikkie"}, {"code": "3582/070", "name": "Vangwa 16 Ton OAgri 2020", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Vangwa", "verantwoordelike": "Frikkie"}, {"code": "3582/136", "name": "Vangkar 16 Ton PS 2023", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Vangwa", "verantwoordelike": "Frikkie"}, {"code": "3582/072", "name": "Waterkar 8000L no 1", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Waterkar", "verantwoordelike": "Frikkie"}, {"code": "3582/077", "name": "Waterkar 6000L no 2", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Waterkar", "verantwoordelike": "Frikkie"}, {"code": "3582/156", "name": "Waterkar Jacto 2000L No3", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Waterkar", "verantwoordelike": "Frikkie"}, {"code": "3582/087", "name": "Heli wrapper", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Wrapper", "verantwoordelike": "Frikkie"}, {"code": "3582/154", "name": "Mchale wrapper 991 B", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Wrapper", "verantwoordelike": "Frikkie"}, {"code": "3582/155", "name": "Mchale wrapper 991 BC", "afdeling": "Saai en Meganies", "plaas": "Saai en Meganies", "classification": "Wrapper", "verantwoordelike": "Frikkie"}, {"code": "3582/078", "name": "Bossiekapper Sonderend PV no 1", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Bossiekapper", "verantwoordelike": "Rikus"}, {"code": "3582/079", "name": "Bossiekapper Falcon PV no 1", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Bossiekapper", "verantwoordelike": "Rikus"}, {"code": "3583/138", "name": "Sicma Flail Mulcher & Roller UTR280 SSK", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Bossiekapper", "verantwoordelike": "Rikus"}, {"code": "3582/054", "name": "Menger Delaval", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Menger", "verantwoordelike": "Rikus"}, {"code": "3582/067", "name": "Menger Keenan", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Menger", "verantwoordelike": "Rikus"}, {"code": "3582/146", "name": "Menger Storti Labrador 16M3", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Menger", "verantwoordelike": "Rikus"}, {"code": "3582/022", "name": "Planter John Deere 1560 Notill 4M", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Planter", "verantwoordelike": "Rikus"}, {"code": "3582/140", "name": "Strooier Amazone ZAV 2000 2023", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Strooier", "verantwoordelike": "Rikus"}, {"code": "3582/008", "name": "Truck Vlottenberg Sleepwa CER 3289", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Trailer", "verantwoordelike": "Rikus"}, {"code": "3582/009", "name": "Venter CER 1575", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Trailer", "verantwoordelike": "Rikus"}, {"code": "3582/015", "name": "Meelwa Epol no 1 CER 2398", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Trailer", "verantwoordelike": "Rikus"}, {"code": "3582/016", "name": "Meelwa Epol no 2 CER 3906", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Trailer", "verantwoordelike": "Rikus"}, {"code": "3582/088", "name": "Generators", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Generator", "verantwoordelike": "Rikus"}, {"code": "3582/048", "name": "Bakkies trailers/ Sleepwaens", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Trailer", "verantwoordelike": "Rikus"}, {"code": "3582/090", "name": "Sleepwaens vir trekkers", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Trailer", "verantwoordelike": "Rikus"}, {"code": "3582/007", "name": "Menger Storti Dunker Tvs80 UV", "afdeling": "Suiwel", "plaas": "Uitvlugt", "classification": "Menger", "verantwoordelike": "Dian"}, {"code": "3582/139", "name": "Bossiekapper Nobili blou VD", "afdeling": "Suiwel", "plaas": "Vaandrigsdrift", "classification": "Bossiekapper", "verantwoordelike": "Cornelis"}, {"code": "3582/006", "name": "Menger Seko 13m3 2002 VD", "afdeling": "Suiwel", "plaas": "Vaandrigsdrift", "classification": "Menger", "verantwoordelike": "Cornelis"}, {"code": "3582/146", "name": "Menger Cliff Mixmaster Blou", "afdeling": "Suiwel", "plaas": "Vaandrigsdrift", "classification": "Menger", "verantwoordelike": "Cornelis"}, {"code": "3583/137", "name": "Milk Taxi", "afdeling": "Suiwel", "plaas": "Vaandrigsdrift", "classification": "Milktaxi", "verantwoordelike": "Cornelis"}, {"code": "3582/047", "name": "Bossiekapper Falcon VH no 2", "afdeling": "Suiwel", "plaas": "Voorhuis", "classification": "Bossiekapper", "verantwoordelike": "Dian"}, {"code": "3582/081", "name": "Bossiekapper Sonderend VH no 2", "afdeling": "Suiwel", "plaas": "Voorhuis", "classification": "Bossiekapper", "verantwoordelike": "Dian"}, {"code": "3582/144", "name": "Dieselkar Vierkantig", "afdeling": "Suiwel", "plaas": "Voorhuis", "classification": "Dieselkar", "verantwoordelike": "Dian"}, {"code": "3582/004", "name": "Menger Storti Husky 16M3", "afdeling": "Suiwel", "plaas": "Voorhuis", "classification": "Menger", "verantwoordelike": "Dian"}, {"code": "3582/036", "name": "Menger Seko 17m3 2008", "afdeling": "Suiwel", "plaas": "Voorhuis", "classification": "Menger", "verantwoordelike": "Dian"}, {"code": "3582/137", "name": "Menger Seko 13m3 2002", "afdeling": "Suiwel", "plaas": "Voorhuis", "classification": "Menger", "verantwoordelike": "Dian"}, {"code": "3582/041", "name": "Planter John Deere 1560 Notill 6M", "afdeling": "Suiwel", "plaas": "Voorhuis", "classification": "Planter", "verantwoordelike": "Dian"}, {"code": "3582/017", "name": "Planter John Deere 1850 Standerton Notill 12M", "afdeling": "Suiwel", "plaas": "Pleasant View", "classification": "Planter", "verantwoordelike": "Rikus"}, {"code": "3582/027", "name": "Spuit Nobili Onkruidspuit", "afdeling": "Wingerd", "plaas": "Saai en Meganies", "classification": "Spuit", "verantwoordelike": "David"}, {"code": "3582/071", "name": "Spuit Cima Spray Pump", "afdeling": "Wingerd", "plaas": "Saai en Meganies", "classification": "Spuit", "verantwoordelike": "David"}, {"code": "3583/161", "name": "Wingerde Top M Bakwerke 2025", "afdeling": "Wingerd", "plaas": "Saai en Meganies", "classification": "Topper", "verantwoordelike": "David"}, {"code": "3582/013", "name": "Parswaens", "afdeling": "Wingerd", "plaas": "Vaandrigsdrift", "classification": "Trailer", "verantwoordelike": "David"}];
+
+const AFD_CLASS = {
+  "Saai en Meganies": "afd-saai",
+  "Suiwel": "afd-suiwel",
+  "Wingerd": "afd-wingerd"
+};
+
+function buildEquipmentGrid(data){
+  const grid = document.getElementById("eqGrid");
+  if(!grid) return;
+
+  // Group by classification
+  const grouped = {};
+  data.forEach(item => {
+    if(!grouped[item.classification]) grouped[item.classification] = [];
+    grouped[item.classification].push(item);
+  });
+
+  const classes = Object.keys(grouped).sort();
+  grid.innerHTML = classes.map(cls => {
+    const items = grouped[cls];
+    const cards = items.map(item => {
+      const afdClass = AFD_CLASS[item.afdeling] || "";
+      return `<div class="eq-card ${afdClass}"
+        data-afdeling="${item.afdeling}"
+        data-plaas="${item.plaas}"
+        data-verant="${item.verantwoordelike}"
+        data-class="${item.classification}">
+        <div class="eq-card-code">${item.code}</div>
+        <div class="eq-card-name">${item.name}</div>
+        <div class="eq-card-meta-row"><span>&#128205;</span>${item.plaas}</div>
+        <div class="eq-card-meta-row"><span>&#128100;</span>${item.verantwoordelike}</div>
+        <div class="eq-afd-badge">${item.afdeling}</div>
+      </div>`;
+    }).join("");
+    return `<div class="eq-section" id="sec-${cls.replace(/\/|\s/g,'-')}">
+      <div class="eq-section-hdr">
+        <span class="eq-section-title">${cls}</span>
+        <span class="eq-section-count">${items.length}</span>
+        <div class="eq-section-line"></div>
+      </div>
+      <div class="eq-cards">${cards}</div>
+    </div>`;
+  }).join("");
+
+  updateEqStats(data.length);
+}
+
+function updateEqStats(visible){
+  const el = document.getElementById("eqStats");
+  if(!el) return;
+  const total = EQ_DATA.length;
+  const afds = [...new Set(EQ_DATA.map(i=>i.afdeling))].length;
+  el.innerHTML = [
+    {n: visible === total ? total : visible + "/" + total, l: "Implemente"},
+    {n: [...new Set(EQ_DATA.map(i=>i.classification))].length, l: "Klassifikasies"},
+    {n: afds, l: "Afdelings"},
+    {n: [...new Set(EQ_DATA.map(i=>i.verantwoordelike))].length, l: "Verantwoordelikes"},
+  ].map(s=>`<div><div class="eq-stat-n" style="font-size:22px;font-weight:700;color:#7c2d12;line-height:1">${s.n}</div><div class="eq-stat-l" style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${s.l}</div></div>`).join("");
+}
+
+function filterEquipment(){
+  const afd  = document.getElementById("fAfdeling")?.value || "";
+  const plaas= document.getElementById("fPlaas")?.value || "";
+  const ver  = document.getElementById("fVerant")?.value || "";
+  const cls  = document.getElementById("fClass")?.value || "";
+
+  let visible = 0;
+  document.querySelectorAll(".eq-card").forEach(card => {
+    const show = (!afd  || card.dataset.afdeling === afd)
+              && (!plaas|| card.dataset.plaas    === plaas)
+              && (!ver  || card.dataset.verant   === ver)
+              && (!cls  || card.dataset.class    === cls);
+    card.classList.toggle("hidden", !show);
+    if(show) visible++;
+  });
+
+  // Hide empty sections
+  document.querySelectorAll(".eq-section").forEach(sec => {
+    const any = Array.from(sec.querySelectorAll(".eq-card")).some(c=>!c.classList.contains("hidden"));
+    sec.classList.toggle("all-hidden", !any);
+  });
+
+  updateEqStats(visible);
+}
+
+function resetFilters(){
+  ["fAfdeling","fPlaas","fVerant","fClass"].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
+  filterEquipment();
+}
+
+function switchBatesTab(tab){
+  ["equipment","tractors","vehicles"].forEach(t => {
+    const el = document.getElementById("bates-"+t);
+    if(el) el.style.display = t===tab ? "block" : "none";
+    const btn = document.getElementById("tab-"+t);
+    if(btn) btn.classList.toggle("active", t===tab);
+  });
+  if(tab==="equipment") buildEquipmentGrid(EQ_DATA);
+  if(tab==="vehicles") buildVehicleGrid(VEH_DATA);
+  if(tab==="tractors") buildTractorGrid(TRAC_DATA);
+}
+
+function initBates(){
+  switchBatesTab("equipment");
+}
+
+
+// ══════════════════════════════════════════════════════
+// VEHICLE DATA & LOGIC
+// ══════════════════════════════════════════════════════
+const VEH_DATA = [{"name": "Land Rover disc Erik- CER 2870", "code": "3583/024", "afdeling": "Hoofkantoor", "klas": "A", "plaas": "Pleasant view", "km": 318021, "km_str": "318,021 km", "repair": 245639, "repair_str": "R245 639", "jaar": "2007", "verantwoordelike": "Erik Oosthuizen", "aankoop": "Feb 2007"}, {"name": "Landcruiser- Ian CER 3341", "code": "3583/039", "afdeling": "Hoofkantoor", "klas": "A", "plaas": "Pleasant view", "km": 486873, "km_str": "486,873 km", "repair": 318673, "repair_str": "R318 673", "jaar": "2008", "verantwoordelike": "Ian Oosthuizen", "aankoop": "Nov 2011"}, {"name": "Landcruiser Stasiewa Oupa- CER 1733", "code": "3583/062", "afdeling": "Hoofkantoor", "klas": "A", "plaas": "Pleasant view", "km": 213015, "km_str": "213,015 km", "repair": 8061, "repair_str": "R8 061", "jaar": "2005", "verantwoordelike": "Ian Oosthuizen", "aankoop": "Sep 2005"}, {"name": "Landrover oranje- CER 3146", "code": "3583/092", "afdeling": "Hoofkantoor", "klas": "A", "plaas": "Pleasant view", "km": 48562, "km_str": "48,562 km", "repair": 0, "repair_str": "R0", "jaar": "2009", "verantwoordelike": "Erik Oosthuizen", "aankoop": "Sep 2009"}, {"name": "Ford SC 4x4 2025 CER 5431 Frihan", "code": "3583/157", "afdeling": "Hoofkantoor", "klas": "B", "plaas": "Pleasant view", "km": 9465, "km_str": "9,465 km", "repair": 24065, "repair_str": "R24 065", "jaar": "2025", "verantwoordelike": "Frihan Oosthuizen", "aankoop": "Feb 2025"}, {"name": "Toyota 2.5 4x4 Johan V R- CER 1174", "code": "3583/099", "afdeling": "Meganies", "klas": "B", "plaas": "Pleasant view", "km": 287757, "km_str": "287,757 km", "repair": 221381, "repair_str": "R221 381", "jaar": "2015", "verantwoordelike": "Johan Van Rooyen", "aankoop": "Aug 2020"}, {"name": "Isuzu DMAX 2024 Marcel- CER 3458", "code": "3583/156", "afdeling": "Meganies", "klas": "C", "plaas": "Pleasant view", "km": 33788, "km_str": "33,788 km", "repair": 865, "repair_str": "R865", "jaar": "2024", "verantwoordelike": "Frikkie Oosthuizen", "aankoop": "Jan 2025"}, {"name": "Toyota 2022 CER 6609 Frikkie", "code": "3583/126", "afdeling": "Saai", "klas": "B", "plaas": "Pleasant view", "km": 177549, "km_str": "177,549 km", "repair": 134588, "repair_str": "R134 588", "jaar": "2022", "verantwoordelike": "Frikkie Oosthuizen", "aankoop": "Nov 2022"}, {"name": "Isuzu 2.5 Francois- CER 1512", "code": "3583/047", "afdeling": "Saai", "klas": "C", "plaas": "Pleasant view", "km": 233743, "km_str": "233,743 km", "repair": 88305, "repair_str": "R88 305", "jaar": "2016", "verantwoordelike": "Erik Oosthuizen", "aankoop": "Apr 2016"}, {"name": "Ford SC WT 4x4 2025 CER 7248 Erik", "code": "3583/158", "afdeling": "Saai", "klas": "A", "plaas": "Pleasant view", "km": 0, "km_str": "—", "repair": 5109, "repair_str": "R5 109", "jaar": "2025", "verantwoordelike": "Erik Oosthuizen", "aankoop": "Jul 2025"}, {"name": "Isuzu 2.5 2022 CER 7142 Elrie", "code": "3583/120", "afdeling": "Saai", "klas": "C", "plaas": "Pleasant view", "km": 107579, "km_str": "107,579 km", "repair": 21070, "repair_str": "R21 070", "jaar": "2022", "verantwoordelike": "Erik Oosthuizen", "aankoop": "Jan 2022"}, {"name": "Isuzu CER 1513 Vickus", "code": "3583/122", "afdeling": "Saai", "klas": "D", "plaas": "Pleasant view", "km": 190866, "km_str": "190,866 km", "repair": 75317, "repair_str": "R75 317", "jaar": "2022", "verantwoordelike": "Frikkie Oosthuizen", "aankoop": "Jan 2022"}, {"name": "Land Rover Erik- CER 3648 - IS", "code": "3583/003", "afdeling": "Saai", "klas": "B", "plaas": "Pleasant view", "km": 402025, "km_str": "402,025 km", "repair": 114836, "repair_str": "R114 836", "jaar": "2003", "verantwoordelike": "Erik Oosthuizen", "aankoop": "Sep 2004"}, {"name": "Toyota Hilux 2.5 4x4 J Baadjies CER 6885", "code": "3583/115", "afdeling": "Saai", "klas": "B", "plaas": "Pleasant view", "km": 273136, "km_str": "273,136 km", "repair": 138777, "repair_str": "R138 777", "jaar": "2011", "verantwoordelike": "Frikkie Oosthuizen", "aankoop": "Sep 2021"}, {"name": "Isuzu 2.5 EC Marlene- CER 6363", "code": "3583/063", "afdeling": "Suiwel", "klas": "C", "plaas": "Pleasant view", "km": 202533, "km_str": "202,533 km", "repair": 172333, "repair_str": "R172 333", "jaar": "2016", "verantwoordelike": "Ian Oosthuizen", "aankoop": "Aug 2016"}, {"name": "Isuzu 2.5 J.Ludick- CER 5745", "code": "3583/041", "afdeling": "Suiwel", "klas": "D", "plaas": "Pleasant view", "km": 199560, "km_str": "199,560 km", "repair": 162968, "repair_str": "R162 968", "jaar": "2014", "verantwoordelike": "Ian Oosthuizen", "aankoop": "Feb 2014"}, {"name": "Isuzu CER 7153 Anton", "code": "3583/124", "afdeling": "Suiwel", "klas": "D", "plaas": "Pleasant view", "km": 99121, "km_str": "99,121 km", "repair": 96801, "repair_str": "R96 801", "jaar": "2022", "verantwoordelike": "Ian Oosthuizen", "aankoop": "Jan 2022"}, {"name": "Toyota 2.5 4X4 Johan P- CER 7081", "code": "3583/093", "afdeling": "Suiwel", "klas": "B", "plaas": "Pleasant view", "km": 455386, "km_str": "455,386 km", "repair": 230671, "repair_str": "R230 671", "jaar": "2013", "verantwoordelike": "Johan Pienaar", "aankoop": "Nov 2019"}, {"name": "Toyota 2.8 2025 Ian CER 6568", "code": "3583/112", "afdeling": "Suiwel", "klas": "A", "plaas": "Pleasant view", "km": 0, "km_str": "—", "repair": 183025, "repair_str": "R183 025", "jaar": "2021", "verantwoordelike": "Ian Oosthuizen", "aankoop": "Jan 2021"}, {"name": "Toyota 2022 CER 6743 Rikus", "code": "3583/127", "afdeling": "Suiwel", "klas": "B", "plaas": "Pleasant view", "km": 81322, "km_str": "81,322 km", "repair": 27605, "repair_str": "R27 605", "jaar": "2022", "verantwoordelike": "Rikus Oosthuizen", "aankoop": "Nov 2022"}, {"name": "Land Rover disc Gerrit- CER 3804", "code": "3583/008", "afdeling": "Hoofkantoor", "klas": "A", "plaas": "Vaandrigsdrift", "km": 418144, "km_str": "418,144 km", "repair": 17573, "repair_str": "R17 573", "jaar": "2007", "verantwoordelike": "Frihan Oosthuizen", "aankoop": "Jul 2007"}, {"name": "Prado 2022 CER3798 GO", "code": "3583/125", "afdeling": "Hoofkantoor", "klas": "A", "plaas": "Vaandrigsdrift", "km": 62108, "km_str": "62,108 km", "repair": 3107, "repair_str": "R3 107", "jaar": "2022", "verantwoordelike": "Frihan Oosthuizen", "aankoop": "Sep 2022"}, {"name": "Isuzu 1.9 4x4 Cornelis CER 4181", "code": "3583/134", "afdeling": "Suiwel", "klas": "B", "plaas": "Vaandrigsdrift", "km": 62808, "km_str": "62,808 km", "repair": 23217, "repair_str": "R23 217", "jaar": "2024", "verantwoordelike": "Cornelis Oosthuizen", "aankoop": "Des 2023"}, {"name": "Isuzu 2.5 2023 CER 6585 Paul", "code": "3583/132", "afdeling": "Suiwel", "klas": "D", "plaas": "Vaandrigsdrift", "km": 79043, "km_str": "79,043 km", "repair": 34910, "repair_str": "R34 910", "jaar": "2023", "verantwoordelike": "Cornelis Oosthuizen", "aankoop": "Mrt 2023"}, {"name": "Isuzu 2.5 CER 7148 E/CAB Gerrit O", "code": "3583/123", "afdeling": "Suiwel", "klas": "C", "plaas": "Vaandrigsdrift", "km": 75555, "km_str": "75,555 km", "repair": 12858, "repair_str": "R12 858", "jaar": "2022", "verantwoordelike": "Cornelis Oosthuizen", "aankoop": "Jan 2022"}, {"name": "Isuzu 4x4 VD 2018 CER 4711", "code": "3583/117", "afdeling": "Suiwel", "klas": "B", "plaas": "Vaandrigsdrift", "km": 183264, "km_str": "183,264 km", "repair": 240783, "repair_str": "R240 783", "jaar": "2018", "verantwoordelike": "Cornelis Oosthuizen", "aankoop": "Des 2021"}, {"name": "Isuzu CER 7143 Werner", "code": "3583/119", "afdeling": "Suiwel", "klas": "D", "plaas": "Vaandrigsdrift", "km": 246509, "km_str": "246,509 km", "repair": 180372, "repair_str": "R180 372", "jaar": "2022", "verantwoordelike": "Cornelis Oosthuizen", "aankoop": "Jan 2022"}, {"name": "Land Cruiser Gerrit CER 5762", "code": "3583/133", "afdeling": "Suiwel", "klas": "A", "plaas": "Vaandrigsdrift", "km": 95853, "km_str": "95,853 km", "repair": 73497, "repair_str": "R73 497", "jaar": "2023", "verantwoordelike": "Cornelis Oosthuizen", "aankoop": "Des 2023"}, {"name": "Isuzu CER 7144 NDO", "code": "3583/121", "afdeling": "Wingerd", "klas": "D", "plaas": "Vaandrigsdrift", "km": 179010, "km_str": "179,010 km", "repair": 97658, "repair_str": "R97 658", "jaar": "2022", "verantwoordelike": "Cornelis Oosthuizen", "aankoop": "Jan 2022"}, {"name": "Isuzu 1.9 4x4 Dian 2024 CER 1518", "code": "3583/140", "afdeling": "Suiwel", "klas": "B", "plaas": "Voorhuis", "km": 59179, "km_str": "59,179 km", "repair": 32108, "repair_str": "R32 108", "jaar": "2024", "verantwoordelike": "Dian Oosthuizen", "aankoop": "Feb 2024"}, {"name": "Toyota 2.4 VH melk - CER 6630", "code": "3583/080", "afdeling": "Suiwel", "klas": "D", "plaas": "Voorhuis", "km": 193987, "km_str": "193,987 km", "repair": 158386, "repair_str": "R158 386", "jaar": "2017", "verantwoordelike": "Dian Oosthuizen", "aankoop": "Sep 2017"}, {"name": "Isuzu 1.9 4x4 Herman CER 1670", "code": "3582/132", "afdeling": "Suiwel", "klas": "B", "plaas": "Voorhuis", "km": 78555, "km_str": "78,555 km", "repair": 85678, "repair_str": "R85 678", "jaar": "2023", "verantwoordelike": "Dian Oosthuizen", "aankoop": "Mrt 2023"}];
+
+const VEH_AFD_CLASS = {
+  "Hoofkantoor":"vafd-hoofkantoor",
+  "Suiwel":"vafd-suiwel",
+  "Saai":"vafd-saai",
+  "Meganies":"vafd-meganies",
+  "Wingerd":"vafd-wingerd"
+};
+
+function buildVehicleGrid(data){
+  const grid = document.getElementById("vehGrid");
+  if(!grid) return;
+  const grouped = {};
+  data.forEach(v=>{
+    const key = 'Klas ' + v.klas;
+    if(!grouped[key]) grouped[key]=[];
+    grouped[key].push(v);
+  });
+  const afds = ['Klas A','Klas B','Klas C','Klas D'].filter(k=>grouped[k]);
+  grid.innerHTML = afds.map(afd=>{
+    const items = grouped[afd];
+    const cards = items.map(v=>{
+      const afdCls = VEH_AFD_CLASS[v.afdeling]||"";
+      return `<div class="veh-card ${afdCls}"
+        data-afdeling="${v.afdeling}"
+        data-plaas="${v.plaas}"
+        data-verant="${v.verantwoordelike}"
+        data-klas="${v.klas}">
+        <div class="veh-card-top">
+          <div class="veh-card-code">${v.code}</div>
+          <span class="veh-klas klas-${v.klas}">Klas ${v.klas}</span>
+        </div>
+        <div class="veh-card-name">${v.name}</div>
+        <div class="veh-card-row">&#128205; ${v.plaas}</div>
+        <div class="veh-card-row">&#128100; ${v.verantwoordelike}</div>
+        <div class="veh-card-row">&#128197; ${v.jaar}</div>
+        <div class="veh-card-row">&#128197; Aangekoop: ${v.aankoop}</div>
+        <div class="veh-afd-badge">${v.afdeling}</div>
+      </div>`;
+    }).join("");
+    return `<div class="vreg-section" id="vsec-${afd.replace(/ /g,'-')}">
+      <div class="vreg-section-hdr">
+        <span class="vreg-section-title">${afd}</span>
+        <span class="vreg-section-count">${items.length}</span>
+        <div class="vreg-section-line"></div>
+      </div>
+      <div class="vreg-cards">${cards}</div>
+    </div>`;
+  }).join("");
+  updateVehStats(data.length);
+}
+
+function updateVehStats(visible){
+  const el=document.getElementById("vehStats");
+  if(!el)return;
+  const total=VEH_DATA.length;
+  el.innerHTML=[
+    {n:visible===total?total:visible+"/"+total,l:"Voertuie"},
+    {n:[...new Set(VEH_DATA.map(v=>v.klas))].length,l:"Klasse"},
+    {n:[...new Set(VEH_DATA.map(v=>v.afdeling))].length,l:"Afdelings"},
+    {n:[...new Set(VEH_DATA.map(v=>v.verantwoordelike))].length,l:"Verantwoordelikes"},
+  ].map(s=>`<div><div style="font-size:22px;font-weight:700;color:#1e3a5f;line-height:1">${s.n}</div><div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${s.l}</div></div>`).join("");
+}
+
+function filterVehicles(){
+  const afd=document.getElementById("vfAfdeling")?.value||"";
+  const plaas=document.getElementById("vfPlaas")?.value||"";
+  const ver=document.getElementById("vfVerant")?.value||"";
+  const klas=document.getElementById("vfKlas")?.value||"";
+  let visible=0;
+  document.querySelectorAll(".veh-card").forEach(card=>{
+    const show=(!afd||card.dataset.afdeling===afd)
+            &&(!plaas||card.dataset.plaas===plaas)
+            &&(!ver||card.dataset.verant===ver)
+            &&(!klas||card.dataset.klas===klas);
+    card.classList.toggle("hidden",!show);
+    if(show)visible++;
+  });
+  document.querySelectorAll(".vreg-section").forEach(sec=>{
+    const any=Array.from(sec.querySelectorAll(".veh-card")).some(c=>!c.classList.contains("hidden"));
+    sec.classList.toggle("all-hidden",!any);
+  });
+  updateVehStats(visible);
+}
+
+function resetVehFilters(){
+  ["vfAfdeling","vfPlaas","vfVerant","vfKlas"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  filterVehicles();
+}
+
+
+// ══════════════════════════════════════════════════════
+// GLOBAL SEARCH
+// ══════════════════════════════════════════════════════
+const SEARCH_INDEX = [{"label": "Erik Oosthuizen", "sub": "Voorsitter / CEO · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Ian Oosthuizen", "sub": "Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Jeff Every", "sub": "Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Pieter Willemse", "sub": "Onafhanklike Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Frihan Oosthuizen", "sub": "Finansiële Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Dwayne", "sub": "Geoktrooieerde Rekenmeester · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Elrie", "sub": "HR & Verskaffers · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Marlene Oosthuizen", "sub": "Resepsie & Admin · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Monique van Rensburg", "sub": "Finansiële Administrasie · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "David Jacobus Le Roux", "sub": "Wingerd Bestuurder · Wingerd/Bonnievale", "page": "arbeid", "type": "Arbeid"}, {"label": "Frikkie Oosthuizen", "sub": "Hoof: Graan & Meganies · Angora", "page": "arbeid", "type": "Arbeid"}, {"label": "Johan Van Rooyen", "sub": "Werkswinkel 1 – Meganies", "page": "arbeid", "type": "Arbeid"}, {"label": "Marcel Goosen", "sub": "Werkswinkel 1 – Meganies", "page": "arbeid", "type": "Arbeid"}, {"label": "Johannes (Vickus) Vermeulen", "sub": "Werkswinkel 2 – Bestuur", "page": "arbeid", "type": "Arbeid"}, {"label": "Cornelis Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Verse · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Jabes Hattingh", "sub": "Junior Plaasbestuurder – Vers & Kalf · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Werner Daniels", "sub": "Kalf Aanteelt · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Paul", "sub": "Stalbestuurder · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Rikus Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Maalstoor · Pleasantview", "page": "arbeid", "type": "Arbeid"}, {"label": "Anton", "sub": "Stalbestuurder · Pleasantview", "page": "arbeid", "type": "Arbeid"}, {"label": "Dian Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Verse · Voorhuis", "page": "arbeid", "type": "Arbeid"}, {"label": "Jacques", "sub": "Stalbestuurder · Voorhuis", "page": "arbeid", "type": "Arbeid"}, {"label": "Welger Baler RP202", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Welger Baler RP245 no 1", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Welger Baler RP245 no 2", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Dieselkar Rond", "sub": "Dieselkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Saai en Meganies"}, {"label": "Dieselkar Moov", "sub": "Dieselkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Saai en Meganies"}, {"label": "Lusern hark Kuhn CR 300 GM", "sub": "Lusernhark · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Lusernhark", "filter_afd": "Saai en Meganies"}, {"label": "Lusern hark 12 wheel V-Rake", "sub": "Lusernhark · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Lusernhark", "filter_afd": "Saai en Meganies"}, {"label": "Planter Ausplough 36 tand", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equalizer 25 tand 7500E No 1", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equaliser 25 tand 7500E No 2", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equalizer Precision SL 6 Mielies", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Hak Innovator 9 tand", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Hak Blanton 23 tand", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 1", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg Degelman Pro Till 20", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Hak Trash Field Span 5.5m", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 2", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 3", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Snytafel 972 21FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Moco JD Sleep Haybine snyer 946 13FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon M155 Auger header A40D 18FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Haybine & Kneuser 920 14FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Snytafel 972 30FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon M155 Snytafel FD135 35FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon Sleep Haybine snyer 5020 Tongue 18FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Spuit Hardi Sprayer 4000L 2011", "sub": "Spuit · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Joskin misstrooier 19M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Amazone ZAV 2000 2019", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Radium no 1 5M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Radium no 2 5M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Kuilvoerwaens", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Tipkarre", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Truck Brocker Sleepwa CER 1956", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Vangwa 16 Ton OAgri 2020", "sub": "Vangwa · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Vangwa", "filter_afd": "Saai en Meganies"}, {"label": "Vangkar 16 Ton PS 2023", "sub": "Vangwa · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Vangwa", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar 8000L no 1", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar 6000L no 2", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar Jacto 2000L No3", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Heli wrapper", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Mchale wrapper 991 B", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Mchale wrapper 991 BC", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Bossiekapper Sonderend PV no 1", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Falcon PV no 1", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Sicma Flail Mulcher & Roller UTR280 SSK", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Menger Delaval", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Keenan", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Storti Labrador 16M3", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1560 Notill 4M", "sub": "Planter · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Strooier Amazone ZAV 2000 2023", "sub": "Strooier · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Suiwel"}, {"label": "Truck Vlottenberg Sleepwa CER 3289", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Venter CER 1575", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Meelwa Epol no 1 CER 2398", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Meelwa Epol no 2 CER 3906", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Generators", "sub": "Generator · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Generator", "filter_afd": "Suiwel"}, {"label": "Bakkies trailers/ Sleepwaens", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Sleepwaens vir trekkers", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Menger Storti Dunker Tvs80 UV", "sub": "Menger · Uitvlugt · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Nobili blou VD", "sub": "Bossiekapper · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Menger Seko 13m3 2002 VD", "sub": "Menger · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Cliff Mixmaster Blou", "sub": "Menger · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Milk Taxi", "sub": "Milktaxi · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Milktaxi", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Falcon VH no 2", "sub": "Bossiekapper · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Sonderend VH no 2", "sub": "Bossiekapper · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Dieselkar Vierkantig", "sub": "Dieselkar · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Suiwel"}, {"label": "Menger Storti Husky 16M3", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Seko 17m3 2008", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Seko 13m3 2002", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1560 Notill 6M", "sub": "Planter · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1850 Standerton Notill 12M", "sub": "Planter · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Spuit Nobili Onkruidspuit", "sub": "Spuit · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Wingerd"}, {"label": "Spuit Cima Spray Pump", "sub": "Spuit · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Wingerd"}, {"label": "Wingerde Top M Bakwerke 2025", "sub": "Topper · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Topper", "filter_afd": "Wingerd"}, {"label": "Parswaens", "sub": "Trailer · Vaandrigsdrift · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Wingerd"}, {"label": "Land Rover disc Erik- CER 2870", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landcruiser- Ian CER 3341", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landcruiser Stasiewa Oupa- CER 1733", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landrover oranje- CER 3146", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Ford SC 4x4 2025 CER 5431 Frihan", "sub": "Klas B · Pleasant view · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Hoofkantoor"}, {"label": "Toyota 2.5 4x4 Johan V R- CER 1174", "sub": "Klas B · Pleasant view · Johan Van Rooyen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Meganies"}, {"label": "Isuzu DMAX 2024 Marcel- CER 3458", "sub": "Klas C · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Meganies"}, {"label": "Toyota 2022 CER 6609 Frikkie", "sub": "Klas B · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 Francois- CER 1512", "sub": "Klas C · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Saai"}, {"label": "Ford SC WT 4x4 2025 CER 7248 Erik", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 2022 CER 7142 Elrie", "sub": "Klas C · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Saai"}, {"label": "Isuzu CER 1513 Vickus", "sub": "Klas D · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Saai"}, {"label": "Land Rover Erik- CER 3648 - IS", "sub": "Klas B · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Toyota Hilux 2.5 4x4 J Baadjies CER 6885", "sub": "Klas B · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 EC Marlene- CER 6363", "sub": "Klas C · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 J.Ludick- CER 5745", "sub": "Klas D · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7153 Anton", "sub": "Klas D · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Toyota 2.5 4X4 Johan P- CER 7081", "sub": "Klas B · Pleasant view · Johan Pienaar", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Toyota 2.8 2025 Ian CER 6568", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Suiwel"}, {"label": "Toyota 2022 CER 6743 Rikus", "sub": "Klas B · Pleasant view · Rikus Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Land Rover disc Gerrit- CER 3804", "sub": "Klas A · Vaandrigsdrift · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Prado 2022 CER3798 GO", "sub": "Klas A · Vaandrigsdrift · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Isuzu 1.9 4x4 Cornelis CER 4181", "sub": "Klas B · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 2023 CER 6585 Paul", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 CER 7148 E/CAB Gerrit O", "sub": "Klas C · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Suiwel"}, {"label": "Isuzu 4x4 VD 2018 CER 4711", "sub": "Klas B · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7143 Werner", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Land Cruiser Gerrit CER 5762", "sub": "Klas A · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7144 NDO", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Wingerd"}, {"label": "Isuzu 1.9 4x4 Dian 2024 CER 1518", "sub": "Klas B · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Toyota 2.4 VH melk - CER 6630", "sub": "Klas D · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu 1.9 4x4 Herman CER 1670", "sub": "Klas B · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "JCB 3Cx Sitemaster 2017 CER 3269", "sub": "Digger · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "JD Kuilvoer stroper 7550 CER 4086", "sub": "Kerwer · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Kerwer"}, {"label": "Isuzu Fxr17-360 Truck CER 6293", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Isuzu SHR Truck CER 2924", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Mitsubishi Canter Fuso Truck CER 2218", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "MacDon M155 2021 Windrower", "sub": "Macdon · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Macdon"}, {"label": "Macdon 9350 Windrower", "sub": "Macdon · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Macdon"}, {"label": "JD Selfloper Spuit M4030 2020", "sub": "Selflooperspuit · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Selflooperspuit"}, {"label": "JD Selfloper Spuit R4030 2015", "sub": "Selflooperspuit · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Selflooperspuit"}, {"label": "Case 170 Malmesbury", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case 95 Magnum 7220 CER 3891", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case 95 Magnum 7220 CER 3892", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Magnum IH 340 CER 2972", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Mxm 255 CER 5291", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Puma 180 2024 CER 1220", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas 657- CER 6045 2010", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4250 1999", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4640 Kap CER 2532", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 6630 2011 CER 3165", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 7810 CER 3724", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD M6175 2016", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TM 140 CER 3371 2007", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TM140 CER 2495 2004", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4020 sonder kap CER 4807", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Landini 105 no 2 CER 4356", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 100/90 CER 3059", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 980 CER 3125", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TT4.9 4WD CER 4204", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TD5.100 no 1 PV CER 2902", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 4WD Quicke x56 2023 CER 5876", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 VD CER 4841", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "Landini Powerfarm 105 no 1 CER 1953", "sub": "Trekker <90kw · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "Case Digger 570ST Nr 1 platbek CER 7274", "sub": "Digger · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "Case Digger 570ST Nr 2 tande CER 7275", "sub": "Digger · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "Scania Truck CER 1335", "sub": "Lorrie · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "UD Quester E53 GWE 390 Truck CER 2772", "sub": "Lorrie · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Case Puma 140 Tractor CER 6694", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas 657- CER 3474 2009", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas Arion 610 CER 3073 2013", "sub": "Trekker · Uitvlug · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4x4 6150B 2025", "sub": "Trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 6920 4x4 2006 CER5425", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TN75F CER 1394", "sub": "Trekker <90kw · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TT3.5 2WD CER 2365", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH T6020 CER 7494 no 1", "sub": "Virk trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH T6020 CER 7496 no 2", "sub": "Virk trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH Td5.110 no 3 UV CER 6872", "sub": "Virk trekker · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 Quicke x56 no 4 VH CER 2867", "sub": "Virk trekker · Uitvlug · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 Quicke x56 no 5 VD CER 2923", "sub": "Virk trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH T6070 CAB CER 6564 - Trekker", "sub": "Trekker · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Parsmasjien Gregoire", "sub": "Parsmasjien · Vaandrigsdrift · David", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Parsmasjien"}, {"label": "JD5325 Wingerd Met Cab CER 2247", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 72-86 4x4 CER 1835", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH NHT4 75 CER 5205", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}];
+
+const TYPE_COLORS = {
+  "Arbeid":     {bg:"#dcfce7",color:"#14532d",icon:"&#128119;"},
+  "Implemente": {bg:"#ffedd5",color:"#7c2d12",icon:"&#9881;"},
+  "Voertuie":   {bg:"#dbeafe",color:"#1e3a5f",icon:"&#128665;"},
+  "Trekkers":   {bg:"#dcfce7",color:"#14532d",icon:"&#128668;"},
+};
+
+let gSearchActive = -1;
+let gSearchResults = [];
+
+function highlight(text, query) {
+  if(!query) return text;
+  const esc = query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return text.replace(new RegExp(esc,'gi'), m=>`<span class="gsearch-highlight">${m}</span>`);
+}
+
+function onGSearch(val) {
+  const q = val.trim().toLowerCase();
+  const clear = document.getElementById("gSearchClear");
+  if(clear) clear.style.display = q ? "block" : "none";
+  if(!q) { closeGSearch(); return; }
+
+  gSearchResults = SEARCH_INDEX.filter(item =>
+    item.label.toLowerCase().includes(q) ||
+    item.sub.toLowerCase().includes(q) ||
+    (item.type && item.type.toLowerCase().includes(q))
+  ).slice(0, 12);
+
+  renderGSearch(q);
+}
+
+function renderGSearch(q) {
+  const dd = document.getElementById("gSearchDropdown");
+  if(!gSearchResults.length) {
+    dd.innerHTML = `<div class="gsearch-empty">Geen resultate vir "${q}"</div>`;
+    dd.classList.add("open"); return;
+  }
+
+  const grouped = {};
+  gSearchResults.forEach(r => {
+    if(!grouped[r.type]) grouped[r.type]=[];
+    grouped[r.type].push(r);
+  });
+
+  gSearchActive = -1;
+  dd.innerHTML = Object.entries(grouped).map(([type, items]) => {
+    const tc = TYPE_COLORS[type] || {bg:"#f1f5f9",color:"#374151",icon:"&#128269;"};
+    const rows = items.map((item, idx) => {
+      const globalIdx = gSearchResults.indexOf(item);
+      return `<div class="gsearch-result" data-idx="${globalIdx}" onclick="selectGSearch(${globalIdx})">
+        <div class="gsearch-result-icon" style="background:${tc.bg};color:${tc.color}">${tc.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div class="gsearch-result-label">${highlight(item.label, q)}</div>
+          <div class="gsearch-result-sub">${highlight(item.sub, q)}</div>
+        </div>
+        <span class="gsearch-result-badge" style="background:${tc.bg};color:${tc.color}">${type}</span>
+      </div>`;
+    }).join("");
+    return `<div class="gsearch-group-label">${type}</div>${rows}`;
+  }).join("");
+
+  dd.classList.add("open");
+}
+
+function selectGSearch(idx) {
+  const item = gSearchResults[idx];
+  if(!item) return;
+  closeGSearch();
+  document.getElementById("gSearchInput").value = "";
+
+  // Navigate to correct page
+  showPage(item.page);
+
+  setTimeout(()=>{
+    // Switch bates tab if needed
+    if(item.tab) {
+      switchBatesTab(item.tab);
+      setTimeout(()=>highlightItem(item), 400);
+    } else {
+      highlightItem(item);
+    }
+  }, 300);
+}
+
+function highlightItem(item) {
+  // Clear previous flashes
+  document.querySelectorAll(".card-flash,.eq-card-flash,.veh-card-flash,.trac-card-flash").forEach(el=>{
+    el.classList.remove("card-flash","eq-card-flash","veh-card-flash");
+  });
+
+  const allCards = document.querySelectorAll(".eq-card, .veh-card, .trac-card, .ot-card");
+  let found = null;
+  const q = item.label.toLowerCase();
+
+  allCards.forEach(card=>{
+    if(found) return;
+    const nameEl = card.querySelector(".eq-card-name,.veh-card-name,.trac-card-name,.ot-name");
+    if(!nameEl) return;
+    const cardText = nameEl.textContent.trim().toLowerCase();
+    if(cardText.includes(q.slice(0,20)) || q.includes(cardText.slice(0,20))){
+      found = card;
+    }
+  });
+
+  if(!found) return;
+
+  // Jump immediately then flash
+  found.scrollIntoView({behavior:"smooth", block:"center"});
+
+  // Flash using CSS class (overrides all existing styles)
+  const flashClass = found.classList.contains("eq-card") ? "eq-card-flash"
+                   : found.classList.contains("veh-card") ? "veh-card-flash"
+                   : found.classList.contains("trac-card") ? "trac-card-flash"
+                   : "card-flash";
+
+  setTimeout(()=>{
+    found.classList.add(flashClass);
+    // Remove after 3 seconds
+    setTimeout(()=> found.classList.remove(flashClass), 3000);
+  }, 600);
+}
+
+function onGSearchKey(e) {
+  const dd = document.getElementById("gSearchDropdown");
+  const results = dd.querySelectorAll(".gsearch-result");
+  if(e.key==="ArrowDown") {
+    gSearchActive = Math.min(gSearchActive+1, results.length-1);
+  } else if(e.key==="ArrowUp") {
+    gSearchActive = Math.max(gSearchActive-1, 0);
+  } else if(e.key==="Enter" && gSearchActive>=0) {
+    selectGSearch(parseInt(results[gSearchActive].dataset.idx));
+    return;
+  } else if(e.key==="Escape") {
+    clearGSearch(); return;
+  } else return;
+  results.forEach((r,i)=>r.style.background = i===gSearchActive?"#f5f2eb":"");
+  if(results[gSearchActive]) results[gSearchActive].scrollIntoView({block:"nearest"});
+}
+
+function closeGSearch() {
+  document.getElementById("gSearchDropdown").classList.remove("open");
+  gSearchResults = []; gSearchActive = -1;
+}
+
+function clearGSearch() {
+  document.getElementById("gSearchInput").value = "";
+  document.getElementById("gSearchClear").style.display = "none";
+  closeGSearch();
+}
+
+document.addEventListener("click", e => {
+  if(!e.target.closest(".gsearch-wrap")) closeGSearch();
+});
+
+// Cmd/Ctrl+K to focus search
+document.addEventListener("keydown", e => {
+  if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+    e.preventDefault();
+    document.getElementById("gSearchInput")?.focus();
+  }
+  if(e.key === "/" && document.activeElement.tagName !== "INPUT") {
+    e.preventDefault();
+    document.getElementById("gSearchInput")?.focus();
+  }
+});
+
+
+// ══════════════════════════════════════════════════════
+// TRACTOR DATA & LOGIC
+// ══════════════════════════════════════════════════════
+const TRAC_DATA = [{"name": "JCB 3Cx Sitemaster 2017 CER 3269", "code": "3583/101", "klassifikasie": "Digger", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 8215, "hours_str": "8 215 ure", "kw_str": "74 kW", "jaar": "2017", "aankoop": "Des 2017", "verantwoordelike": "Frikkie"}, {"name": "JD Kuilvoer stroper 7550 CER 4086", "code": "3583/109", "klassifikasie": "Kerwer", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 5011, "hours_str": "5 011 ure", "kw_str": "458 kW", "jaar": "2011", "aankoop": "Feb 2011", "verantwoordelike": "Frikkie"}, {"name": "Isuzu Fxr17-360 Truck CER 6293", "code": "3583/072", "klassifikasie": "Lorrie", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 0, "hours_str": "—", "kw_str": "265 kW", "jaar": "2016", "aankoop": "Apr 2016", "verantwoordelike": "Frikkie"}, {"name": "Isuzu SHR Truck CER 2924", "code": "3583/034", "klassifikasie": "Lorrie", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 0, "hours_str": "—", "kw_str": "129 kW", "jaar": "1995", "aankoop": "Jan 2004", "verantwoordelike": "Frikkie"}, {"name": "Mitsubishi Canter Fuso Truck CER 2218", "code": "3583/056", "klassifikasie": "Lorrie", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 0, "hours_str": "—", "kw_str": "108 kW", "jaar": "2006", "aankoop": "Nov 2006", "verantwoordelike": "Frikkie"}, {"name": "MacDon M155 2021 Windrower", "code": "3583/114", "klassifikasie": "Macdon", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 1700, "hours_str": "1 700 ure", "kw_str": "116 kW", "jaar": "2021", "aankoop": "Jun 2021", "verantwoordelike": "Frikkie"}, {"name": "Macdon 9350 Windrower", "code": "3583/103", "klassifikasie": "Macdon", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 14310, "hours_str": "14 310 ure", "kw_str": "81 kW", "jaar": "2002", "aankoop": "Jul 2007", "verantwoordelike": "Frikkie"}, {"name": "JD Selfloper Spuit M4030 2020", "code": "3583/108", "klassifikasie": "Selflooperspuit", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 5746, "hours_str": "5 746 ure", "kw_str": "209 kW", "jaar": "2020", "aankoop": "Apr 2020", "verantwoordelike": "Frikkie"}, {"name": "JD Selfloper Spuit R4030 2015", "code": "3583/154", "klassifikasie": "Selflooperspuit", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 5921, "hours_str": "5 921 ure", "kw_str": "183 kW", "jaar": "2015", "aankoop": "Des 2024", "verantwoordelike": "Frikkie"}, {"name": "Case 170 Malmesbury", "code": "3583/118", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 17714, "hours_str": "17 714 ure", "kw_str": "120 kW", "jaar": "2002", "aankoop": "Des 2021", "verantwoordelike": "Frikkie"}, {"name": "Case 95 Magnum 7220 CER 3891", "code": "3583/057", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 20508, "hours_str": "20 508 ure", "kw_str": "128 kW", "jaar": "1995", "aankoop": "Feb 2004", "verantwoordelike": "Frikkie"}, {"name": "Case 95 Magnum 7220 CER 3892", "code": "3583/058", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 23656, "hours_str": "23 656 ure", "kw_str": "128 kW", "jaar": "1995", "aankoop": "Feb 2004", "verantwoordelike": "Frikkie"}, {"name": "Case Magnum IH 340 CER 2972", "code": "3583/116", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 6250, "hours_str": "6 250 ure", "kw_str": "254 kW", "jaar": "2017", "aankoop": "Nov 2021", "verantwoordelike": "Frikkie"}, {"name": "Case Mxm 255 CER 5291", "code": "3583/022", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 14220, "hours_str": "14 220 ure", "kw_str": "195 kW", "jaar": "2001", "aankoop": "Aug 2011", "verantwoordelike": "Frikkie"}, {"name": "Case Puma 180 2024 CER 1220", "code": "3583/139", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 2742, "hours_str": "2 742 ure", "kw_str": "134 kW", "jaar": "2024", "aankoop": "Des 2024", "verantwoordelike": "Frikkie"}, {"name": "Claas 657- CER 6045 2010", "code": "3583/070", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 22378, "hours_str": "22 378 ure", "kw_str": "97 kW", "jaar": "2010", "aankoop": "Jul 2010", "verantwoordelike": "Frikkie"}, {"name": "JD 4250 1999", "code": "3583/018", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 14379, "hours_str": "14 379 ure", "kw_str": "130 kW", "jaar": "1983", "aankoop": "Des 2017", "verantwoordelike": "Frikkie"}, {"name": "JD 4640 Kap CER 2532", "code": "3583/014", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 16260, "hours_str": "16 260 ure", "kw_str": "125 kW", "jaar": "1995", "aankoop": "Mei 2002", "verantwoordelike": "Frikkie"}, {"name": "JD 6630 2011 CER 3165", "code": "3583/048", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 23754, "hours_str": "23 754 ure", "kw_str": "97 kW", "jaar": "2011", "aankoop": "Feb 2013", "verantwoordelike": "Frikkie"}, {"name": "JD 7810 CER 3724", "code": "3583/035", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 24597, "hours_str": "24 597 ure", "kw_str": "97 kW", "jaar": "1999", "aankoop": "Feb 2015", "verantwoordelike": "Frikkie"}, {"name": "JD M6175 2016", "code": "3583/155", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 6978, "hours_str": "6 978 ure", "kw_str": "130 kW", "jaar": "2016", "aankoop": "Des 2024", "verantwoordelike": "Frikkie"}, {"name": "NH TM 140 CER 3371 2007", "code": "3583/036", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 36317, "hours_str": "36 317 ure", "kw_str": "104 kW", "jaar": "2007", "aankoop": "Jan 2007", "verantwoordelike": "Frikkie"}, {"name": "NH TM140 CER 2495 2004", "code": "3583/104", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 20317, "hours_str": "20 317 ure", "kw_str": "104 kW", "jaar": "2004", "aankoop": "Sep 2020", "verantwoordelike": "Frikkie"}, {"name": "JD 4020 sonder kap CER 4807", "code": "3583/026", "klassifikasie": "Trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 42086, "hours_str": "42 086 ure", "kw_str": "72 kW", "jaar": "1997", "aankoop": "Feb 2000", "verantwoordelike": "Frikkie"}, {"name": "Landini 105 no 2 CER 4356", "code": "3583/060", "klassifikasie": "Trekker <90kw", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 22960, "hours_str": "22 960 ure", "kw_str": "73 kW", "jaar": "2005", "aankoop": "Aug 2005", "verantwoordelike": "Frikkie"}, {"name": "NH Fiat 100/90 CER 3059", "code": "3583/015", "klassifikasie": "Trekker <90kw", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 16178, "hours_str": "16 178 ure", "kw_str": "75 kW", "jaar": "2000", "aankoop": "Aug 2002", "verantwoordelike": "Frikkie"}, {"name": "NH Fiat 980 CER 3125", "code": "3583/088", "klassifikasie": "Trekker <90kw", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 24465, "hours_str": "24 465 ure", "kw_str": "73 kW", "jaar": "1995", "aankoop": "Feb 2003", "verantwoordelike": "Frikkie"}, {"name": "NH TT4.9 4WD CER 4204", "code": "3583/136", "klassifikasie": "Trekker <90kw", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 2483, "hours_str": "2 483 ure", "kw_str": "66 kW", "jaar": "2023", "aankoop": "Aug 2023", "verantwoordelike": "Frikkie"}, {"name": "NH TD5.100 no 1 PV CER 2902", "code": "3583/111", "klassifikasie": "Virk trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 16874, "hours_str": "16 874 ure", "kw_str": "73 kW", "jaar": "2014", "aankoop": "Okt 2015", "verantwoordelike": "Frikkie"}, {"name": "NH TD5.110 4WD Quicke x56 2023 CER 5876", "code": "3583/141", "klassifikasie": "Virk trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 3009, "hours_str": "3 009 ure", "kw_str": "82 kW", "jaar": "2023", "aankoop": "Sep 2023", "verantwoordelike": "Frikkie"}, {"name": "NH TD5.110 VD CER 4841", "code": "3583/085", "klassifikasie": "Virk trekker", "afdeling": "Saaie en Meganies", "plaas": "Saaie en Meganies", "hours": 10744, "hours_str": "10 744 ure", "kw_str": "82 kW", "jaar": "2018", "aankoop": "Feb 2018", "verantwoordelike": "Frikkie"}, {"name": "Case Digger 570ST Nr 1 platbek CER 7274", "code": "3583/128", "klassifikasie": "Digger", "afdeling": "Suiwel", "plaas": "Pleasant View", "hours": 3363, "hours_str": "3 363 ure", "kw_str": "72 kW", "jaar": "2022", "aankoop": "Nov 2022", "verantwoordelike": "Rikus"}, {"name": "Case Digger 570ST Nr 2 tande CER 7275", "code": "3583/129", "klassifikasie": "Digger", "afdeling": "Suiwel", "plaas": "Voorhuis", "hours": 3167, "hours_str": "3 167 ure", "kw_str": "72 kW", "jaar": "2022", "aankoop": "Nov 2022", "verantwoordelike": "Dian"}, {"name": "Scania Truck CER 1335", "code": "3583/055", "klassifikasie": "Lorrie", "afdeling": "Suiwel", "plaas": "Pleasant View", "hours": 0, "hours_str": "—", "kw_str": "309 kW", "jaar": "2004", "aankoop": "Jul 2010", "verantwoordelike": "Rikus"}, {"name": "UD Quester E53 GWE 390 Truck CER 2772", "code": "3583/113", "klassifikasie": "Lorrie", "afdeling": "Suiwel", "plaas": "Pleasant View", "hours": 0, "hours_str": "—", "kw_str": "291 kW", "jaar": "2021", "aankoop": "Jul 2021", "verantwoordelike": "Rikus"}, {"name": "Case Puma 140 Tractor CER 6694", "code": "3583/131", "klassifikasie": "Trekker", "afdeling": "Suiwel", "plaas": "Pleasant View", "hours": 4800, "hours_str": "4 800 ure", "kw_str": "104 kW", "jaar": "2022", "aankoop": "Des 2022", "verantwoordelike": "Rikus"}, {"name": "Claas 657- CER 3474 2009", "code": "3583/069", "klassifikasie": "Trekker", "afdeling": "Suiwel", "plaas": "Pleasant View", "hours": 28619, "hours_str": "28 619 ure", "kw_str": "97 kW", "jaar": "2009", "aankoop": "Feb 2015", "verantwoordelike": "Rikus"}, {"name": "Claas Arion 610 CER 3073 2013", "code": "3583/071", "klassifikasie": "Trekker", "afdeling": "Suiwel", "plaas": "Uitvlug", "hours": 20613, "hours_str": "20 613 ure", "kw_str": "90 kW", "jaar": "2013", "aankoop": "Feb 2013", "verantwoordelike": "Dian"}, {"name": "JD 4x4 6150B 2025", "code": "3583/152", "klassifikasie": "Trekker", "afdeling": "Suiwel", "plaas": "Vaandrigsdrift", "hours": 1504, "hours_str": "1 504 ure", "kw_str": "110 kW", "jaar": "2025", "aankoop": "Des 2024", "verantwoordelike": "Cornelis"}, {"name": "JD 6920 4x4 2006 CER5425", "code": "3583/153", "klassifikasie": "Trekker", "afdeling": "Suiwel", "plaas": "Pleasant View", "hours": 12839, "hours_str": "12 839 ure", "kw_str": "112 kW", "jaar": "2006", "aankoop": "Des 2024", "verantwoordelike": "Rikus"}, {"name": "NH TN75F CER 1394", "code": "3583/013", "klassifikasie": "Trekker <90kw", "afdeling": "Suiwel", "plaas": "Voorhuis", "hours": 2252, "hours_str": "2 252 ure", "kw_str": "56 kW", "jaar": "1999", "aankoop": "Feb 2002", "verantwoordelike": "Dian"}, {"name": "NH TT3.5 2WD CER 2365", "code": "3583/135", "klassifikasie": "Trekker <90kw", "afdeling": "Suiwel", "plaas": "Vaandrigsdrift", "hours": 1987, "hours_str": "1 987 ure", "kw_str": "37 kW", "jaar": "2023", "aankoop": "Aug 2023", "verantwoordelike": "Cornelis"}, {"name": "NH T6020 CER 7494 no 1", "code": "3583/160", "klassifikasie": "Virk trekker", "afdeling": "Suiwel", "plaas": "Pleasant View", "hours": 0, "hours_str": "—", "kw_str": "82 kW", "jaar": "2025", "aankoop": "Jul 2025", "verantwoordelike": "Rikus"}, {"name": "NH T6020 CER 7496 no 2", "code": "3583/159", "klassifikasie": "Virk trekker", "afdeling": "Suiwel", "plaas": "Vaandrigsdrift", "hours": 0, "hours_str": "—", "kw_str": "82 kW", "jaar": "2025", "aankoop": "Aug 2025", "verantwoordelike": "Cornelis"}, {"name": "NH Td5.110 no 3 UV CER 6872", "code": "3583/087", "klassifikasie": "Virk trekker", "afdeling": "Suiwel", "plaas": "Voorhuis", "hours": 11076, "hours_str": "11 076 ure", "kw_str": "82 kW", "jaar": "2018", "aankoop": "Aug 2018", "verantwoordelike": "Dian"}, {"name": "NH TD5.110 Quicke x56 no 4 VH CER 2867", "code": "3583/106", "klassifikasie": "Virk trekker", "afdeling": "Suiwel", "plaas": "Uitvlug", "hours": 9209, "hours_str": "9 209 ure", "kw_str": "82 kW", "jaar": "2019", "aankoop": "Jun 2019", "verantwoordelike": "Dian"}, {"name": "NH TD5.110 Quicke x56 no 5 VD CER 2923", "code": "3583/107", "klassifikasie": "Virk trekker", "afdeling": "Suiwel", "plaas": "Vaandrigsdrift", "hours": 10858, "hours_str": "10 858 ure", "kw_str": "82 kW", "jaar": "2019", "aankoop": "Jun 2019", "verantwoordelike": "Cornelis"}, {"name": "NH T6070 CAB CER 6564 - Trekker", "code": "nan", "klassifikasie": "Trekker", "afdeling": "Suiwel", "plaas": "Voorhuis", "hours": 0, "hours_str": "—", "kw_str": "—", "jaar": "—", "aankoop": "—", "verantwoordelike": "Dian"}, {"name": "Parsmasjien Gregoire", "code": "3583/110", "klassifikasie": "Parsmasjien", "afdeling": "Wingerd", "plaas": "Vaandrigsdrift", "hours": 4339, "hours_str": "4 339 ure", "kw_str": "116 kW", "jaar": "2013", "aankoop": "Nov 1998", "verantwoordelike": "David"}, {"name": "JD5325 Wingerd Met Cab CER 2247", "code": "3583/002", "klassifikasie": "Trekker <90kw", "afdeling": "Wingerd", "plaas": "Vaandrigsdrift", "hours": 12297, "hours_str": "12 297 ure", "kw_str": "50 kW", "jaar": "2008", "aankoop": "Des 2008", "verantwoordelike": "Cornelis"}, {"name": "NH Fiat 72-86 4x4 CER 1835", "code": "3583/012", "klassifikasie": "Trekker <90kw", "afdeling": "Wingerd", "plaas": "Vaandrigsdrift", "hours": 17000, "hours_str": "17 000 ure", "kw_str": "56 kW", "jaar": "1997", "aankoop": "Mrt 1997", "verantwoordelike": "Cornelis"}, {"name": "NH NHT4 75 CER 5205", "code": "3583/086", "klassifikasie": "Trekker <90kw", "afdeling": "Wingerd", "plaas": "Vaandrigsdrift", "hours": 7469, "hours_str": "7 469 ure", "kw_str": "55 kW", "jaar": "2018", "aankoop": "Feb 2018", "verantwoordelike": "Cornelis"}];
+
+const TRAC_AFD_CLASS = {
+  "Saaie en Meganies":"tafd-saai",
+  "Suiwel":"tafd-suiwel",
+  "Wingerd":"tafd-wingerd",
+  "Stukkend":"tafd-stukkend"
+};
+
+const KLAS_ORDER = ["Trekker","Trekker <90kw","Virk trekker","Parsmasjien","Kerwer","Selflooperspuit","Digger","Macdon","Lorrie"];
+
+function buildTractorGrid(data){
+  const grid = document.getElementById("tracGrid");
+  if(!grid) return;
+  const grouped = {};
+  data.forEach(t=>{
+    if(!grouped[t.klassifikasie]) grouped[t.klassifikasie]=[];
+    grouped[t.klassifikasie].push(t);
+  });
+  const klasse = KLAS_ORDER.filter(k=>grouped[k]).concat(Object.keys(grouped).filter(k=>!KLAS_ORDER.includes(k)).sort());
+  grid.innerHTML = klasse.map(klas=>{
+    const items = grouped[klas];
+    const cards = items.map(t=>{
+      const afdCls = TRAC_AFD_CLASS[t.afdeling]||"";
+      return `<div class="trac-card ${afdCls}"
+        data-klas="${t.klassifikasie}"
+        data-afd="${t.afdeling}"
+        data-plaas="${t.plaas}"
+        data-verant="${t.verantwoordelike}">
+        <div class="trac-card-code">${t.code}</div>
+        <div class="trac-card-name">${t.name}</div>
+        <div class="trac-card-row">&#128205; ${t.plaas}</div>
+        <div class="trac-card-row">&#128100; ${t.verantwoordelike}</div>
+        <div class="trac-card-row">&#128197; ${t.jaar} &nbsp;&middot;&nbsp; Aangekoop: ${t.aankoop}</div>
+        <div class="trac-card-divider"></div>
+        <div style="margin-top:8px">
+          <div class="trac-stat-box">
+            <div class="trac-stat-box-n">${t.kw_str}</div>
+            <div class="trac-stat-box-l">Enjin krag</div>
+          </div>
+        </div>
+        <div class="trac-afd-badge">${t.afdeling}</div>
+      </div>`;
+    }).join("");
+    return `<div class="trac-section" id="tsec-${klas.replace(/[^a-zA-Z0-9]/g,'-')}">
+      <div class="trac-section-hdr">
+        <span class="trac-section-title">${klas}</span>
+        <span class="trac-section-count">${items.length}</span>
+        <div class="trac-section-line"></div>
+      </div>
+      <div class="trac-cards">${cards}</div>
+    </div>`;
+  }).join("");
+  updateTracStats(data.length);
+}
+
+function updateTracStats(visible){
+  const el=document.getElementById("tracStats");
+  if(!el)return;
+  const total=TRAC_DATA.length;
+  el.innerHTML=[
+    {n:visible===total?total:visible+"/"+total,l:"Trekkers & Masjiene"},
+    {n:[...new Set(TRAC_DATA.map(t=>t.klassifikasie))].length,l:"Klassifikasies"},
+    {n:[...new Set(TRAC_DATA.map(t=>t.afdeling))].length,l:"Afdelings"},
+    {n:[...new Set(TRAC_DATA.map(t=>t.verantwoordelike))].length,l:"Verantwoordelikes"},
+  ].map(s=>`<div><div style="font-size:22px;font-weight:700;color:#14532d;line-height:1">${s.n}</div><div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${s.l}</div></div>`).join("");
+}
+
+function filterTractors(){
+  const klas=document.getElementById("tfKlas")?.value||"";
+  const afd=document.getElementById("tfAfd")?.value||"";
+  const plaas=document.getElementById("tfPlaas")?.value||"";
+  const ver=document.getElementById("tfVerant")?.value||"";
+  let visible=0;
+  document.querySelectorAll(".trac-card").forEach(card=>{
+    const show=(!klas||card.dataset.klas===klas)
+            &&(!afd||card.dataset.afd===afd)
+            &&(!plaas||card.dataset.plaas===plaas)
+            &&(!ver||card.dataset.verant===ver);
+    card.classList.toggle("hidden",!show);
+    if(show)visible++;
+  });
+  document.querySelectorAll(".trac-section").forEach(sec=>{
+    const any=Array.from(sec.querySelectorAll(".trac-card")).some(c=>!c.classList.contains("hidden"));
+    sec.classList.toggle("all-hidden",!any);
+  });
+  updateTracStats(visible);
+}
+
+function resetTracFilters(){
+  ["tfKlas","tfAfd","tfPlaas","tfVerant"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  filterTractors();
+}
+
+
+// ── ORG CHART FILTER ────────────────────────────────────────────────────────
+function setFilter(filter, btn){
+  // Update afdeling buttons
+  document.querySelectorAll(".ot-afd-btn").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+
+  const treeView   = document.getElementById("ot-tree-view");
+  const suiwelView = document.getElementById("ot-suiwel-view");
+
+  if(filter === "suiwel"){
+    if(treeView)   treeView.style.display = "none";
+    if(suiwelView) suiwelView.style.display = "block";
+    return;
+  }
+
+  if(treeView)   treeView.style.display = "block";
+  if(suiwelView) suiwelView.style.display = "none";
+
+  // Restore all li's first
+  document.querySelectorAll(".ot-root li").forEach(l=>l.style.display="");
+
+  if(filter === "all") {
+    setTimeout(updateConnectors, 50);
+    return;
+  }
+
+  // ID-based hide/show
+  const davidLi   = document.getElementById("li-david");
+  const frikkieLi = document.getElementById("li-frikkie");
+  const cornelisLi= document.getElementById("li-cornelis");
+  const rikusLi   = document.getElementById("li-rikus");
+  const dianLi    = document.getElementById("li-dian");
+  const erikLi    = document.querySelector("li[data-afd='erik']");
+  const frikanLi  = document.querySelector("li[data-afd='frihan']");
+  const dirLis    = document.querySelectorAll("li[data-afd='direksie']");
+
+  if(filter === "wingerd"){
+    if(frikanLi)  frikanLi.style.display  = "none";
+    dirLis.forEach(l=>l.style.display="none");
+    if(frikkieLi) frikkieLi.style.display = "none";
+  } else if(filter === "graan"){
+    if(frikanLi)  frikanLi.style.display  = "none";
+    dirLis.forEach(l=>l.style.display="none");
+    if(davidLi)   davidLi.style.display   = "none";
+  } else if(filter === "finansies"){
+    if(erikLi)    erikLi.style.display    = "none";
+    dirLis.forEach(l=>l.style.display="none");
+    if(cornelisLi) cornelisLi.style.display = "none";
+    if(rikusLi)   rikusLi.style.display   = "none";
+    if(dianLi)    dianLi.style.display    = "none";
+  }
+  setTimeout(updateConnectors, 50);
+}
+
+// Fix connector classes after show/hide changes
+function updateConnectors(){
+  document.querySelectorAll(".ot-root ul").forEach(ul=>{
+    const visible = Array.from(ul.children).filter(li=>li.style.display !== "none");
+    visible.forEach((li,i)=>{
+      li.classList.remove("ot-li-first","ot-li-last","ot-li-only");
+      if(visible.length === 1) li.classList.add("ot-li-only");
+      else {
+        if(i===0) li.classList.add("ot-li-first");
+        if(i===visible.length-1) li.classList.add("ot-li-last");
+      }
+    });
+  });
+}
+
+
+
+function collapseToRoot(){
+  const root = document.querySelector(".ot-root > ul > li");
+  if(!root) return;
+  const childUl = root.querySelector(":scope > ul");
+  if(childUl){ collapseAll(childUl); childUl.classList.remove("ot-collapsed"); }
+  const card = root.querySelector(":scope > .ot-card");
+  if(card) card.classList.add("ot-expanded");
+  // Update vlak buttons
+  document.querySelectorAll("[id^='btn-']").forEach(b=>b.classList.remove("active"));
+  const db = document.getElementById("btn-direksie");
+  if(db) db.classList.add("active");
+  setTimeout(updateConnectors,50);
+}
+
+
+function setLevel(level, btn){
+  document.querySelectorAll(".ot-toolbar > button:not([id^='btn-afd'])").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+
+  // First collapse everything
+  document.querySelectorAll(".ot-root ul").forEach(ul=>ul.classList.add("ot-collapsed"));
+  document.querySelectorAll(".ot-card").forEach(c=>c.classList.remove("ot-expanded"));
+
+  // Always expand company
+  const companyLi = document.querySelector(".ot-company")?.closest("li");
+  if(companyLi){
+    const ul = companyLi.querySelector(":scope > ul");
+    if(ul) ul.classList.remove("ot-collapsed");
+    document.querySelector(".ot-company")?.classList.add("ot-expanded");
+  }
+
+  // Map level to depth
+  const depth = {direksie:1, bestuur:2, toesig:3, almal:9}[level] || 1;
+
+  // Expand to depth
+  let current = [companyLi];
+  for(let d=1; d<depth; d++){
+    const next = [];
+    current.forEach(li=>{
+      if(!li) return;
+      const children = li.querySelectorAll(":scope > ul > li");
+      children.forEach(child=>{
+        const childUl = child.querySelector(":scope > ul");
+        const childCard = child.querySelector(":scope > .ot-card");
+        if(childUl){
+          childUl.classList.remove("ot-collapsed");
+          if(childCard) childCard.classList.add("ot-expanded");
+        }
+        next.push(child);
+      });
+    });
+    current = next;
+  }
+  setTimeout(updateConnectors, 50);
+}
+
+// ════════════════════════════════════════════════════════════
+// BESTUURSENTRUM API — Live data van Google Sheet
+// 6-uur kas (selfde patroon as Oostagri PO)
+// Sheet-data vervang hardcoded data direk — geen samesmelt
+// ════════════════════════════════════════════════════════════
+
+const BS_API  = 'https://script.google.com/macros/s/AKfycbyg98_7iL163zv_V5n-Axs6A71VFgy1JcT5vqdn75-SFdNdgeBuh7YyEp-YqpAJIcWe7w/exec';
+const BS_KEY  = 'bs_data_v1';
+const BS_TTL  = 6 * 60 * 60 * 1000; // 6 uur
+
+function bsLeesKas() {
+  try {
+    const r = JSON.parse(localStorage.getItem(BS_KEY) || 'null');
+    if (!r || Date.now() - r.ts > BS_TTL) return null;
+    return r.data;
+  } catch { return null; }
+}
+function bsSkryfKas(data) {
+  try { localStorage.setItem(BS_KEY, JSON.stringify({ ts: Date.now(), data })); } catch {}
+}
+
+// ── Vertaal Sheet-velde na die formaat wat die grids verwag ──
+function sheetNaImpl(s) {
+  // Sheet: {id, naam, klassifikasie, afdeling, plaas, verantwoordelike}
+  return { code: s.id || '', name: s.naam, classification: s.klassifikasie,
+           afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike };
+}
+function sheetNaTrek(s) {
+  // Sheet: {id, naam, klassifikasie, afdeling, plaas, verantwoordelike}
+  return { code: s.id || '', name: s.naam, klassifikasie: s.klassifikasie,
+           afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike,
+           hours_str: '—', kw_str: '—', jaar: '—', aankoop: '—', hours: 0 };
+}
+function sheetNaVoert(s) {
+  // Sheet: {id, naam, klas, afdeling, plaas, verantwoordelike}
+  return { code: s.id || '', name: s.naam, klas: s.klas,
+           afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike,
+           km_str: '—', repair_str: '—', jaar: '—', aankoop: '—', km: 0, repair: 0 };
+}
+
+function pasToeData(data) {
+  if (data.equipment?.length)
+    EQ_DATA.splice(0, EQ_DATA.length, ...data.equipment.map(sheetNaImpl));
+  if (data.tractors?.length)
+    TRAC_DATA.splice(0, TRAC_DATA.length, ...data.tractors.map(sheetNaTrek));
+  if (data.vehicles?.length)
+    VEH_DATA.splice(0, VEH_DATA.length, ...data.vehicles.map(sheetNaVoert));
+
+  // Herbou aktiewe Bates-tab
+  const t = document.querySelector('.bates-tab.active')?.id?.replace('tab-','');
+  if (t === 'equipment') buildEquipmentGrid(EQ_DATA);
+  else if (t === 'tractors') buildTractorGrid(TRAC_DATA);
+  else if (t === 'vehicles') buildVehicleGrid(VEH_DATA);
+
+  // Dateer werknemertel op
+  if (data.employees?.length) {
+    const w = data.employees.filter(e => e.tipe !== 'Kontrakteur').length;
+    const el = document.getElementById('stat-werknemers');
+    if (el) el.textContent = w;
+  }
+
+  bsToonStatus(data.timestamp, false);
+}
+
+function bsToonStatus(ts, offline) {
+  const el = document.getElementById('data-status');
+  if (!el) return;
+  if (offline) {
+    el.textContent = '⚠ Offline'; el.style.color='#f59e0b';
+  } else {
+    const tyd = new Date(ts||Date.now()).toLocaleTimeString('af-ZA',{hour:'2-digit',minute:'2-digit'});
+    el.textContent = '✓ Live ' + tyd; el.style.color='#4ade80';
+  }
+}
+
+async function laaiLiveData(forseer = false) {
+  if (!forseer) {
+    const kas = bsLeesKas();
+    if (kas) { pasToeData(kas); return; }
+  }
+  try {
+    const res  = await fetch(BS_API + '?action=getAllData');
+    const json = await res.json();
+    if (json.success) { bsSkryfKas(json); pasToeData(json); }
+    else throw new Error(json.error);
+  } catch { bsToonStatus(null, true); }
+}
+
+function verfrisData() {
+  const el = document.getElementById('data-status');
+  if (el) { el.textContent='⟳ Laai...'; el.style.color='#94a3b8'; }
+  laaiLiveData(true);
+}
+
+// ════════════════════════════════════════════════════════════
+
+function initCollapsibleTree(){
+  // Find all li's with both a card and a child ul
+  // Mark worker/contract li's for compact spacing
+  document.querySelectorAll(".ot-root li").forEach(li => {
+    const card = li.querySelector(":scope > .ot-card");
+    if(card && card.classList.contains("ot-worker")) li.classList.add("ot-li-worker");
+    if(card && card.classList.contains("ot-contract")) li.classList.add("ot-li-contract");
+  });
+  document.querySelectorAll(".ot-root li").forEach(li => {
+    const childUl = li.querySelector(":scope > ul");
+    const card = li.querySelector(":scope > .ot-card");
+    if(!childUl || !card) return;
+
+    // Collapse by default (except root company card)
+    if(!card.classList.contains("ot-company")){
+      childUl.classList.add("ot-collapsed");
+    }
+
+    // Count direct children
+    const childCount = childUl.querySelectorAll(":scope > li").length;
+
+    // Add expand button to card
+    card.classList.add("ot-expandable");
+    const btn = document.createElement("div");
+    btn.className = "ot-expand-btn";
+    btn.innerHTML = `<span class="ot-expand-arrow">▾</span> <span class="ot-expand-count">${childCount} persone</span>`;
+    card.appendChild(btn);
+
+    // Click handler
+    card.addEventListener("click", e => {
+      e.stopPropagation();
+      const isOpen = !childUl.classList.contains("ot-collapsed");
+      if(isOpen){
+        // Collapse this and all descendants
+        collapseAll(childUl);
+        childUl.classList.add("ot-collapsed");
+        card.classList.remove("ot-expanded");
+      } else {
+        childUl.classList.remove("ot-collapsed");
+        card.classList.add("ot-expanded");
+      }
+      setTimeout(updateConnectors, 50);
+    });
+  });
+
+  // Auto-expand company (root) and show directors
+  const companyCard = document.querySelector(".ot-company");
+  if(companyCard){
+    const li = companyCard.closest("li");
+    const childUl = li?.querySelector(":scope > ul");
+    if(childUl){ childUl.classList.remove("ot-collapsed"); companyCard.classList.add("ot-expanded"); }
+  }
+
+  updateConnectors();
+}
+
+function collapseAll(ul){
+  ul.querySelectorAll("ul").forEach(u => u.classList.add("ot-collapsed"));
+  ul.querySelectorAll(".ot-card").forEach(c => c.classList.remove("ot-expanded"));
+}
+
+function expandToLevel(level){
+  let current = [document.querySelector(".ot-root > ul > li")];
+  // First collapse all
+  const rootUl = document.querySelector(".ot-root > ul > li > ul");
+  if(rootUl){ collapseAll(rootUl); rootUl.classList.remove("ot-collapsed"); }
+  const rootCard = document.querySelector(".ot-root > ul > li > .ot-card");
+  if(rootCard) rootCard.classList.add("ot-expanded");
+  // Then expand to desired level
+  for(let d=0; d<level; d++){
+    const next = [];
+    current.forEach(li=>{
+      const ul = li.querySelector(":scope > ul");
+      const card = li.querySelector(":scope > .ot-card");
+      if(ul){ ul.classList.remove("ot-collapsed"); if(card) card.classList.add("ot-expanded"); }
+      (ul?.querySelectorAll(":scope > li") || []).forEach(c=>next.push(c));
+    });
+    current = next;
+  }
+  // Update active button
+  const btnMap = {2:"btn-bestuur",4:"btn-toesig",9:"btn-almal"};
+  document.querySelectorAll("[id^='btn-']").forEach(b=>b.classList.remove("active"));
+  const active = document.getElementById(btnMap[level]);
+  if(active) active.classList.add("active");
+  setTimeout(updateConnectors,50);
+}
+
+// ── INIT ────────────────────────────────────────────────
+showPage("home");
+laaiLiveData(); // Agtergrond — nie-blokkerend
+</script>
+</body>
+</html>
