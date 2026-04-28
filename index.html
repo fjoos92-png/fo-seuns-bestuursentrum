@@ -394,18 +394,23 @@ body { width: 100%; }
   .ad-dash { padding: 16px 14px 28px; }
   .ad-dd-list { padding: 14px 14px 24px; }
   .ad-breadcrumb { padding: 12px 14px 10px; }
+  .ad-bc-back, .ad-bc-item, .ad-bc-current { padding: 9px 12px; min-height: 40px; display: inline-flex; align-items: center; }
   .ad-stat-n { font-size: 26px; }
   .bates-search-input, .bates-search-input:focus { width: 100%; }
   .bates-search-wrap { width: 100%; grid-column: 1 / -1; }
   .bates-toolbar-main { padding: 10px 14px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 6px; align-items: center; }
-  .bates-toolbar-main .bates-select { width: 100%; min-width: 0; max-width: 100%; padding: 6px 6px; font-size: 11px; }
-  .bates-reset-btn { width: 34px; height: 32px; }
+  .bates-toolbar-main .bates-select { width: 100%; min-width: 0; max-width: 100%; padding: 10px 8px; font-size: 12px; min-height: 42px; }
+  .bates-reset-btn { width: 42px; height: 42px; }
+  .bates-back-btn { padding: 10px 14px; min-height: 44px; font-size: 13px; }
   .bates-person-bar { padding: 6px 14px 10px; }
   .bates-nav { padding: 0 10px; }
-  .bates-tab { padding: 10px 14px; font-size: 12px; }
+  .bates-tab { padding: 14px 16px; font-size: 13px; min-height: 48px; }
+  .ad-dd-subhdr { padding: 13px 14px; min-height: 46px; }
+  .ad-cta-btn { min-height: 48px; padding: 14px 24px; }
+  .module-arrow { font-size: 18px; }
   .eq-toolbar, .vreg-toolbar, .trac-toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
   .eq-filters, .vreg-filters, .trac-filters { width: 100%; }
-  .eq-filters select, .vreg-filters select, .trac-filters select { flex: 1; min-width: 130px; }
+  .eq-filters select, .vreg-filters select, .trac-filters select { flex: 1; min-width: 130px; min-height: 42px; }
 }
 
 /* ── RESET & BASE ── */
@@ -1023,9 +1028,9 @@ const PAGES = {
             <span class="bates-search-icon">&#128269;</span>
             <input class="bates-search-input" id="eqSearch" type="text" placeholder="Soek implement of kode..." oninput="filterEquipment()" autocomplete="off">
           </div>
-          <select id="fClass" class="bates-select" onchange="filterEquipment()"><option value="">Alle Klassifikasies</option><option>Baler</option><option>Bossiekapper</option><option>Dieselkar</option><option>Generator</option><option>Lusernhark</option><option>Menger</option><option>Milktaxi</option><option>Planter</option><option>Ploeg/hak</option><option>Snytafel</option><option>Spuit</option><option>Strooier</option><option>Topper</option><option>Trailer</option><option>Vangwa</option><option>Waterkar</option><option>Wrapper</option></select>
-          <select id="fAfd" class="bates-select" onchange="filterEquipment()"><option value="">Alle Afdelings</option></select>
-          <select id="fVerant" class="bates-select" onchange="filterEquipment()"><option value="">Alle Verantwoordelikes</option></select>
+          <select id="fClass" class="bates-select" onchange="filterEquipment()" aria-label="Filter volgens klassifikasie"><option value="">Alle Klassifikasies</option><option>Baler</option><option>Bossiekapper</option><option>Dieselkar</option><option>Generator</option><option>Lusernhark</option><option>Menger</option><option>Milktaxi</option><option>Planter</option><option>Ploeg/hak</option><option>Snytafel</option><option>Spuit</option><option>Strooier</option><option>Topper</option><option>Trailer</option><option>Vangwa</option><option>Waterkar</option><option>Wrapper</option></select>
+          <select id="fAfd" class="bates-select" onchange="filterEquipment()" aria-label="Filter volgens afdeling"><option value="">Alle Afdelings</option></select>
+          <select id="fVerant" class="bates-select" onchange="filterEquipment()" aria-label="Filter volgens verantwoordelike"><option value="">Alle Verantwoordelikes</option></select>
           <button class="bates-reset-btn" onclick="resetFilters()" title="Stel terug" aria-label="Stel terug">&#10006;</button>
         </div>
         <div class="tab-summary-bar" id="eqStats"></div>
@@ -1045,9 +1050,9 @@ const PAGES = {
             <span class="bates-search-icon">&#128269;</span>
             <input class="bates-search-input" id="tracSearch" type="text" placeholder="Soek trekker of kode..." oninput="filterTractors()" autocomplete="off">
           </div>
-          <select id="tfKlas" class="bates-select" onchange="filterTractors()"><option value="">Alle Klassifikasies</option><option>Digger</option><option>Kerwer</option><option>Lorrie</option><option>Macdon</option><option>Parsmasjien</option><option>Selflooperspuit</option><option>Trekker</option><option>Trekker &lt;90kw</option><option>Virk trekker</option></select>
-          <select id="tfAfd" class="bates-select" onchange="filterTractors()"><option value="">Alle Afdelings</option></select>
-          <select id="tfVerant" class="bates-select" onchange="filterTractors()"><option value="">Alle Verantwoordelikes</option></select>
+          <select id="tfKlas" class="bates-select" onchange="filterTractors()" aria-label="Filter volgens klassifikasie"><option value="">Alle Klassifikasies</option><option>Digger</option><option>Kerwer</option><option>Lorrie</option><option>Macdon</option><option>Parsmasjien</option><option>Selflooperspuit</option><option>Trekker</option><option>Trekker &lt;90kw</option><option>Virk trekker</option></select>
+          <select id="tfAfd" class="bates-select" onchange="filterTractors()" aria-label="Filter volgens afdeling"><option value="">Alle Afdelings</option></select>
+          <select id="tfVerant" class="bates-select" onchange="filterTractors()" aria-label="Filter volgens verantwoordelike"><option value="">Alle Verantwoordelikes</option></select>
           <button class="bates-reset-btn" onclick="resetTracFilters()" title="Stel terug" aria-label="Stel terug">&#10006;</button>
         </div>
         <div class="tab-summary-bar" id="tracStats"></div>
@@ -1067,9 +1072,9 @@ const PAGES = {
             <span class="bates-search-icon">&#128269;</span>
             <input class="bates-search-input" id="vehSearch" type="text" placeholder="Soek voertuig of kode..." oninput="filterVehicles()" autocomplete="off">
           </div>
-          <select id="vfKlas" class="bates-select" onchange="filterVehicles()"><option value="">Alle Klasse</option></select>
-          <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()"><option value="">Alle Afdelings</option></select>
-          <select id="vfVerant" class="bates-select" onchange="filterVehicles()"><option value="">Alle Verantwoordelikes</option></select>
+          <select id="vfKlas" class="bates-select" onchange="filterVehicles()" aria-label="Filter volgens klas"><option value="">Alle Klasse</option></select>
+          <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()" aria-label="Filter volgens afdeling"><option value="">Alle Afdelings</option></select>
+          <select id="vfVerant" class="bates-select" onchange="filterVehicles()" aria-label="Filter volgens verantwoordelike"><option value="">Alle Verantwoordelikes</option></select>
           <button class="bates-reset-btn" onclick="resetVehFilters()" title="Stel terug" aria-label="Stel terug">&#10006;</button>
         </div>
         <div class="tab-summary-bar" id="vehStats"></div>
@@ -2014,6 +2019,10 @@ function showBatesCat(cat){
   ["equipment","tractors","vehicles"].forEach(t => {
     const el = document.getElementById("bates-"+t);
     if(el) el.style.display = t===cat ? "block" : "none";
+  });
+  // Maak filters skoon per oortjie sodat oorblywende filters nie 'n leë blad veroorsaak nie
+  ["fClass","fAfd","fVerant","eqSearch","tfKlas","tfAfd","tfVerant","tracSearch","vfKlas","vfAfdeling","vfVerant","vehSearch"].forEach(id=>{
+    const el = document.getElementById(id); if(el) el.value = "";
   });
   window.scrollTo(0, 0);
   if(cat==="equipment") buildEquipmentGrid(EQ_DATA);
