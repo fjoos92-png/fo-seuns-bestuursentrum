@@ -1857,7 +1857,8 @@ function herbouTracDropdowns(){
 
 function herbouVehDropdowns(){
   const klasOrdre = ['A+','A','B','C','D'];
-  const klasse = klasOrdre.filter(k => VEH_DATA.some(v => v.klas === k));
+  const alleKlas = [...new Set(VEH_DATA.map(v=>v.klas).filter(Boolean))];
+  const klasse = klasOrdre.filter(k=>alleKlas.includes(k)).concat(alleKlas.filter(k=>!klasOrdre.includes(k)).sort());
   const afd = [...new Set(VEH_DATA.map(v=>v.afdeling).filter(Boolean))].sort();
   const ver = [...new Set(VEH_DATA.map(v=>v.verantwoordelike).filter(Boolean))].sort();
   herbouDropdown('vfKlas', klasse, 'Alle Klasse');
@@ -2019,7 +2020,7 @@ function filterVehicles(){
     const name=card.querySelector(".veh-card-name")?.textContent.toLowerCase()||"";
     const code=card.querySelector(".veh-card-code")?.textContent.toLowerCase()||"";
     const show=(!afd||card.dataset.afdeling===afd)
-            &&(!klas||card.dataset.klas===klas)
+            &&(!klas||(card.dataset.klas||'').replace(/\s+/g,'').toUpperCase()===klas.replace(/\s+/g,'').toUpperCase())
             &&(!ver||card.dataset.verant===ver)
             &&(!q||name.includes(q)||code.includes(q));
     card.classList.toggle("hidden",!show);
@@ -2539,7 +2540,7 @@ function sheetNaVoert(s) {
   return {
     code: s.id || '',
     name: s.naam,
-    klas: String(s.klas || '').trim(),
+    klas: String(s.klas || '').replace(/\s+/g,'').toUpperCase() || '',
     afdeling: s.afdeling,
     plaas: s.plaas,
     verantwoordelike: s.verantwoordelike,
