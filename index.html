@@ -229,45 +229,94 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
 .bates-empty-btn:hover{background:#1e40af;border-color:#1e40af}
 
 /* ══════════════════════════════════════════════════════
-   ARBEID CARD GRID (API-gedrewe)
+   ARBEID — DASHBOARD + DRILL-DOWN
 ══════════════════════════════════════════════════════ */
-.aw-grid-wrap{background:#f5f2eb;min-height:300px}
-.aw-section{border-bottom:1px solid #e0dbd0}
-.aw-section-hdr{display:flex;align-items:center;gap:10px;padding:11px 28px;background:#fff;cursor:pointer;user-select:none;transition:background .15s}
-.aw-section-hdr:hover{background:#f8f6f0}
-.aw-section-chevron{font-size:10px;color:#6b7280;width:12px;flex-shrink:0;transition:transform .2s}
-.aw-section-title{font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.08em}
-.aw-section-count{font-size:11px;color:#9ca3af;background:#f1f5f9;border:1px solid #e0dbd0;padding:2px 8px;border-radius:10px}
-.aw-section-line{flex:1;height:1px;background:#e0dbd0}
-.aw-cards{display:flex;flex-wrap:wrap;gap:10px;padding:14px 28px 18px}
-.aw-card{background:#fff;border-radius:10px;border:1px solid #e0dbd0;border-left:4px solid #94a3b8;padding:13px 15px;min-width:195px;max-width:260px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:box-shadow .15s,transform .1s}
-.aw-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-2px)}
-.aw-card-name{font-size:13px;font-weight:700;color:#1a1a1a;line-height:1.3;margin-bottom:4px}
-.aw-card-pos{font-size:11px;color:#374151;line-height:1.4;margin-bottom:6px}
-.aw-card-meta{font-size:10px;color:#6b7280;margin-bottom:7px}
-.aw-card-footer{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:5px}
-.aw-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;background:#f1f5f9;color:#374151;border:1px solid #e0dbd0}
-.aw-vlak-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px}
-.aw-raporteer{font-size:10px;color:#9ca3af;margin-top:4px}
-.aw-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;gap:14px;text-align:center;background:#f5f2eb;min-height:300px}
-.aw-empty-icon{font-size:42px;opacity:.4}
-.aw-empty-msg{font-size:14px;font-weight:600;color:#6b7280}
-.aw-retry-btn{padding:8px 18px;border-radius:6px;border:1px solid #14532d;background:#14532d;color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
-.aw-retry-btn:hover{background:#166534}
+.arbeid-view{background:#f5f2eb;min-height:400px;position:relative;overflow:hidden}
+
+/* slide animasies */
+@keyframes ad-slide-in-right{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes ad-slide-in-left{from{transform:translateX(-40px);opacity:0}to{transform:translateX(0);opacity:1}}
+.ad-slide-right{animation:ad-slide-in-right .25s ease}
+.ad-slide-left{animation:ad-slide-in-left .25s ease}
+
+/* DASHBOARD */
+.ad-dash{padding:20px 28px 32px}
+.ad-section{margin-bottom:26px}
+.ad-section-title{font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;padding-left:2px}
+
+.ad-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.ad-stat-card{background:#fff;border:1px solid #e0dbd0;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.ad-stat-n{font-family:"Playfair Display",serif;font-size:32px;font-weight:700;color:#0d2818;line-height:1;letter-spacing:-.02em}
+.ad-stat-l{font-size:10px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.06em}
+
+.ad-bar-list{background:#fff;border:1px solid #e0dbd0;border-radius:12px;padding:6px 0;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.ad-bar-row{padding:11px 16px;border-bottom:1px solid #f0ece6}
+.ad-bar-row:last-child{border-bottom:none}
+.ad-bar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;gap:8px}
+.ad-bar-label{font-size:13px;font-weight:600;color:#1a1a1a}
+.ad-bar-n{font-size:13px;font-weight:700;color:#374151;font-variant-numeric:tabular-nums}
+.ad-bar-track{height:6px;background:#f1ede5;border-radius:4px;overflow:hidden}
+.ad-bar-fill{height:100%;border-radius:4px;transition:width .4s ease}
+
+.ad-cta-wrap{margin-top:18px;display:flex;justify-content:center}
+.ad-cta-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:8px;border:none;background:#14532d;color:#fff;font-family:"DM Sans",sans-serif;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(20,83,45,.25);transition:all .15s}
+.ad-cta-btn:hover{background:#166534;transform:translateY(-1px);box-shadow:0 4px 12px rgba(20,83,45,.3)}
+
+/* SKELETT LAAIER */
+.ad-skel{background:linear-gradient(90deg,#ece8df 0%,#f5f2eb 50%,#ece8df 100%);background-size:200% 100%;animation:ad-skel-shimmer 1.5s infinite;border-radius:6px}
+@keyframes ad-skel-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.ad-skel-stat{height:74px;border-radius:12px}
+.ad-skel-bar{height:46px;border-radius:8px;margin-bottom:6px}
+
+/* DRILL-DOWN */
+.ad-dd{padding:0 0 32px}
+.ad-breadcrumb{padding:14px 28px 10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;background:#fff;border-bottom:1px solid #e0dbd0;position:sticky;top:50px;z-index:5}
+.ad-bc-item{color:#15803d;cursor:pointer;font-weight:600;padding:3px 7px;border-radius:6px;transition:background .15s}
+.ad-bc-item:hover{background:#f0f5ee}
+.ad-bc-current{color:#1a1a1a;font-weight:700;padding:3px 7px}
+.ad-bc-sep{color:#9ca3af;font-size:11px}
+.ad-bc-back{display:inline-flex;align-items:center;gap:4px;color:#15803d;background:transparent;border:none;cursor:pointer;font-size:13px;font-weight:600;padding:3px 7px;border-radius:6px;font-family:"DM Sans",sans-serif}
+.ad-bc-back:hover{background:#f0f5ee}
+
+.ad-dd-list{padding:18px 28px}
+.ad-dd-group{margin-bottom:22px}
+.ad-dd-group-hdr{font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ad-dd-group-count{background:#e0dbd0;color:#374151;font-size:10px;font-weight:600;padding:1px 7px;border-radius:9px;letter-spacing:0;text-transform:none}
+
+.ad-dd-cards{display:flex;flex-direction:column;gap:8px}
+.ad-card{background:#fff;border:1px solid #e0dbd0;border-radius:10px;border-left:3px solid #94a3b8;padding:13px 14px 13px 14px;display:flex;align-items:flex-start;gap:11px;cursor:pointer;transition:all .15s;position:relative}
+.ad-card.ad-card-leaf{cursor:default}
+.ad-card:not(.ad-card-leaf):hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-1px);border-color:#cfc8b8}
+.ad-card-body{flex:1;min-width:0}
+.ad-card-name{font-size:14px;font-weight:700;color:#1a1a1a;line-height:1.25;margin-bottom:2px}
+.ad-card-pos{font-size:12px;color:#374151;line-height:1.35;margin-bottom:4px}
+.ad-card-meta{font-size:11px;color:#6b7280}
+.ad-card-reports{font-size:11px;color:#15803d;font-weight:600;margin-top:6px;display:flex;align-items:center;gap:4px}
+.ad-card-arrow{color:#9ca3af;font-size:18px;align-self:center;flex-shrink:0;font-weight:300}
+.ad-init{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;letter-spacing:.02em}
+.ad-kbadge{position:absolute;top:8px;right:10px;background:#fb923c;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:9px;text-transform:uppercase;letter-spacing:.05em}
+
+/* afdeling-kleure */
+.ad-afd-Suiwel{border-left-color:#1d4ed8}
+.ad-afd-Saai{border-left-color:#0f6e56}
+.ad-afd-Wingerd{border-left-color:#7c3aed}
+.ad-afd-Admin{border-left-color:#888780}
+
+.ad-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;gap:14px;text-align:center;background:#f5f2eb;min-height:300px;cursor:pointer}
+.ad-empty-icon{font-size:42px;opacity:.4}
+.ad-empty-msg{font-size:14px;font-weight:600;color:#6b7280}
+.ad-retry-btn{padding:8px 18px;border-radius:6px;border:1px solid #14532d;background:#14532d;color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.ad-retry-btn:hover{background:#166534}
 
 /* ── EXTRA MOBILE TWEAKS ── */
 @media (max-width: 768px) {
   .arbeid-hdr { padding: 16px 18px; }
   .arbeid-hdr-top { gap: 12px; }
   .arbeid-hdr h2 { font-size: 18px; }
-  .arbeid-stats { gap: 14px; width: 100%; justify-content: space-between; }
-  .arbeid-stat { text-align: center; min-width: 0; flex: 1; }
-  .arbeid-stat-n { font-size: 18px; }
-  .arbeid-stat-l { font-size: 9px; }
-  .ot-toolbar { padding: 10px 14px; flex-direction: column; align-items: stretch; }
-  .ot-toolbar-divider, .ot-toolbar-spacer { display: none; }
-  .ot-toolbar-group { justify-content: flex-start; }
-  .ot-toolbar-label { width: 100%; margin-bottom: 2px; }
+  .ad-dash { padding: 16px 14px 28px; }
+  .ad-dd-list { padding: 14px 14px 24px; }
+  .ad-breadcrumb { padding: 12px 14px 10px; }
+  .ad-stat-n { font-size: 26px; }
   .bates-search-input, .bates-search-input:focus { width: 100%; }
   .bates-search-wrap { width: 100%; }
   .bates-toolbar-main { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 8px; }
@@ -277,8 +326,6 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
   .eq-toolbar, .vreg-toolbar, .trac-toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
   .eq-filters, .vreg-filters, .trac-filters { width: 100%; }
   .eq-filters select, .vreg-filters select, .trac-filters select { flex: 1; min-width: 130px; }
-  .aw-cards { padding: 12px 14px 16px; }
-  .aw-section-hdr { padding: 10px 14px; }
 }
 
 /* ── RESET & BASE ── */
@@ -817,36 +864,10 @@ const PAGES = {
     <div class="arbeid-hdr">
       <div class="arbeid-hdr-top">
         <div><h2>Arbeid</h2><p>Frikkie Oosthuizen &amp; Seuns (Edms) Bpk</p></div>
-        <div class="arbeid-stats" id="arbeidStats"></div>
       </div>
     </div>
-
-    <div class="ot-toolbar">
-      <div class="ot-toolbar-group">
-        <span class="ot-toolbar-label">Vlak</span>
-        <button class="ot-filter-btn active" id="abtn-vlak-all"    onclick="setArbeidVlak('',this)">Almal</button>
-        <button class="ot-filter-btn"         id="abtn-vlak-1"     onclick="setArbeidVlak('Vlak 1',this)">Direksie</button>
-        <button class="ot-filter-btn"         id="abtn-vlak-2"     onclick="setArbeidVlak('Vlak 2',this)">Bestuur</button>
-        <button class="ot-filter-btn"         id="abtn-vlak-3"     onclick="setArbeidVlak('Vlak 3',this)">Toesighouers</button>
-      </div>
-      <div class="ot-toolbar-divider"></div>
-      <div class="ot-toolbar-group">
-        <span class="ot-toolbar-label">Afdeling</span>
-        <button class="ot-afd-btn active" id="abtn-afd-all"      onclick="setArbeidAfd('',this)">Alle</button>
-        <button class="ot-afd-btn"         id="abtn-afd-suiwel"  onclick="setArbeidAfd('Suiwel',this)">🐄 Suiwel</button>
-        <button class="ot-afd-btn"         id="abtn-afd-saai"    onclick="setArbeidAfd('Saai',this)">🌾 Saai</button>
-        <button class="ot-afd-btn"         id="abtn-afd-wingerd" onclick="setArbeidAfd('Wingerd',this)">🍇 Wingerd</button>
-        <button class="ot-afd-btn"         id="abtn-afd-admin"   onclick="setArbeidAfd('Admin',this)">💼 Admin</button>
-      </div>
-      <div class="ot-toolbar-divider"></div>
-      <div class="ot-toolbar-group">
-        <span class="ot-toolbar-label">Tipe</span>
-        <button class="ot-afd-btn active" id="abtn-tipe-all"          onclick="setArbeidTipe('',this)">Almal</button>
-        <button class="ot-afd-btn"         id="abtn-tipe-werknemer"   onclick="setArbeidTipe('Werknemer',this)">Werknemers</button>
-        <button class="ot-afd-btn"         id="abtn-tipe-kontrakteur" onclick="setArbeidTipe('Kontrakteur',this)">Kontrakteurs</button>
-      </div>
-    </div>
-    <div id="arbeid-grid-wrap" class="aw-grid-wrap"></div>
+    <div id="arbeid-dashboard-view" class="arbeid-view"></div>
+    <div id="arbeid-drilldown-view" class="arbeid-view" style="display:none"></div>
   `,
 
   bates: `
@@ -1082,130 +1103,331 @@ window.addEventListener("resize",()=>{ if(document.getElementById("svgLines")) s
 
 
 // ════════════════════════════════════════════════════════════
-// ARBEID MODULE — API-gedrewe kaartjiesrooster
+// ARBEID MODULE — Dashboard + drill-down navigasie
 // ════════════════════════════════════════════════════════════
 let ARBEID_DATA = [];
-let arbeidVlak = '', arbeidAfd = '', arbeidTipe = '';
+let arbeidPath = [];          // stapel van naam-stringe vir drill-down
+let arbeidViewMode = 'dash';  // 'dash' of 'drill'
+let arbeidSoekActief = false;
 
-const VLAK_COLORS = {
-  'Vlak 1':'#2d1b69','Vlak 2':'#14532d','Vlak 3':'#1e3a5f','Vlak 5':'#6b7280'
+const AFD_COLORS = {
+  'Suiwel':'#1d4ed8','Saai':'#0f6e56','Wingerd':'#7c3aed','Admin':'#888780'
 };
 const VLAK_LABELS = {
-  'Vlak 1':'Direksie','Vlak 2':'Bestuur','Vlak 3':'Toesighouers','Vlak 5':'Werker'
+  'Vlak 1':'Direksie','Vlak 2':'Hoof bestuur','Vlak 3':'Sub bestuurder','Vlak 5':'Werker'
 };
+const DRILL_GROUP_LABELS = {
+  'Vlak 2':'Bestuur','Vlak 3':'Toesighouers','Vlak 5':'Werkers'
+};
+const DRILL_GROUP_ORDER = ['Vlak 2','Vlak 3','Kontrakteurs','Vlak 5'];
 
-function setArbeidVlak(vlak, btn){
-  arbeidVlak = vlak;
-  document.querySelectorAll("[id^='abtn-vlak-']").forEach(b=>b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
-  filterArbeidGrid();
-}
-function setArbeidAfd(afd, btn){
-  arbeidAfd = afd;
-  document.querySelectorAll("[id^='abtn-afd-']").forEach(b=>b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
-  filterArbeidGrid();
-}
-function setArbeidTipe(tipe, btn){
-  arbeidTipe = tipe;
-  document.querySelectorAll("[id^='abtn-tipe-']").forEach(b=>b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
-  filterArbeidGrid();
+function ad_init(naam){
+  if(!naam) return '—';
+  const parts = naam.trim().split(/\s+/);
+  if(parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
 }
 
-function filterArbeidGrid(){
-  if(!ARBEID_DATA.length) return;
-  const filtered = ARBEID_DATA.filter(e => {
-    if(arbeidVlak && e.vlak     !== arbeidVlak) return false;
-    if(arbeidAfd  && e.afdeling !== arbeidAfd)  return false;
-    if(arbeidTipe && e.tipe     !== arbeidTipe) return false;
-    return true;
-  });
-  renderArbeidCards(filtered);
+function ad_afdColor(afd){ return AFD_COLORS[afd] || '#94a3b8'; }
+
+function ad_directReports(naam){
+  return ARBEID_DATA.filter(e => e.raporteerAan === naam);
 }
 
-function renderArbeidCards(employees){
-  const wrap = document.getElementById("arbeid-grid-wrap");
-  if(!wrap) return;
-  if(!employees.length){
-    wrap.innerHTML = `<div class="aw-empty"><div class="aw-empty-icon">&#128101;</div><div class="aw-empty-msg">Geen werknemers pas by hierdie filters nie</div></div>`;
+// ── DASHBOARD ──────────────────────────────────────────
+function renderArbeidDashboard(){
+  const view = document.getElementById('arbeid-dashboard-view');
+  if(!view) return;
+
+  if(!ARBEID_DATA.length){
+    view.innerHTML = `<div class="ad-empty" onclick="verfrisData()">
+      <div class="ad-empty-icon">&#128225;</div>
+      <div class="ad-empty-msg">Geen data beskikbaar — klik om te verfris</div>
+      <button class="ad-retry-btn" onclick="event.stopPropagation();verfrisData()">&#8635; Verfris</button>
+    </div>`;
     return;
   }
-  const groups = {};
-  employees.forEach(e => {
-    const grp = e.groepindeling || 'Ander';
-    if(!groups[grp]) groups[grp] = [];
-    groups[grp].push(e);
+
+  const data = ARBEID_DATA;
+  const w = data.filter(e => e.tipe === 'Werknemer').length;
+  const k = data.filter(e => e.tipe === 'Kontrakteur').length;
+  const plase = [...new Set(data.map(e => e.plaas).filter(Boolean))];
+  const vlakke = [...new Set(data.map(e => e.vlak).filter(Boolean))];
+
+  const tellings = (sleutel) => {
+    const m = {};
+    data.forEach(e => {
+      const v = e[sleutel] || '—';
+      m[v] = (m[v] || 0) + 1;
+    });
+    return Object.entries(m).sort((a,b) => b[1] - a[1]);
+  };
+
+  const afdData = tellings('afdeling');
+  const plaasData = tellings('plaas');
+
+  const vlakMap = {};
+  data.forEach(e => {
+    const v = e.vlak || '—';
+    vlakMap[v] = (vlakMap[v] || 0) + 1;
   });
-  const sorted = Object.keys(groups).sort();
-  wrap.innerHTML = sorted.map(grp => {
-    const items = groups[grp];
-    const cards = items.map(e => {
-      const col = VLAK_COLORS[e.vlak] || '#6b7280';
-      const lbl = VLAK_LABELS[e.vlak] || e.vlak || '';
-      return `<div class="aw-card" style="border-left-color:${col}">
-        <div class="aw-card-name">${e.naam||'—'}</div>
-        <div class="aw-card-pos">${e.posbeskrywing||''}</div>
-        <div class="aw-card-meta">${[e.afdeling,e.plaas].filter(Boolean).join(' · ')}</div>
-        <div class="aw-card-footer">
-          ${e.groepindeling?`<span class="aw-badge">${e.groepindeling}</span>`:''}
-          ${lbl?`<span class="aw-vlak-badge" style="background:${col}18;color:${col}">${lbl}</span>`:''}
-        </div>
-        ${e.raporteerAan?`<div class="aw-raporteer">&#8593; ${e.raporteerAan}</div>`:''}
+  const vlakOrder = ['Vlak 1','Vlak 2','Vlak 3','Vlak 4','Vlak 5'];
+  const vlakData = vlakOrder.filter(v => vlakMap[v]).map(v => [VLAK_LABELS[v] || v, vlakMap[v], v]);
+  Object.keys(vlakMap).filter(v => !vlakOrder.includes(v)).forEach(v => vlakData.push([v, vlakMap[v], v]));
+
+  const maxAfd = Math.max(...afdData.map(d => d[1]), 1);
+  const maxPlaas = Math.max(...plaasData.map(d => d[1]), 1);
+  const maxVlak = Math.max(...vlakData.map(d => d[1]), 1);
+
+  const balkBlok = (rye, kleurFn, maks) => `
+    <div class="ad-bar-list">
+      ${rye.map(([naam, n, raw]) => {
+        const kleur = kleurFn(raw || naam);
+        const pct = Math.max(2, (n / maks) * 100);
+        return `<div class="ad-bar-row">
+          <div class="ad-bar-top">
+            <span class="ad-bar-label">${naam}</span>
+            <span class="ad-bar-n">${n}</span>
+          </div>
+          <div class="ad-bar-track"><div class="ad-bar-fill" style="width:${pct}%;background:${kleur}"></div></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  view.innerHTML = `<div class="ad-dash ad-slide-left">
+    <div class="ad-section">
+      <div class="ad-stat-grid">
+        <div class="ad-stat-card"><div class="ad-stat-n">${w}</div><div class="ad-stat-l">Werknemers</div></div>
+        <div class="ad-stat-card"><div class="ad-stat-n">${k}</div><div class="ad-stat-l">Kontrakteurs</div></div>
+        <div class="ad-stat-card"><div class="ad-stat-n">${plase.length}</div><div class="ad-stat-l">Plase aktief</div></div>
+        <div class="ad-stat-card"><div class="ad-stat-n">${vlakke.length}</div><div class="ad-stat-l">Vlakke</div></div>
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="ad-section-title">Per Afdeling</div>
+      ${balkBlok(afdData, ad_afdColor, maxAfd)}
+    </div>
+    <div class="ad-section">
+      <div class="ad-section-title">Per Plaas</div>
+      ${balkBlok(plaasData, () => '#475569', maxPlaas)}
+    </div>
+    <div class="ad-section">
+      <div class="ad-section-title">Per Vlak</div>
+      ${balkBlok(vlakData, () => '#14532d', maxVlak)}
+    </div>
+    <div class="ad-cta-wrap">
+      <button class="ad-cta-btn" onclick="arbeidGaanNaDrill()">Bekyk Personeel &rarr;</button>
+    </div>
+  </div>`;
+}
+
+function renderArbeidSkelett(){
+  const view = document.getElementById('arbeid-dashboard-view');
+  if(!view) return;
+  view.innerHTML = `<div class="ad-dash">
+    <div class="ad-section">
+      <div class="ad-stat-grid">
+        ${'<div class="ad-skel ad-skel-stat"></div>'.repeat(4)}
+      </div>
+    </div>
+    <div class="ad-section">
+      <div class="ad-section-title">Per Afdeling</div>
+      ${'<div class="ad-skel ad-skel-bar"></div>'.repeat(4)}
+    </div>
+    <div class="ad-section">
+      <div class="ad-section-title">Per Plaas</div>
+      ${'<div class="ad-skel ad-skel-bar"></div>'.repeat(5)}
+    </div>
+  </div>`;
+}
+
+// ── DRILL-DOWN ─────────────────────────────────────────
+function arbeidGaanNaDrill(){
+  arbeidPath = [];
+  arbeidViewMode = 'drill';
+  document.getElementById('arbeid-dashboard-view').style.display = 'none';
+  const dd = document.getElementById('arbeid-drilldown-view');
+  dd.style.display = '';
+  renderArbeidDrill('right');
+}
+
+function arbeidTerugDashboard(){
+  arbeidViewMode = 'dash';
+  arbeidPath = [];
+  document.getElementById('arbeid-drilldown-view').style.display = 'none';
+  const dv = document.getElementById('arbeid-dashboard-view');
+  dv.style.display = '';
+  renderArbeidDashboard();
+}
+
+function arbeidDrillIn(naam){
+  arbeidPath.push(naam);
+  renderArbeidDrill('right');
+}
+
+function arbeidBcKlik(idx){
+  if(idx < 0) arbeidPath = [];
+  else arbeidPath = arbeidPath.slice(0, idx + 1);
+  renderArbeidDrill('left');
+}
+
+function renderArbeidDrill(richting){
+  const view = document.getElementById('arbeid-drilldown-view');
+  if(!view) return;
+
+  if(!ARBEID_DATA.length){
+    view.innerHTML = `<div class="ad-empty" onclick="verfrisData()">
+      <div class="ad-empty-icon">&#128225;</div>
+      <div class="ad-empty-msg">Geen data beskikbaar — klik om te verfris</div>
+    </div>`;
+    return;
+  }
+
+  let employees;
+  if(arbeidPath.length === 0){
+    employees = ARBEID_DATA.filter(e => e.vlak === 'Vlak 1');
+  } else {
+    const huidige = arbeidPath[arbeidPath.length - 1];
+    employees = ARBEID_DATA.filter(e => e.raporteerAan === huidige);
+  }
+
+  const bcParts = [`<button class="ad-bc-back" onclick="arbeidTerugDashboard()">&#8592; Dashboard</button>`,
+                   `<span class="ad-bc-sep">/</span>`,
+                   `<span class="ad-bc-item" onclick="arbeidBcKlik(-1)">FO Seuns</span>`];
+  arbeidPath.forEach((naam, i) => {
+    const eersteN = naam.split(/\s+/)[0];
+    bcParts.push(`<span class="ad-bc-sep">&rsaquo;</span>`);
+    if(i === arbeidPath.length - 1){
+      bcParts.push(`<span class="ad-bc-current">${eersteN}</span>`);
+    } else {
+      bcParts.push(`<span class="ad-bc-item" onclick="arbeidBcKlik(${i})">${eersteN}</span>`);
+    }
+  });
+
+  let lysHtml = '';
+  if(!employees.length){
+    lysHtml = `<div class="ad-empty" style="background:transparent;min-height:200px;padding:50px 24px">
+      <div class="ad-empty-icon">&#128101;</div>
+      <div class="ad-empty-msg">Geen direkte rapporte nie</div>
+    </div>`;
+  } else if(arbeidPath.length === 0){
+    lysHtml = `<div class="ad-dd-cards">${employees.map(renderArbeidCard).join('')}</div>`;
+  } else {
+    const groepe = {'Vlak 2':[], 'Vlak 3':[], 'Vlak 5':[], 'Kontrakteurs':[], 'Ander':[]};
+    employees.forEach(e => {
+      if(e.tipe === 'Kontrakteur') groepe['Kontrakteurs'].push(e);
+      else if(groepe[e.vlak]) groepe[e.vlak].push(e);
+      else groepe['Ander'].push(e);
+    });
+    lysHtml = DRILL_GROUP_ORDER.concat(['Ander']).filter(g => groepe[g] && groepe[g].length).map(g => {
+      const label = DRILL_GROUP_LABELS[g] || g;
+      return `<div class="ad-dd-group">
+        <div class="ad-dd-group-hdr">${label}<span class="ad-dd-group-count">${groepe[g].length}</span></div>
+        <div class="ad-dd-cards">${groepe[g].map(renderArbeidCard).join('')}</div>
       </div>`;
     }).join('');
-    return `<div class="aw-section">
-      <div class="aw-section-hdr" onclick="toggleAwSection(this)">
-        <span class="aw-section-chevron">&#9660;</span>
-        <span class="aw-section-title">${grp}</span>
-        <span class="aw-section-count">${items.length}</span>
-        <div class="aw-section-line"></div>
-      </div>
-      <div class="aw-cards">${cards}</div>
-    </div>`;
-  }).join('');
+  }
+
+  const animKlas = richting === 'left' ? 'ad-slide-left' : 'ad-slide-right';
+  view.innerHTML = `<div class="ad-dd">
+    <div class="ad-breadcrumb">${bcParts.join('')}</div>
+    <div class="ad-dd-list ${animKlas}">${lysHtml}</div>
+  </div>`;
 }
 
-function toggleAwSection(hdr){
-  const sec = hdr.closest('.aw-section');
-  const cards = sec.querySelector('.aw-cards');
-  const chev = hdr.querySelector('.aw-section-chevron');
-  const hidden = cards.style.display === 'none';
-  cards.style.display = hidden ? '' : 'none';
-  if(chev) chev.style.transform = hidden ? '' : 'rotate(-90deg)';
+function renderArbeidCard(e){
+  const afd = e.afdeling || '';
+  const kleur = ad_afdColor(afd);
+  const reports = ad_directReports(e.naam);
+  const heeftReports = reports.length > 0;
+  const isKontrak = e.tipe === 'Kontrakteur';
+  const klikbaar = heeftReports;
+  const klas = `ad-card ad-afd-${afd}${klikbaar ? '' : ' ad-card-leaf'}`;
+  const onclick = klikbaar ? `onclick="arbeidDrillIn('${(e.naam||'').replace(/'/g,"\\'")}')"` : '';
+  return `<div class="${klas}" ${onclick}>
+    <div class="ad-init" style="background:${kleur}">${ad_init(e.naam)}</div>
+    <div class="ad-card-body">
+      <div class="ad-card-name">${e.naam || '—'}</div>
+      ${e.posbeskrywing ? `<div class="ad-card-pos">${e.posbeskrywing}</div>` : ''}
+      <div class="ad-card-meta">${[afd, e.plaas].filter(Boolean).join(' · ')}</div>
+      ${heeftReports ? `<div class="ad-card-reports">${reports.length} direkte ${reports.length===1?'rapport':'rapporte'} &rarr;</div>` : ''}
+    </div>
+    ${klikbaar ? `<div class="ad-card-arrow">&rsaquo;</div>` : ''}
+    ${isKontrak ? `<div class="ad-kbadge">Kontrakteur</div>` : ''}
+  </div>`;
 }
 
-function updateArbeidHdrStats(employees){
-  const el = document.getElementById("arbeidStats");
-  if(!el) return;
-  const w = employees.filter(e=>e.tipe!=='Kontrakteur').length;
-  const k = employees.filter(e=>e.tipe==='Kontrakteur').length;
-  const a = [...new Set(employees.map(e=>e.afdeling).filter(Boolean))].length;
-  el.innerHTML = [
-    {n:w, l:"Werknemers"},{n:k, l:"Kontrakteurs"},{n:a, l:"Afdelings"}
-  ].map(s=>`<div class="arbeid-stat"><div class="arbeid-stat-n">${s.n}</div><div class="arbeid-stat-l">${s.l}</div></div>`).join('');
+// ── SOEK-INTEGRASIE: Wys plat lys binne drill-down skerm ──
+function renderArbeidSoekResultate(query){
+  const view = document.getElementById('arbeid-drilldown-view');
+  if(!view) return;
+  const q = (query || '').trim().toLowerCase();
+  if(!q){
+    arbeidSoekActief = false;
+    if(arbeidViewMode === 'drill') renderArbeidDrill('left');
+    else { view.style.display = 'none'; document.getElementById('arbeid-dashboard-view').style.display = ''; renderArbeidDashboard(); }
+    return;
+  }
+  arbeidSoekActief = true;
+  document.getElementById('arbeid-dashboard-view').style.display = 'none';
+  view.style.display = '';
+  const matches = ARBEID_DATA.filter(e => {
+    const t = [e.naam, e.posbeskrywing, e.plaas].filter(Boolean).join(' ').toLowerCase();
+    return t.includes(q);
+  });
+  const lys = matches.length
+    ? `<div class="ad-dd-cards">${matches.map(renderArbeidCard).join('')}</div>`
+    : `<div class="ad-empty" style="background:transparent;min-height:200px;padding:50px 24px">
+        <div class="ad-empty-icon">&#128269;</div>
+        <div class="ad-empty-msg">Geen werknemers pas by "${query}" nie</div>
+       </div>`;
+  view.innerHTML = `<div class="ad-dd">
+    <div class="ad-breadcrumb">
+      <button class="ad-bc-back" onclick="arbeidTerugDashboard()">&#8592; Dashboard</button>
+      <span class="ad-bc-sep">/</span>
+      <span class="ad-bc-current">Soekresultate (${matches.length})</span>
+    </div>
+    <div class="ad-dd-list ad-slide-left">${lys}</div>
+  </div>`;
 }
 
+// ── INISIALISERING ─────────────────────────────────────
 function buildArbeidGrid(employees){
-  ARBEID_DATA = employees;
-  filterArbeidGrid();
-  updateArbeidHdrStats(employees);
-  herbouSoekIndeks(employees);
+  ARBEID_DATA = employees || [];
+  herbouSoekIndeks(ARBEID_DATA);
+  if(arbeidViewMode === 'drill') renderArbeidDrill('left');
+  else renderArbeidDashboard();
 }
 
 function initArbeid(){
-  arbeidVlak = ''; arbeidAfd = ''; arbeidTipe = '';
-  const wrap = document.getElementById("arbeid-grid-wrap");
-  if(!wrap) return;
-  if(ARBEID_DATA.length){ filterArbeidGrid(); updateArbeidHdrStats(ARBEID_DATA); return; }
+  arbeidViewMode = 'dash';
+  arbeidPath = [];
+  arbeidSoekActief = false;
+  const dv = document.getElementById('arbeid-dashboard-view');
+  const dd = document.getElementById('arbeid-drilldown-view');
+  if(dv) dv.style.display = '';
+  if(dd) dd.style.display = 'none';
+
+  if(ARBEID_DATA.length){
+    renderArbeidDashboard();
+    return;
+  }
   const kas = bsLeesKas();
-  if(kas?.employees?.length){ buildArbeidGrid(kas.employees); return; }
-  wrap.innerHTML = `<div class="aw-empty"><div class="aw-empty-icon">&#128225;</div><div class="aw-empty-msg">Geen data beskikbaar — verfris om te probeer</div><button class="aw-retry-btn" onclick="verfrisData()">&#8635; Verfris</button></div>`;
+  if(kas?.employees?.length){
+    ARBEID_DATA = kas.employees;
+    herbouSoekIndeks(ARBEID_DATA);
+    renderArbeidDashboard();
+    return;
+  }
+  renderArbeidSkelett();
+  setTimeout(() => {
+    if(!ARBEID_DATA.length) renderArbeidDashboard();
+  }, 1500);
 }
 
 function herbouSoekIndeks(employees){
   const bates = SEARCH_INDEX.filter(e=>e.page!=='arbeid');
-  const arbeid = employees
+  const arbeid = (employees || [])
     .filter(e=>e.naam)
     .map(e=>({
       label: e.naam,
@@ -1498,6 +1720,12 @@ function onGSearch(val) {
   const q = val.trim().toLowerCase();
   const clear = document.getElementById("gSearchClear");
   if(clear) clear.style.display = q ? "block" : "none";
+
+  // As ons op Arbeid-bladsy is, wys ook 'n plat lys van werknemers
+  if(document.getElementById("arbeid-dashboard-view")) {
+    renderArbeidSoekResultate(val);
+  }
+
   if(!q) { closeGSearch(); return; }
 
   gSearchResults = SEARCH_INDEX.filter(item =>
@@ -1626,6 +1854,10 @@ function clearGSearch() {
   document.getElementById("gSearchInput").value = "";
   document.getElementById("gSearchClear").style.display = "none";
   closeGSearch();
+  // As Arbeid-bladsy aktief is, hervat normale aansig
+  if(document.getElementById("arbeid-dashboard-view")) {
+    renderArbeidSoekResultate("");
+  }
 }
 
 document.addEventListener("click", e => {
@@ -1936,7 +2168,7 @@ function pasToeData(data) {
   else if (t === 'vehicles') buildVehicleGrid(VEH_DATA);
 
   // Herbou Arbeid indien aktief
-  if (data.employees?.length && document.getElementById('arbeid-grid-wrap'))
+  if (data.employees?.length && document.getElementById('arbeid-dashboard-view'))
     buildArbeidGrid(data.employees);
 
   dateerStatistieke(data);
