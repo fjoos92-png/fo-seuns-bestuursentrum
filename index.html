@@ -228,6 +228,33 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
 .bates-empty-btn{padding:8px 18px;border-radius:6px;border:1px solid #1d4ed8;background:#1d4ed8;color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .bates-empty-btn:hover{background:#1e40af;border-color:#1e40af}
 
+/* ══════════════════════════════════════════════════════
+   ARBEID CARD GRID (API-gedrewe)
+══════════════════════════════════════════════════════ */
+.aw-grid-wrap{background:#f5f2eb;min-height:300px}
+.aw-section{border-bottom:1px solid #e0dbd0}
+.aw-section-hdr{display:flex;align-items:center;gap:10px;padding:11px 28px;background:#fff;cursor:pointer;user-select:none;transition:background .15s}
+.aw-section-hdr:hover{background:#f8f6f0}
+.aw-section-chevron{font-size:10px;color:#6b7280;width:12px;flex-shrink:0;transition:transform .2s}
+.aw-section-title{font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.08em}
+.aw-section-count{font-size:11px;color:#9ca3af;background:#f1f5f9;border:1px solid #e0dbd0;padding:2px 8px;border-radius:10px}
+.aw-section-line{flex:1;height:1px;background:#e0dbd0}
+.aw-cards{display:flex;flex-wrap:wrap;gap:10px;padding:14px 28px 18px}
+.aw-card{background:#fff;border-radius:10px;border:1px solid #e0dbd0;border-left:4px solid #94a3b8;padding:13px 15px;min-width:195px;max-width:260px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:box-shadow .15s,transform .1s}
+.aw-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-2px)}
+.aw-card-name{font-size:13px;font-weight:700;color:#1a1a1a;line-height:1.3;margin-bottom:4px}
+.aw-card-pos{font-size:11px;color:#374151;line-height:1.4;margin-bottom:6px}
+.aw-card-meta{font-size:10px;color:#6b7280;margin-bottom:7px}
+.aw-card-footer{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:5px}
+.aw-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;background:#f1f5f9;color:#374151;border:1px solid #e0dbd0}
+.aw-vlak-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px}
+.aw-raporteer{font-size:10px;color:#9ca3af;margin-top:4px}
+.aw-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;gap:14px;text-align:center;background:#f5f2eb;min-height:300px}
+.aw-empty-icon{font-size:42px;opacity:.4}
+.aw-empty-msg{font-size:14px;font-weight:600;color:#6b7280}
+.aw-retry-btn{padding:8px 18px;border-radius:6px;border:1px solid #14532d;background:#14532d;color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.aw-retry-btn:hover{background:#166534}
+
 /* ── EXTRA MOBILE TWEAKS ── */
 @media (max-width: 768px) {
   .arbeid-hdr { padding: 16px 18px; }
@@ -250,6 +277,8 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
   .eq-toolbar, .vreg-toolbar, .trac-toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
   .eq-filters, .vreg-filters, .trac-filters { width: 100%; }
   .eq-filters select, .vreg-filters select, .trac-filters select { flex: 1; min-width: 130px; }
+  .aw-cards { padding: 12px 14px 16px; }
+  .aw-section-hdr { padding: 10px 14px; }
 }
 
 /* ── RESET & BASE ── */
@@ -754,11 +783,11 @@ const PAGES = {
       <div class="home-tagline">Ge&iuml;ntegreerde bestuursentrum vir personeel, bates, produksie en finansies &mdash; alles in een plek.</div>
     </div>
     <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-n">172</div><div class="home-stat-l">Werknemers</div></div>
-      <div class="home-stat"><div class="home-stat-n">20</div><div class="home-stat-l">Kontrakteurs</div></div>
-      <div class="home-stat"><div class="home-stat-n">5</div><div class="home-stat-l">Direkteure</div></div>
-      <div class="home-stat"><div class="home-stat-n">3</div><div class="home-stat-l">Suiwelplase</div></div>
-      <div class="home-stat"><div class="home-stat-n">4</div><div class="home-stat-l">Afdelings</div></div>
+      <div class="home-stat"><div class="home-stat-n" id="stat-werknemers">172</div><div class="home-stat-l">Werknemers</div></div>
+      <div class="home-stat"><div class="home-stat-n" id="stat-kontrakteurs">20</div><div class="home-stat-l">Kontrakteurs</div></div>
+      <div class="home-stat"><div class="home-stat-n" id="stat-implemente">—</div><div class="home-stat-l">Implemente</div></div>
+      <div class="home-stat"><div class="home-stat-n" id="stat-trekkers">—</div><div class="home-stat-l">Trekkers</div></div>
+      <div class="home-stat"><div class="home-stat-n" id="stat-voertuie">—</div><div class="home-stat-l">Voertuie</div></div>
     </div>
     <div class="home-modules">
       <div class="module-card" onclick="showPage('arbeid')">
@@ -795,339 +824,29 @@ const PAGES = {
     <div class="ot-toolbar">
       <div class="ot-toolbar-group">
         <span class="ot-toolbar-label">Vlak</span>
-        <button class="ot-filter-btn active" id="btn-vlak-1" onclick="setLevel('1',this)">Vlak 1</button>
-        <button class="ot-filter-btn" id="btn-vlak-2" onclick="setLevel('2',this)">Vlak 2</button>
-        <button class="ot-filter-btn" id="btn-vlak-3" onclick="setLevel('3',this)">Vlak 3</button>
-        <button class="ot-filter-btn" id="btn-vlak-4" onclick="setLevel('4',this)">Vlak 4</button>
-        <button class="ot-filter-btn" id="btn-vlak-5" onclick="setLevel('5',this)">Vlak 5</button>
+        <button class="ot-filter-btn active" id="abtn-vlak-all"    onclick="setArbeidVlak('',this)">Almal</button>
+        <button class="ot-filter-btn"         id="abtn-vlak-1"     onclick="setArbeidVlak('Vlak 1',this)">Direksie</button>
+        <button class="ot-filter-btn"         id="abtn-vlak-2"     onclick="setArbeidVlak('Vlak 2',this)">Bestuur</button>
+        <button class="ot-filter-btn"         id="abtn-vlak-3"     onclick="setArbeidVlak('Vlak 3',this)">Toesighouers</button>
       </div>
       <div class="ot-toolbar-divider"></div>
       <div class="ot-toolbar-group">
         <span class="ot-toolbar-label">Afdeling</span>
-        <button class="ot-afd-btn active" id="btn-afd-all" onclick="setFilter('all',this)">Alle</button>
-        <button class="ot-afd-btn" id="btn-afd-suiwel" onclick="setFilter('suiwel',this)">🐄 Suiwel</button>
-        <button class="ot-afd-btn" id="btn-afd-wingerd" onclick="setFilter('wingerd',this)">🍇 Wingerd</button>
-        <button class="ot-afd-btn" id="btn-afd-graan" onclick="setFilter('graan',this)">🌾 Graan</button>
-        <button class="ot-afd-btn" id="btn-afd-finansies" onclick="setFilter('finansies',this)">💼 Finansies</button>
+        <button class="ot-afd-btn active" id="abtn-afd-all"      onclick="setArbeidAfd('',this)">Alle</button>
+        <button class="ot-afd-btn"         id="abtn-afd-suiwel"  onclick="setArbeidAfd('Suiwel',this)">🐄 Suiwel</button>
+        <button class="ot-afd-btn"         id="abtn-afd-saai"    onclick="setArbeidAfd('Saai',this)">🌾 Saai</button>
+        <button class="ot-afd-btn"         id="abtn-afd-wingerd" onclick="setArbeidAfd('Wingerd',this)">🍇 Wingerd</button>
+        <button class="ot-afd-btn"         id="abtn-afd-admin"   onclick="setArbeidAfd('Admin',this)">💼 Admin</button>
       </div>
       <div class="ot-toolbar-divider"></div>
       <div class="ot-toolbar-group">
-        <label class="toggle-wrap" title="Wys/versteek werkers">
-          <div class="toggle-switch">
-            <input type="checkbox" id="btnW" checked onchange="toggleWorkers()">
-            <span class="toggle-slider"></span>
-          </div>
-          <span class="toggle-label" style="color:#374151">Werkers</span>
-        </label>
-        <label class="toggle-wrap" title="Wys/versteek kontrakteurs">
-          <div class="toggle-switch">
-            <input type="checkbox" id="btnC" checked onchange="toggleContract()">
-            <span class="toggle-slider"></span>
-          </div>
-          <span class="toggle-label" style="color:#374151">Kontrakteurs</span>
-        </label>
-      </div>
-      <div class="ot-toolbar-spacer"></div>
-      <div class="ot-toolbar-group">
-        <button class="ot-action-btn" onclick="expandToLevel(9)" title="Vou die hele organisasiestruktuur uit">⊞ Vou alles uit</button>
-        <button class="ot-action-btn" onclick="collapseToRoot()" title="Vou die struktuur op tot direksievlak">⊟ Vou alles toe</button>
+        <span class="ot-toolbar-label">Tipe</span>
+        <button class="ot-afd-btn active" id="abtn-tipe-all"          onclick="setArbeidTipe('',this)">Almal</button>
+        <button class="ot-afd-btn"         id="abtn-tipe-werknemer"   onclick="setArbeidTipe('Werknemer',this)">Werknemers</button>
+        <button class="ot-afd-btn"         id="abtn-tipe-kontrakteur" onclick="setArbeidTipe('Kontrakteur',this)">Kontrakteurs</button>
       </div>
     </div>
-    <div id="ot-tree-view">
-      <div class="ot-wrap" id="otWrap">
-        <div class="ot-root">
-  <ul><li data-top="company"><div class="ot-card ot-company">
-        <div class="ot-name">Frikkie Oosthuizen & Seuns (Edms) Bpk</div>
-        <div class="ot-title">Geregistreerde Maatskappy</div>
-        
-      </div><ul><li data-afd="erik"><div class="ot-card ot-dir">
-        <div class="ot-name">Erik Oosthuizen</div>
-        <div class="ot-title">Voorsitter / CEO</div>
-        <div class="ot-loc">📍 Hoofkantoor</div>
-      </div><ul><li id="li-david"><div class="ot-card ot-wingerd">
-        <div class="ot-name">David J. Le Roux</div>
-        <div class="ot-title">Wingerd Bestuurder</div>
-        <div class="ot-loc">📍 Wingerd / Bonnievale</div>
-      </div><ul><li id="gwbon" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Bonnievale – Wingerd (7)</div>
-        <div class="ot-names">A. Jaco Africa, André Witbooi, Avril Kuhn...</div>
-        <div class="ot-loc">📍 Wingerd / Bonnievale</div>
-        
-      </div></li>
-<li id="gwang" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Angora – Wingerd (3)</div>
-        <div class="ot-names">Abraham Blom, Antony (Ronnie) Bokbaard, Moses Witbooi</div>
-        <div class="ot-loc">📍 Angora</div>
-        
-      </div></li>
-<li id="gjacob" data-contract="1"><div class="ot-card ot-contract">
-        <div class="ot-name">Jacob Span – Kontrakteurs (10)</div>
-        <div class="ot-names">Jacob Werker 1, Jacob Werker 2, Jacob Werker 3...</div>
-        <div class="ot-loc">📍 Wingerd / Bonnievale</div>
-        <div class="ot-badge ot-badge-contract">Kontrakteur >90%</div>
-      </div></li>
-</ul></li>
-<li id="li-frikkie"><div class="ot-card ot-exec">
-        <div class="ot-name">Frikkie Oosthuizen</div>
-        <div class="ot-title">Hoof: Graan & Meganies</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-      </div><ul><li ><div class="ot-card ot-grain">
-        <div class="ot-name">Johan Van Rooyen</div>
-        <div class="ot-title">Werkswinkel 1 – Meganies</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-      </div></li>
-<li ><div class="ot-card ot-grain">
-        <div class="ot-name">Marcel Goosen</div>
-        <div class="ot-title">Werkswinkel 1 – Meganies</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-      </div></li>
-<li ><div class="ot-card ot-grain">
-        <div class="ot-name">Joh. (Vickus) Vermeulen</div>
-        <div class="ot-title">Werkswinkel 2 – Bestuur</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-      </div></li>
-<li id="gspv" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Pleasantview – Saai (3)</div>
-        <div class="ot-names">Jason Bezuidenhout-Seunie, John Baadjies, Jonathan Abrams</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-        
-      </div></li>
-<li id="gssw" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Swellendam – Saai (17)</div>
-        <div class="ot-names">Gert Jooste, Marius Afrikander, John J. Windvoël...</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-        
-      </div></li>
-<li id="gsut" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Uitvlugt – Saai (3)</div>
-        <div class="ot-names">Guswan Jooste, Warren Beineveldt, David Hartnick</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-        
-      </div></li>
-<li id="gsvh" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Voorhuis – Saai (1)</div>
-        <div class="ot-names">Dawid Oerson</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-        
-      </div></li>
-<li id="ghassan" data-contract="1"><div class="ot-card ot-contract">
-        <div class="ot-name">Hassan Span – Kontrakteurs (10)</div>
-        <div class="ot-names">Hassan Werker 1, Hassan Werker 2, Hassan Werker 3...</div>
-        <div class="ot-loc">📍 Saai en Meganies</div>
-        <div class="ot-badge ot-badge-contract">Kontrakteur >90%</div>
-      </div></li>
-</ul></li>
-</ul></li>
-<li data-afd="direksie"><div class="ot-card ot-dir">
-        <div class="ot-name">Ian Oosthuizen</div>
-        <div class="ot-title">Direkteur</div>
-        <div class="ot-loc">📍 Hoofkantoor</div>
-      </div></li>
-<li data-afd="direksie"><div class="ot-card ot-dir">
-        <div class="ot-name">Jeff Every</div>
-        <div class="ot-title">Direkteur</div>
-        <div class="ot-loc">📍 Hoofkantoor</div>
-      </div></li>
-<li data-afd="direksie"><div class="ot-card ot-dir">
-        <div class="ot-name">Pieter Willemse</div>
-        <div class="ot-title">Onafhanklike Direkteur</div>
-        <div class="ot-loc">📍 Hoofkantoor</div>
-      </div></li>
-<li data-afd="frihan"><div class="ot-card ot-dir">
-        <div class="ot-name">Frihan Oosthuizen</div>
-        <div class="ot-title">Finansiële Direkteur</div>
-        <div class="ot-loc">📍 Hoofkantoor</div>
-      </div><ul><li ><div class="ot-card ot-fin">
-        <div class="ot-name">Dwayne</div>
-        <div class="ot-title">Geoktrooieerde Rekenmeester</div>
-        <div class="ot-loc">📍 Hoofkantoor</div>
-      </div></li>
-<li ><div class="ot-card ot-fin">
-        <div class="ot-name">Elrie</div>
-        <div class="ot-title">HR & Verskaffers</div>
-        <div class="ot-loc">📍 Hoofkantoor</div>
-      </div></li>
-<li ><div class="ot-card ot-warn">
-        <div class="ot-name">Marlene Oosthuizen</div>
-        <div class="ot-title">Resepsie & Admin (08:00–13:00)</div>
-        <div class="ot-loc">📍 Hoofkantoor</div><div class="ot-badge ot-badge-warn">⚠ Opvolgpos benodig</div>
-      </div></li>
-<li ><div class="ot-card ot-fin">
-        <div class="ot-name">Monique van Rensburg</div>
-        <div class="ot-title">Finansiële Administrasie</div>
-        <div class="ot-loc">📍 Hoofkantoor</div>
-      </div></li>
-<li id="li-cornelis"><div class="ot-card ot-suiwel">
-        <div class="ot-name">Cornelis Oosthuizen</div>
-        <div class="ot-title">Plaasbestuurder – Suiwel & Verse</div>
-        <div class="ot-loc">📍 Vaandrigsdrift</div><div class="ot-badge ot-badge-count">43 werkers</div>
-      </div><ul><li ><div class="ot-card ot-dairy">
-        <div class="ot-name">Jabes Hattingh</div>
-        <div class="ot-title">Junior Plaasbestuurder – Vers & Kalf</div>
-        <div class="ot-loc">📍 Vaandrigsdrift</div>
-      </div><ul><li id="gvdab" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Angora – Buite (14)</div>
-        <div class="ot-names">Andries Ross, Celvin Windvogel, Jason Bennie Hendriks...</div>
-        <div class="ot-loc">📍 Angora</div>
-        
-      </div></li>
-<li id="gvdb" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Vaandrigsdrift – Buite (15)</div>
-        <div class="ot-names">Andrey Warney, Dawie Morkel, Hilda Mwambipile...</div>
-        <div class="ot-loc">📍 Vaandrigsdrift</div>
-        
-      </div></li>
-</ul></li>
-<li ><div class="ot-card ot-dairy">
-        <div class="ot-name">Werner Daniels</div>
-        <div class="ot-title">Kalf Aanteelt</div>
-        <div class="ot-loc">📍 Vaandrigsdrift</div>
-      </div></li>
-<li ><div class="ot-card ot-suiwel">
-        <div class="ot-name">Paul</div>
-        <div class="ot-title">Stalbestuurder</div>
-        <div class="ot-loc">📍 Vaandrigsdrift</div>
-      </div><ul><li id="gvdm" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Vaandrigsdrift – Melk (14)</div>
-        <div class="ot-names">Alungile Cekiso, Buhlebenkosi Madela, Lindelo Ndingazwe...</div>
-        <div class="ot-loc">📍 Vaandrigsdrift</div>
-        
-      </div></li>
-</ul></li>
-</ul></li>
-<li id="li-rikus"><div class="ot-card ot-suiwel">
-        <div class="ot-name">Rikus Oosthuizen</div>
-        <div class="ot-title">Plaasbestuurder – Suiwel & Maalstoor</div>
-        <div class="ot-loc">📍 Pleasantview / Maalstoor</div><div class="ot-badge ot-badge-count">31 werkers</div>
-      </div><ul><li ><div class="ot-card ot-suiwel">
-        <div class="ot-name">Anton</div>
-        <div class="ot-title">Stalbestuurder</div>
-        <div class="ot-loc">📍 Pleasantview</div>
-      </div><ul><li id="gpvb" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Pleasantview – Buite (16)</div>
-        <div class="ot-names">Alan Abrams, Alfred Ludick, Alida Abrams...</div>
-        <div class="ot-loc">📍 Pleasantview</div>
-        
-      </div></li>
-<li id="gpvm" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Pleasantview – Melk (13)</div>
-        <div class="ot-names">Siphelo Ngubo, Athenkosi Ndinisa, Elfredo Rossouw...</div>
-        <div class="ot-loc">📍 Pleasantview</div>
-        
-      </div></li>
-<li id="gpsw" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Swellendam Groep (2)</div>
-        <div class="ot-names">Riaan Bernard Jonkers, Piet Windvoel</div>
-        <div class="ot-loc">📍 Swellendam</div>
-        
-      </div></li>
-</ul></li>
-</ul></li>
-<li id="li-dian"><div class="ot-card ot-suiwel">
-        <div class="ot-name">Dian Oosthuizen</div>
-        <div class="ot-title">Plaasbestuurder – Suiwel & Verse</div>
-        <div class="ot-loc">📍 Voorhuis / Uitvlugt</div><div class="ot-badge ot-badge-count">26 werkers</div>
-      </div><ul><li ><div class="ot-card ot-suiwel">
-        <div class="ot-name">Jacques</div>
-        <div class="ot-title">Stalbestuurder</div>
-        <div class="ot-loc">📍 Voorhuis</div>
-      </div><ul><li id="gvhu" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Uitvlugt – Buite (4)</div>
-        <div class="ot-names">Anne Blignaut, Arend Philander, Dian Swart...</div>
-        <div class="ot-loc">📍 Uitvlugt</div>
-        
-      </div></li>
-<li id="gvhb" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Voorhuis – Buite (6)</div>
-        <div class="ot-names">Celestine Petersen, Elfredo Saayman, Franklen Scheepers...</div>
-        <div class="ot-loc">📍 Voorhuis</div>
-        
-      </div></li>
-<li id="gvhk" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Voorhuis – Kalwers (5)</div>
-        <div class="ot-names">Myeki Mzwenceba, Amanda Mkumbeni, Nola Siloti...</div>
-        <div class="ot-loc">📍 Voorhuis</div>
-        
-      </div></li>
-<li id="gvhm" data-worker="1"><div class="ot-card ot-worker">
-        <div class="ot-name">Voorhuis – Melk (11)</div>
-        <div class="ot-names">Lihle Plaatjie, Lucas Madubela, M. Alfred Mazeka...</div>
-        <div class="ot-loc">📍 Voorhuis</div>
-        
-      </div></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-      </div>
-    </div>
-    <div id="ot-suiwel-view" style="display:none">
-      <div class="sv-header-wrap" style="display:flex;justify-content:center;padding:20px 0 0">
-        <div class="sv-header">
-          <div class="sv-header-name">Frihan Oosthuizen</div>
-          <div class="sv-header-title">Finansiële Direkteur – Hoof: Suiwel</div>
-        </div>
-      </div>
-      <div class="sv-wrap">
-  <div style="display:none">
-    <div class="sv-header-mgr">
-      <div class="sv-header-name">Frihan Oosthuizen</div>
-      <div class="sv-header-title">Finansiële Direkteur – Hoof: Suiwel</div>
-    </div>
-  </div>
-  <div class="sv-farms">
-    <div class="sv-farm" style="border-top-color:#16a34a">
-      <div class="sv-mgr">
-        <div class="sv-mgr-name">Cornelis Oosthuizen</div>
-        <div class="sv-mgr-title">Plaasbestuurder – Suiwel & Verse</div>
-        <div class="sv-mgr-loc">📍 Vaandrigsdrift</div>
-        <div class="ot-badge ot-badge-count">43 werkers</div>
-      </div>
-      <div class="sv-divider"></div>
-      <div class="sv-supervisor">
-        <div class="sv-sup-name">👤 Jabes Hattingh</div>
-        <div class="sv-sup-title">Junior Plaasbestuurder · Vaandrigsdrift</div>
-      </div>
-      <div class="sv-divider"></div>
-      <div class="sv-groups"><div class="sv-group"><div class="sv-group-title">Vaandrigsdrift – Melk (via Paul) <span class="sv-group-n">14</span></div><div class="sv-group-names">Alungile Cekiso, Buhlebenkosi Madela, Lindelo Ndingazwe, Liyema Selana...</div></div><div class="sv-group"><div class="sv-group-title">Vaandrigsdrift – Buite (via Jabes) <span class="sv-group-n">15</span></div><div class="sv-group-names">Andrey Warney, Dawie Morkel, Hilda Mwambipile, Janine Daniels...</div></div><div class="sv-group"><div class="sv-group-title">Angora – Buite (via Jabes) <span class="sv-group-n">14</span></div><div class="sv-group-names">Andries Ross, Celvin Windvogel, Jason Bennie Hendriks, Jeremy Siegelaar...</div></div><div class="sv-group"><div class="sv-group-title">Angora – Wingerd <span class="sv-group-n">3</span></div><div class="sv-group-names">Abraham Blom, Antony (Ronnie) Bokbaard, Moses Witbooi</div></div><div class="sv-group"><div class="sv-group-title">Bonnievale – Wingerd <span class="sv-group-n">7</span></div><div class="sv-group-names">A. Jaco Africa, André Witbooi, Avril Kuhn, Donovan Windvogel...</div></div></div>
-    </div>
-    <div class="sv-farm" style="border-top-color:#0d9488">
-      <div class="sv-mgr">
-        <div class="sv-mgr-name">Rikus Oosthuizen</div>
-        <div class="sv-mgr-title">Plaasbestuurder – Suiwel & Maalstoor</div>
-        <div class="sv-mgr-loc">📍 Pleasantview / Maalstoor</div>
-        <div class="ot-badge ot-badge-count">31 werkers</div>
-      </div>
-      <div class="sv-divider"></div>
-      <div class="sv-supervisor">
-        <div class="sv-sup-name">👤 Anton</div>
-        <div class="sv-sup-title">Stalbestuurder · Pleasantview</div>
-      </div>
-      <div class="sv-divider"></div>
-      <div class="sv-groups"><div class="sv-group"><div class="sv-group-title">Pleasantview – Buite <span class="sv-group-n">16</span></div><div class="sv-group-names">Alan Abrams, Alfred Ludick, Alida Abrams, Christo De Flame...</div></div><div class="sv-group"><div class="sv-group-title">Pleasantview – Melk <span class="sv-group-n">13</span></div><div class="sv-group-names">Siphelo Ngubo, Athenkosi Ndinisa, Elfredo Rossouw, Fielies Oerson...</div></div><div class="sv-group"><div class="sv-group-title">Swellendam Groep <span class="sv-group-n">2</span></div><div class="sv-group-names">Riaan Bernard Jonkers, Piet Windvoel</div></div></div>
-    </div>
-    <div class="sv-farm" style="border-top-color:#7c3aed">
-      <div class="sv-mgr">
-        <div class="sv-mgr-name">Dian Oosthuizen</div>
-        <div class="sv-mgr-title">Plaasbestuurder – Suiwel & Verse</div>
-        <div class="sv-mgr-loc">📍 Voorhuis / Uitvlugt</div>
-        <div class="ot-badge ot-badge-count">26 werkers</div>
-      </div>
-      <div class="sv-divider"></div>
-      <div class="sv-supervisor">
-        <div class="sv-sup-name">👤 Jacques</div>
-        <div class="sv-sup-title">Stalbestuurder · Voorhuis</div>
-      </div>
-      <div class="sv-divider"></div>
-      <div class="sv-groups"><div class="sv-group"><div class="sv-group-title">Voorhuis – Melk <span class="sv-group-n">11</span></div><div class="sv-group-names">Lihle Plaatjie, Lucas Madubela, M. Alfred Mazeka, M. Maxwell Mphunga...</div></div><div class="sv-group"><div class="sv-group-title">Voorhuis – Buite <span class="sv-group-n">6</span></div><div class="sv-group-names">Celestine Petersen, Elfredo Saayman, Franklen Scheepers, Izak (Sakkie) Hendricks...</div></div><div class="sv-group"><div class="sv-group-title">Voorhuis – Kalwers <span class="sv-group-n">5</span></div><div class="sv-group-names">Myeki Mzwenceba, Amanda Mkumbeni, Nola Siloti, Phumlani (John) Dyamdeki...</div></div><div class="sv-group"><div class="sv-group-title">Uitvlugt – Buite <span class="sv-group-n">4</span></div><div class="sv-group-names">Anne Blignaut, Arend Philander, Dian Swart, Phillipus Blignaut</div></div></div>
-    </div>
-  </div>
-</div>
-    </div>
-
-  
+    <div id="arbeid-grid-wrap" class="aw-grid-wrap"></div>
   `,
 
   bates: `
@@ -1242,7 +961,8 @@ function showPage(id){
   const link = document.getElementById("link-"+id);
   if(link) link.classList.add("active");
   window.scrollTo(0,0);
-  if(id==="arbeid") setTimeout(()=>{ initCollapsibleTree(); applyFilters(); updateArbeidStats(); }, 150);
+  if(id==="arbeid") setTimeout(initArbeid, 150);
+  if(id==="home")   setTimeout(initHome, 100);
   if(id==="bates")  setTimeout(initBates, 100);
 }
 
@@ -1360,6 +1080,140 @@ function updateArbeidStats(){
 window.addEventListener("resize",()=>{ if(document.getElementById("svgLines")) setTimeout(drawLines,100); });
 
 
+
+// ════════════════════════════════════════════════════════════
+// ARBEID MODULE — API-gedrewe kaartjiesrooster
+// ════════════════════════════════════════════════════════════
+let ARBEID_DATA = [];
+let arbeidVlak = '', arbeidAfd = '', arbeidTipe = '';
+
+const VLAK_COLORS = {
+  'Vlak 1':'#2d1b69','Vlak 2':'#14532d','Vlak 3':'#1e3a5f','Vlak 5':'#6b7280'
+};
+const VLAK_LABELS = {
+  'Vlak 1':'Direksie','Vlak 2':'Bestuur','Vlak 3':'Toesighouers','Vlak 5':'Werker'
+};
+
+function setArbeidVlak(vlak, btn){
+  arbeidVlak = vlak;
+  document.querySelectorAll("[id^='abtn-vlak-']").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  filterArbeidGrid();
+}
+function setArbeidAfd(afd, btn){
+  arbeidAfd = afd;
+  document.querySelectorAll("[id^='abtn-afd-']").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  filterArbeidGrid();
+}
+function setArbeidTipe(tipe, btn){
+  arbeidTipe = tipe;
+  document.querySelectorAll("[id^='abtn-tipe-']").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  filterArbeidGrid();
+}
+
+function filterArbeidGrid(){
+  if(!ARBEID_DATA.length) return;
+  const filtered = ARBEID_DATA.filter(e => {
+    if(arbeidVlak && e.vlak     !== arbeidVlak) return false;
+    if(arbeidAfd  && e.afdeling !== arbeidAfd)  return false;
+    if(arbeidTipe && e.tipe     !== arbeidTipe) return false;
+    return true;
+  });
+  renderArbeidCards(filtered);
+}
+
+function renderArbeidCards(employees){
+  const wrap = document.getElementById("arbeid-grid-wrap");
+  if(!wrap) return;
+  if(!employees.length){
+    wrap.innerHTML = `<div class="aw-empty"><div class="aw-empty-icon">&#128101;</div><div class="aw-empty-msg">Geen werknemers pas by hierdie filters nie</div></div>`;
+    return;
+  }
+  const groups = {};
+  employees.forEach(e => {
+    const grp = e.groepindeling || 'Ander';
+    if(!groups[grp]) groups[grp] = [];
+    groups[grp].push(e);
+  });
+  const sorted = Object.keys(groups).sort();
+  wrap.innerHTML = sorted.map(grp => {
+    const items = groups[grp];
+    const cards = items.map(e => {
+      const col = VLAK_COLORS[e.vlak] || '#6b7280';
+      const lbl = VLAK_LABELS[e.vlak] || e.vlak || '';
+      return `<div class="aw-card" style="border-left-color:${col}">
+        <div class="aw-card-name">${e.naam||'—'}</div>
+        <div class="aw-card-pos">${e.posbeskrywing||''}</div>
+        <div class="aw-card-meta">${[e.afdeling,e.plaas].filter(Boolean).join(' · ')}</div>
+        <div class="aw-card-footer">
+          ${e.groepindeling?`<span class="aw-badge">${e.groepindeling}</span>`:''}
+          ${lbl?`<span class="aw-vlak-badge" style="background:${col}18;color:${col}">${lbl}</span>`:''}
+        </div>
+        ${e.raporteerAan?`<div class="aw-raporteer">&#8593; ${e.raporteerAan}</div>`:''}
+      </div>`;
+    }).join('');
+    return `<div class="aw-section">
+      <div class="aw-section-hdr" onclick="toggleAwSection(this)">
+        <span class="aw-section-chevron">&#9660;</span>
+        <span class="aw-section-title">${grp}</span>
+        <span class="aw-section-count">${items.length}</span>
+        <div class="aw-section-line"></div>
+      </div>
+      <div class="aw-cards">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleAwSection(hdr){
+  const sec = hdr.closest('.aw-section');
+  const cards = sec.querySelector('.aw-cards');
+  const chev = hdr.querySelector('.aw-section-chevron');
+  const hidden = cards.style.display === 'none';
+  cards.style.display = hidden ? '' : 'none';
+  if(chev) chev.style.transform = hidden ? '' : 'rotate(-90deg)';
+}
+
+function updateArbeidHdrStats(employees){
+  const el = document.getElementById("arbeidStats");
+  if(!el) return;
+  const w = employees.filter(e=>e.tipe!=='Kontrakteur').length;
+  const k = employees.filter(e=>e.tipe==='Kontrakteur').length;
+  const a = [...new Set(employees.map(e=>e.afdeling).filter(Boolean))].length;
+  el.innerHTML = [
+    {n:w, l:"Werknemers"},{n:k, l:"Kontrakteurs"},{n:a, l:"Afdelings"}
+  ].map(s=>`<div class="arbeid-stat"><div class="arbeid-stat-n">${s.n}</div><div class="arbeid-stat-l">${s.l}</div></div>`).join('');
+}
+
+function buildArbeidGrid(employees){
+  ARBEID_DATA = employees;
+  filterArbeidGrid();
+  updateArbeidHdrStats(employees);
+  herbouSoekIndeks(employees);
+}
+
+function initArbeid(){
+  arbeidVlak = ''; arbeidAfd = ''; arbeidTipe = '';
+  const wrap = document.getElementById("arbeid-grid-wrap");
+  if(!wrap) return;
+  if(ARBEID_DATA.length){ filterArbeidGrid(); updateArbeidHdrStats(ARBEID_DATA); return; }
+  const kas = bsLeesKas();
+  if(kas?.employees?.length){ buildArbeidGrid(kas.employees); return; }
+  wrap.innerHTML = `<div class="aw-empty"><div class="aw-empty-icon">&#128225;</div><div class="aw-empty-msg">Geen data beskikbaar — verfris om te probeer</div><button class="aw-retry-btn" onclick="verfrisData()">&#8635; Verfris</button></div>`;
+}
+
+function herbouSoekIndeks(employees){
+  const bates = SEARCH_INDEX.filter(e=>e.page!=='arbeid');
+  const arbeid = employees
+    .filter(e=>e.naam)
+    .map(e=>({
+      label: e.naam,
+      sub: [e.posbeskrywing,e.plaas].filter(Boolean).join(' · '),
+      page: 'arbeid', type: 'Arbeid'
+    }));
+  SEARCH_INDEX.splice(0, SEARCH_INDEX.length, ...bates, ...arbeid);
+}
 
 // ══════════════════════════════════════════════════════
 // EQUIPMENT DATA & LOGIC
@@ -1622,7 +1476,7 @@ function resetVehFilters(){
 // ══════════════════════════════════════════════════════
 // GLOBAL SEARCH
 // ══════════════════════════════════════════════════════
-const SEARCH_INDEX = [{"label": "Erik Oosthuizen", "sub": "Voorsitter / CEO · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Ian Oosthuizen", "sub": "Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Jeff Every", "sub": "Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Pieter Willemse", "sub": "Onafhanklike Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Frihan Oosthuizen", "sub": "Finansiële Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Dwayne", "sub": "Geoktrooieerde Rekenmeester · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Elrie", "sub": "HR & Verskaffers · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Marlene Oosthuizen", "sub": "Resepsie & Admin · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Monique van Rensburg", "sub": "Finansiële Administrasie · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "David Jacobus Le Roux", "sub": "Wingerd Bestuurder · Wingerd/Bonnievale", "page": "arbeid", "type": "Arbeid"}, {"label": "Frikkie Oosthuizen", "sub": "Hoof: Graan & Meganies · Angora", "page": "arbeid", "type": "Arbeid"}, {"label": "Johan Van Rooyen", "sub": "Werkswinkel 1 – Meganies", "page": "arbeid", "type": "Arbeid"}, {"label": "Marcel Goosen", "sub": "Werkswinkel 1 – Meganies", "page": "arbeid", "type": "Arbeid"}, {"label": "Johannes (Vickus) Vermeulen", "sub": "Werkswinkel 2 – Bestuur", "page": "arbeid", "type": "Arbeid"}, {"label": "Cornelis Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Verse · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Jabes Hattingh", "sub": "Junior Plaasbestuurder – Vers & Kalf · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Werner Daniels", "sub": "Kalf Aanteelt · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Paul", "sub": "Stalbestuurder · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Rikus Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Maalstoor · Pleasantview", "page": "arbeid", "type": "Arbeid"}, {"label": "Anton", "sub": "Stalbestuurder · Pleasantview", "page": "arbeid", "type": "Arbeid"}, {"label": "Dian Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Verse · Voorhuis", "page": "arbeid", "type": "Arbeid"}, {"label": "Jacques", "sub": "Stalbestuurder · Voorhuis", "page": "arbeid", "type": "Arbeid"}, {"label": "Welger Baler RP202", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Welger Baler RP245 no 1", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Welger Baler RP245 no 2", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Dieselkar Rond", "sub": "Dieselkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Saai en Meganies"}, {"label": "Dieselkar Moov", "sub": "Dieselkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Saai en Meganies"}, {"label": "Lusern hark Kuhn CR 300 GM", "sub": "Lusernhark · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Lusernhark", "filter_afd": "Saai en Meganies"}, {"label": "Lusern hark 12 wheel V-Rake", "sub": "Lusernhark · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Lusernhark", "filter_afd": "Saai en Meganies"}, {"label": "Planter Ausplough 36 tand", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equalizer 25 tand 7500E No 1", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equaliser 25 tand 7500E No 2", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equalizer Precision SL 6 Mielies", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Hak Innovator 9 tand", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Hak Blanton 23 tand", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 1", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg Degelman Pro Till 20", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Hak Trash Field Span 5.5m", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 2", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 3", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Snytafel 972 21FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Moco JD Sleep Haybine snyer 946 13FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon M155 Auger header A40D 18FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Haybine & Kneuser 920 14FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Snytafel 972 30FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon M155 Snytafel FD135 35FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon Sleep Haybine snyer 5020 Tongue 18FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Spuit Hardi Sprayer 4000L 2011", "sub": "Spuit · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Joskin misstrooier 19M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Amazone ZAV 2000 2019", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Radium no 1 5M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Radium no 2 5M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Kuilvoerwaens", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Tipkarre", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Truck Brocker Sleepwa CER 1956", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Vangwa 16 Ton OAgri 2020", "sub": "Vangwa · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Vangwa", "filter_afd": "Saai en Meganies"}, {"label": "Vangkar 16 Ton PS 2023", "sub": "Vangwa · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Vangwa", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar 8000L no 1", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar 6000L no 2", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar Jacto 2000L No3", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Heli wrapper", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Mchale wrapper 991 B", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Mchale wrapper 991 BC", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Bossiekapper Sonderend PV no 1", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Falcon PV no 1", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Sicma Flail Mulcher & Roller UTR280 SSK", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Menger Delaval", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Keenan", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Storti Labrador 16M3", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1560 Notill 4M", "sub": "Planter · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Strooier Amazone ZAV 2000 2023", "sub": "Strooier · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Suiwel"}, {"label": "Truck Vlottenberg Sleepwa CER 3289", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Venter CER 1575", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Meelwa Epol no 1 CER 2398", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Meelwa Epol no 2 CER 3906", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Generators", "sub": "Generator · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Generator", "filter_afd": "Suiwel"}, {"label": "Bakkies trailers/ Sleepwaens", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Sleepwaens vir trekkers", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Menger Storti Dunker Tvs80 UV", "sub": "Menger · Uitvlugt · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Nobili blou VD", "sub": "Bossiekapper · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Menger Seko 13m3 2002 VD", "sub": "Menger · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Cliff Mixmaster Blou", "sub": "Menger · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Milk Taxi", "sub": "Milktaxi · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Milktaxi", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Falcon VH no 2", "sub": "Bossiekapper · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Sonderend VH no 2", "sub": "Bossiekapper · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Dieselkar Vierkantig", "sub": "Dieselkar · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Suiwel"}, {"label": "Menger Storti Husky 16M3", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Seko 17m3 2008", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Seko 13m3 2002", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1560 Notill 6M", "sub": "Planter · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1850 Standerton Notill 12M", "sub": "Planter · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Spuit Nobili Onkruidspuit", "sub": "Spuit · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Wingerd"}, {"label": "Spuit Cima Spray Pump", "sub": "Spuit · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Wingerd"}, {"label": "Wingerde Top M Bakwerke 2025", "sub": "Topper · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Topper", "filter_afd": "Wingerd"}, {"label": "Parswaens", "sub": "Trailer · Vaandrigsdrift · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Wingerd"}, {"label": "Land Rover disc Erik- CER 2870", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landcruiser- Ian CER 3341", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landcruiser Stasiewa Oupa- CER 1733", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landrover oranje- CER 3146", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Ford SC 4x4 2025 CER 5431 Frihan", "sub": "Klas B · Pleasant view · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Hoofkantoor"}, {"label": "Toyota 2.5 4x4 Johan V R- CER 1174", "sub": "Klas B · Pleasant view · Johan Van Rooyen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Meganies"}, {"label": "Isuzu DMAX 2024 Marcel- CER 3458", "sub": "Klas C · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Meganies"}, {"label": "Toyota 2022 CER 6609 Frikkie", "sub": "Klas B · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 Francois- CER 1512", "sub": "Klas C · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Saai"}, {"label": "Ford SC WT 4x4 2025 CER 7248 Erik", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 2022 CER 7142 Elrie", "sub": "Klas C · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Saai"}, {"label": "Isuzu CER 1513 Vickus", "sub": "Klas D · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Saai"}, {"label": "Land Rover Erik- CER 3648 - IS", "sub": "Klas B · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Toyota Hilux 2.5 4x4 J Baadjies CER 6885", "sub": "Klas B · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 EC Marlene- CER 6363", "sub": "Klas C · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 J.Ludick- CER 5745", "sub": "Klas D · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7153 Anton", "sub": "Klas D · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Toyota 2.5 4X4 Johan P- CER 7081", "sub": "Klas B · Pleasant view · Johan Pienaar", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Toyota 2.8 2025 Ian CER 6568", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Suiwel"}, {"label": "Toyota 2022 CER 6743 Rikus", "sub": "Klas B · Pleasant view · Rikus Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Land Rover disc Gerrit- CER 3804", "sub": "Klas A · Vaandrigsdrift · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Prado 2022 CER3798 GO", "sub": "Klas A · Vaandrigsdrift · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Isuzu 1.9 4x4 Cornelis CER 4181", "sub": "Klas B · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 2023 CER 6585 Paul", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 CER 7148 E/CAB Gerrit O", "sub": "Klas C · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Suiwel"}, {"label": "Isuzu 4x4 VD 2018 CER 4711", "sub": "Klas B · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7143 Werner", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Land Cruiser Gerrit CER 5762", "sub": "Klas A · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7144 NDO", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Wingerd"}, {"label": "Isuzu 1.9 4x4 Dian 2024 CER 1518", "sub": "Klas B · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Toyota 2.4 VH melk - CER 6630", "sub": "Klas D · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu 1.9 4x4 Herman CER 1670", "sub": "Klas B · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "JCB 3Cx Sitemaster 2017 CER 3269", "sub": "Digger · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "JD Kuilvoer stroper 7550 CER 4086", "sub": "Kerwer · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Kerwer"}, {"label": "Isuzu Fxr17-360 Truck CER 6293", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Isuzu SHR Truck CER 2924", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Mitsubishi Canter Fuso Truck CER 2218", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "MacDon M155 2021 Windrower", "sub": "Macdon · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Macdon"}, {"label": "Macdon 9350 Windrower", "sub": "Macdon · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Macdon"}, {"label": "JD Selfloper Spuit M4030 2020", "sub": "Selflooperspuit · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Selflooperspuit"}, {"label": "JD Selfloper Spuit R4030 2015", "sub": "Selflooperspuit · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Selflooperspuit"}, {"label": "Case 170 Malmesbury", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case 95 Magnum 7220 CER 3891", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case 95 Magnum 7220 CER 3892", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Magnum IH 340 CER 2972", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Mxm 255 CER 5291", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Puma 180 2024 CER 1220", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas 657- CER 6045 2010", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4250 1999", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4640 Kap CER 2532", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 6630 2011 CER 3165", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 7810 CER 3724", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD M6175 2016", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TM 140 CER 3371 2007", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TM140 CER 2495 2004", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4020 sonder kap CER 4807", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Landini 105 no 2 CER 4356", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 100/90 CER 3059", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 980 CER 3125", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TT4.9 4WD CER 4204", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TD5.100 no 1 PV CER 2902", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 4WD Quicke x56 2023 CER 5876", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 VD CER 4841", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "Landini Powerfarm 105 no 1 CER 1953", "sub": "Trekker <90kw · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "Case Digger 570ST Nr 1 platbek CER 7274", "sub": "Digger · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "Case Digger 570ST Nr 2 tande CER 7275", "sub": "Digger · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "Scania Truck CER 1335", "sub": "Lorrie · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "UD Quester E53 GWE 390 Truck CER 2772", "sub": "Lorrie · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Case Puma 140 Tractor CER 6694", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas 657- CER 3474 2009", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas Arion 610 CER 3073 2013", "sub": "Trekker · Uitvlug · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4x4 6150B 2025", "sub": "Trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 6920 4x4 2006 CER5425", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TN75F CER 1394", "sub": "Trekker <90kw · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TT3.5 2WD CER 2365", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH T6020 CER 7494 no 1", "sub": "Virk trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH T6020 CER 7496 no 2", "sub": "Virk trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH Td5.110 no 3 UV CER 6872", "sub": "Virk trekker · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 Quicke x56 no 4 VH CER 2867", "sub": "Virk trekker · Uitvlug · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 Quicke x56 no 5 VD CER 2923", "sub": "Virk trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH T6070 CAB CER 6564 - Trekker", "sub": "Trekker · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Parsmasjien Gregoire", "sub": "Parsmasjien · Vaandrigsdrift · David", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Parsmasjien"}, {"label": "JD5325 Wingerd Met Cab CER 2247", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 72-86 4x4 CER 1835", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH NHT4 75 CER 5205", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}];
+let SEARCH_INDEX = [{"label": "Erik Oosthuizen", "sub": "Voorsitter / CEO · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Ian Oosthuizen", "sub": "Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Jeff Every", "sub": "Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Pieter Willemse", "sub": "Onafhanklike Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Frihan Oosthuizen", "sub": "Finansiële Direkteur · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Dwayne", "sub": "Geoktrooieerde Rekenmeester · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Elrie", "sub": "HR & Verskaffers · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Marlene Oosthuizen", "sub": "Resepsie & Admin · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "Monique van Rensburg", "sub": "Finansiële Administrasie · Hoofkantoor", "page": "arbeid", "type": "Arbeid"}, {"label": "David Jacobus Le Roux", "sub": "Wingerd Bestuurder · Wingerd/Bonnievale", "page": "arbeid", "type": "Arbeid"}, {"label": "Frikkie Oosthuizen", "sub": "Hoof: Graan & Meganies · Angora", "page": "arbeid", "type": "Arbeid"}, {"label": "Johan Van Rooyen", "sub": "Werkswinkel 1 – Meganies", "page": "arbeid", "type": "Arbeid"}, {"label": "Marcel Goosen", "sub": "Werkswinkel 1 – Meganies", "page": "arbeid", "type": "Arbeid"}, {"label": "Johannes (Vickus) Vermeulen", "sub": "Werkswinkel 2 – Bestuur", "page": "arbeid", "type": "Arbeid"}, {"label": "Cornelis Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Verse · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Jabes Hattingh", "sub": "Junior Plaasbestuurder – Vers & Kalf · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Werner Daniels", "sub": "Kalf Aanteelt · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Paul", "sub": "Stalbestuurder · Vaandrigsdrift", "page": "arbeid", "type": "Arbeid"}, {"label": "Rikus Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Maalstoor · Pleasantview", "page": "arbeid", "type": "Arbeid"}, {"label": "Anton", "sub": "Stalbestuurder · Pleasantview", "page": "arbeid", "type": "Arbeid"}, {"label": "Dian Oosthuizen", "sub": "Plaasbestuurder – Suiwel & Verse · Voorhuis", "page": "arbeid", "type": "Arbeid"}, {"label": "Jacques", "sub": "Stalbestuurder · Voorhuis", "page": "arbeid", "type": "Arbeid"}, {"label": "Welger Baler RP202", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Welger Baler RP245 no 1", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Welger Baler RP245 no 2", "sub": "Baler · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Baler", "filter_afd": "Saai en Meganies"}, {"label": "Dieselkar Rond", "sub": "Dieselkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Saai en Meganies"}, {"label": "Dieselkar Moov", "sub": "Dieselkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Saai en Meganies"}, {"label": "Lusern hark Kuhn CR 300 GM", "sub": "Lusernhark · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Lusernhark", "filter_afd": "Saai en Meganies"}, {"label": "Lusern hark 12 wheel V-Rake", "sub": "Lusernhark · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Lusernhark", "filter_afd": "Saai en Meganies"}, {"label": "Planter Ausplough 36 tand", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equalizer 25 tand 7500E No 1", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equaliser 25 tand 7500E No 2", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Planter Equalizer Precision SL 6 Mielies", "sub": "Planter · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Saai en Meganies"}, {"label": "Hak Innovator 9 tand", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Hak Blanton 23 tand", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 1", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg Degelman Pro Till 20", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Hak Trash Field Span 5.5m", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 2", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Ploeg John Shearer 5GP 22 plates no 3", "sub": "Ploeg/hak · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Ploeg/hak", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Snytafel 972 21FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Moco JD Sleep Haybine snyer 946 13FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon M155 Auger header A40D 18FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Haybine & Kneuser 920 14FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon 9350 Snytafel 972 30FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon M155 Snytafel FD135 35FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Macdon Sleep Haybine snyer 5020 Tongue 18FT", "sub": "Snytafel · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Snytafel", "filter_afd": "Saai en Meganies"}, {"label": "Spuit Hardi Sprayer 4000L 2011", "sub": "Spuit · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Joskin misstrooier 19M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Amazone ZAV 2000 2019", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Radium no 1 5M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Strooier Radium no 2 5M3", "sub": "Strooier · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Saai en Meganies"}, {"label": "Kuilvoerwaens", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Tipkarre", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Truck Brocker Sleepwa CER 1956", "sub": "Trailer · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Saai en Meganies"}, {"label": "Vangwa 16 Ton OAgri 2020", "sub": "Vangwa · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Vangwa", "filter_afd": "Saai en Meganies"}, {"label": "Vangkar 16 Ton PS 2023", "sub": "Vangwa · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Vangwa", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar 8000L no 1", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar 6000L no 2", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Waterkar Jacto 2000L No3", "sub": "Waterkar · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Waterkar", "filter_afd": "Saai en Meganies"}, {"label": "Heli wrapper", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Mchale wrapper 991 B", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Mchale wrapper 991 BC", "sub": "Wrapper · Saai en Meganies · Frikkie", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Wrapper", "filter_afd": "Saai en Meganies"}, {"label": "Bossiekapper Sonderend PV no 1", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Falcon PV no 1", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Sicma Flail Mulcher & Roller UTR280 SSK", "sub": "Bossiekapper · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Menger Delaval", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Keenan", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Storti Labrador 16M3", "sub": "Menger · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1560 Notill 4M", "sub": "Planter · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Strooier Amazone ZAV 2000 2023", "sub": "Strooier · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Strooier", "filter_afd": "Suiwel"}, {"label": "Truck Vlottenberg Sleepwa CER 3289", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Venter CER 1575", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Meelwa Epol no 1 CER 2398", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Meelwa Epol no 2 CER 3906", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Generators", "sub": "Generator · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Generator", "filter_afd": "Suiwel"}, {"label": "Bakkies trailers/ Sleepwaens", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Sleepwaens vir trekkers", "sub": "Trailer · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Suiwel"}, {"label": "Menger Storti Dunker Tvs80 UV", "sub": "Menger · Uitvlugt · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Nobili blou VD", "sub": "Bossiekapper · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Menger Seko 13m3 2002 VD", "sub": "Menger · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Cliff Mixmaster Blou", "sub": "Menger · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Milk Taxi", "sub": "Milktaxi · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Milktaxi", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Falcon VH no 2", "sub": "Bossiekapper · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Bossiekapper Sonderend VH no 2", "sub": "Bossiekapper · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Bossiekapper", "filter_afd": "Suiwel"}, {"label": "Dieselkar Vierkantig", "sub": "Dieselkar · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Dieselkar", "filter_afd": "Suiwel"}, {"label": "Menger Storti Husky 16M3", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Seko 17m3 2008", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Menger Seko 13m3 2002", "sub": "Menger · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Menger", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1560 Notill 6M", "sub": "Planter · Voorhuis · Dian", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Planter John Deere 1850 Standerton Notill 12M", "sub": "Planter · Pleasant View · Rikus", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Planter", "filter_afd": "Suiwel"}, {"label": "Spuit Nobili Onkruidspuit", "sub": "Spuit · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Wingerd"}, {"label": "Spuit Cima Spray Pump", "sub": "Spuit · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Spuit", "filter_afd": "Wingerd"}, {"label": "Wingerde Top M Bakwerke 2025", "sub": "Topper · Saai en Meganies · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Topper", "filter_afd": "Wingerd"}, {"label": "Parswaens", "sub": "Trailer · Vaandrigsdrift · David", "page": "bates", "tab": "equipment", "type": "Implemente", "filter_class": "Trailer", "filter_afd": "Wingerd"}, {"label": "Land Rover disc Erik- CER 2870", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landcruiser- Ian CER 3341", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landcruiser Stasiewa Oupa- CER 1733", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Landrover oranje- CER 3146", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Ford SC 4x4 2025 CER 5431 Frihan", "sub": "Klas B · Pleasant view · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Hoofkantoor"}, {"label": "Toyota 2.5 4x4 Johan V R- CER 1174", "sub": "Klas B · Pleasant view · Johan Van Rooyen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Meganies"}, {"label": "Isuzu DMAX 2024 Marcel- CER 3458", "sub": "Klas C · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Meganies"}, {"label": "Toyota 2022 CER 6609 Frikkie", "sub": "Klas B · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 Francois- CER 1512", "sub": "Klas C · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Saai"}, {"label": "Ford SC WT 4x4 2025 CER 7248 Erik", "sub": "Klas A · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 2022 CER 7142 Elrie", "sub": "Klas C · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Saai"}, {"label": "Isuzu CER 1513 Vickus", "sub": "Klas D · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Saai"}, {"label": "Land Rover Erik- CER 3648 - IS", "sub": "Klas B · Pleasant view · Erik Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Toyota Hilux 2.5 4x4 J Baadjies CER 6885", "sub": "Klas B · Pleasant view · Frikkie Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Saai"}, {"label": "Isuzu 2.5 EC Marlene- CER 6363", "sub": "Klas C · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 J.Ludick- CER 5745", "sub": "Klas D · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7153 Anton", "sub": "Klas D · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Toyota 2.5 4X4 Johan P- CER 7081", "sub": "Klas B · Pleasant view · Johan Pienaar", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Toyota 2.8 2025 Ian CER 6568", "sub": "Klas A · Pleasant view · Ian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Suiwel"}, {"label": "Toyota 2022 CER 6743 Rikus", "sub": "Klas B · Pleasant view · Rikus Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Land Rover disc Gerrit- CER 3804", "sub": "Klas A · Vaandrigsdrift · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Prado 2022 CER3798 GO", "sub": "Klas A · Vaandrigsdrift · Frihan Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Hoofkantoor"}, {"label": "Isuzu 1.9 4x4 Cornelis CER 4181", "sub": "Klas B · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 2023 CER 6585 Paul", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu 2.5 CER 7148 E/CAB Gerrit O", "sub": "Klas C · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "C", "filter_afd": "Suiwel"}, {"label": "Isuzu 4x4 VD 2018 CER 4711", "sub": "Klas B · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7143 Werner", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Land Cruiser Gerrit CER 5762", "sub": "Klas A · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "A", "filter_afd": "Suiwel"}, {"label": "Isuzu CER 7144 NDO", "sub": "Klas D · Vaandrigsdrift · Cornelis Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Wingerd"}, {"label": "Isuzu 1.9 4x4 Dian 2024 CER 1518", "sub": "Klas B · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "Toyota 2.4 VH melk - CER 6630", "sub": "Klas D · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "D", "filter_afd": "Suiwel"}, {"label": "Isuzu 1.9 4x4 Herman CER 1670", "sub": "Klas B · Voorhuis · Dian Oosthuizen", "page": "bates", "tab": "vehicles", "type": "Voertuie", "filter_klas": "B", "filter_afd": "Suiwel"}, {"label": "JCB 3Cx Sitemaster 2017 CER 3269", "sub": "Digger · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "JD Kuilvoer stroper 7550 CER 4086", "sub": "Kerwer · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Kerwer"}, {"label": "Isuzu Fxr17-360 Truck CER 6293", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Isuzu SHR Truck CER 2924", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Mitsubishi Canter Fuso Truck CER 2218", "sub": "Lorrie · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "MacDon M155 2021 Windrower", "sub": "Macdon · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Macdon"}, {"label": "Macdon 9350 Windrower", "sub": "Macdon · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Macdon"}, {"label": "JD Selfloper Spuit M4030 2020", "sub": "Selflooperspuit · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Selflooperspuit"}, {"label": "JD Selfloper Spuit R4030 2015", "sub": "Selflooperspuit · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Selflooperspuit"}, {"label": "Case 170 Malmesbury", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case 95 Magnum 7220 CER 3891", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case 95 Magnum 7220 CER 3892", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Magnum IH 340 CER 2972", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Mxm 255 CER 5291", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Case Puma 180 2024 CER 1220", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas 657- CER 6045 2010", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4250 1999", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4640 Kap CER 2532", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 6630 2011 CER 3165", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 7810 CER 3724", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD M6175 2016", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TM 140 CER 3371 2007", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TM140 CER 2495 2004", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4020 sonder kap CER 4807", "sub": "Trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Landini 105 no 2 CER 4356", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 100/90 CER 3059", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 980 CER 3125", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TT4.9 4WD CER 4204", "sub": "Trekker <90kw · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TD5.100 no 1 PV CER 2902", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 4WD Quicke x56 2023 CER 5876", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 VD CER 4841", "sub": "Virk trekker · Saaie en Meganies · Frikkie", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "Landini Powerfarm 105 no 1 CER 1953", "sub": "Trekker <90kw · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "Case Digger 570ST Nr 1 platbek CER 7274", "sub": "Digger · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "Case Digger 570ST Nr 2 tande CER 7275", "sub": "Digger · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Digger"}, {"label": "Scania Truck CER 1335", "sub": "Lorrie · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "UD Quester E53 GWE 390 Truck CER 2772", "sub": "Lorrie · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Lorrie"}, {"label": "Case Puma 140 Tractor CER 6694", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas 657- CER 3474 2009", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Claas Arion 610 CER 3073 2013", "sub": "Trekker · Uitvlug · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 4x4 6150B 2025", "sub": "Trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "JD 6920 4x4 2006 CER5425", "sub": "Trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "NH TN75F CER 1394", "sub": "Trekker <90kw · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH TT3.5 2WD CER 2365", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH T6020 CER 7494 no 1", "sub": "Virk trekker · Pleasant View · Rikus", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH T6020 CER 7496 no 2", "sub": "Virk trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH Td5.110 no 3 UV CER 6872", "sub": "Virk trekker · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 Quicke x56 no 4 VH CER 2867", "sub": "Virk trekker · Uitvlug · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH TD5.110 Quicke x56 no 5 VD CER 2923", "sub": "Virk trekker · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Virk trekker"}, {"label": "NH T6070 CAB CER 6564 - Trekker", "sub": "Trekker · Voorhuis · Dian", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker"}, {"label": "Parsmasjien Gregoire", "sub": "Parsmasjien · Vaandrigsdrift · David", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Parsmasjien"}, {"label": "JD5325 Wingerd Met Cab CER 2247", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH Fiat 72-86 4x4 CER 1835", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}, {"label": "NH NHT4 75 CER 5205", "sub": "Trekker <90kw · Vaandrigsdrift · Cornelis", "page": "bates", "tab": "tractors", "type": "Trekkers", "filter_klas": "Trekker <90kw"}];
 
 const TYPE_COLORS = {
   "Arbeid":     {bg:"#dcfce7",color:"#14532d",icon:"&#128119;"},
@@ -2072,6 +1926,8 @@ function pasToeData(data) {
     TRAC_DATA.splice(0, TRAC_DATA.length, ...data.tractors.map(sheetNaTrek));
   if (data.vehicles?.length)
     VEH_DATA.splice(0, VEH_DATA.length, ...data.vehicles.map(sheetNaVoert));
+  if (data.employees?.length)
+    ARBEID_DATA = data.employees;
 
   // Herbou aktiewe Bates-tab
   const t = document.querySelector('.bates-tab.active')?.id?.replace('tab-','');
@@ -2079,14 +1935,32 @@ function pasToeData(data) {
   else if (t === 'tractors') buildTractorGrid(TRAC_DATA);
   else if (t === 'vehicles') buildVehicleGrid(VEH_DATA);
 
-  // Dateer werknemertel op
-  if (data.employees?.length) {
-    const w = data.employees.filter(e => e.tipe !== 'Kontrakteur').length;
-    const el = document.getElementById('stat-werknemers');
-    if (el) el.textContent = w;
-  }
+  // Herbou Arbeid indien aktief
+  if (data.employees?.length && document.getElementById('arbeid-grid-wrap'))
+    buildArbeidGrid(data.employees);
 
+  dateerStatistieke(data);
   bsToonStatus(data.timestamp, false);
+}
+
+function dateerStatistieke(data){
+  const stel=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+  if(data.employees){
+    stel('stat-werknemers',  data.employees.filter(e=>e.tipe==='Werknemer').length);
+    stel('stat-kontrakteurs',data.employees.filter(e=>e.tipe==='Kontrakteur').length);
+  }
+  if(data.equipment) stel('stat-implemente', data.equipment.length);
+  if(data.tractors)  stel('stat-trekkers',   data.tractors.length);
+  if(data.vehicles)  stel('stat-voertuie',   data.vehicles.length);
+}
+
+function initHome(){
+  const kas = bsLeesKas();
+  if(kas){ dateerStatistieke(kas); return; }
+  const stel=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+  stel('stat-implemente', EQ_DATA.length);
+  stel('stat-trekkers',   TRAC_DATA.length);
+  stel('stat-voertuie',   VEH_DATA.length);
 }
 
 function bsToonStatus(ts, offline) {
