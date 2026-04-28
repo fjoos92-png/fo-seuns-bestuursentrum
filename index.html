@@ -16,6 +16,8 @@
    DESIGN SYSTEM — World-class polish layer
 ═══════════════════════════════════════════════════════════ */
 :root {
+  /* Mobile nav-hoogte vir sticky-posisionering */
+  --mobile-nav-h: 50px;
   /* Spacing scale (4px base) */
   --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px; --s-8:32px; --s-10:40px; --s-12:48px;
   /* Type scale */
@@ -50,6 +52,10 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
 
 /* Mobile tap feedback — verwyder default grys flits, vervang met subtle scale */
 * { -webkit-tap-highlight-color: transparent; }
+
+/* Spinner-animasie vir verfris-knoppie */
+@keyframes spin { to { transform: rotate(360deg); } }
+#mobile-refresh { display: none; }
 .module-card:active:not(.disabled),
 .bates-hub-card:active,
 .ad-card:not(.ad-card-leaf):active,
@@ -153,17 +159,44 @@ body { width: 100%; }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .nav { padding: 0; overflow: hidden; }
+  .nav { padding: 0; overflow: visible; }
   .nav-brand { padding: 8px 10px; border-right: none; }
   .nav-brand h1, .nav-brand p { display: none; }
   .nav-brand::before { content: "BS"; font-family:"Playfair Display",serif; color:#fff; font-size:18px; font-weight:700; letter-spacing:-.02em; }
-  .nav-link { padding: 10px 8px; font-size: 11px; }
+  .nav-link { padding: 12px 10px; font-size: 12px; min-height: 44px; }
   #data-status { display: none; }
-  .gsearch-wrap { padding: 4px 8px; margin-left: auto; }
-  .gsearch-input { width: 80px; padding: 6px 8px 6px 28px; font-size: 11px; }
-  .gsearch-input:focus { width: 130px; }
-  .gsearch-icon { left: 8px; font-size: 12px; }
-  .gsearch-shortcut { display: none; }
+
+  /* Foon: soek as ikoon-knoppie wat 'n volle-breedte oortjie oopmaak */
+  .gsearch-wrap { padding: 0; margin-left: auto; }
+  .gsearch-input-wrap { position: static; }
+  .gsearch-icon { position: static; padding: 12px 12px; cursor: pointer; font-size: 16px; color: rgba(255,255,255,.85); }
+  .gsearch-input, .gsearch-shortcut { display: none; }
+  .gsearch-clear { display: none; }
+  .gsearch-dropdown { display: none; }
+
+  /* Wanneer soek aktief is — wys volle-breedte oortjie oor nav */
+  .nav.gsearch-on .nav-brand,
+  .nav.gsearch-on .nav-links,
+  .nav.gsearch-on #mobile-refresh { display: none; }
+  .nav.gsearch-on .gsearch-wrap { width: 100%; padding: 0; margin-left: 0; }
+  .nav.gsearch-on .gsearch-input-wrap { display: flex; width: 100%; padding: 6px 10px; align-items: center; gap: 8px; position: relative; }
+  .nav.gsearch-on .gsearch-icon { padding: 0 4px 0 8px; pointer-events: none; }
+  .nav.gsearch-on .gsearch-input { display: block; flex: 1; width: auto; min-width: 0; padding: 9px 14px 9px 6px; font-size: 14px; }
+  .nav.gsearch-on .gsearch-input:focus { width: auto; }
+  .nav.gsearch-on .gsearch-clear { display: flex; align-items:center; justify-content:center; position: static; width: 36px; height: 36px; border-radius: 18px; background: rgba(255,255,255,.1); color: #fff; font-size: 18px; flex-shrink: 0; }
+  .nav.gsearch-on .gsearch-dropdown { display: block; position: fixed; top: var(--mobile-nav-h, 56px); left: 0; right: 0; width: 100vw; max-height: calc(100vh - var(--mobile-nav-h, 56px)); border-radius: 0; box-shadow: 0 6px 18px rgba(0,0,0,.2); z-index: 9999; }
+  .nav.gsearch-on .gsearch-dropdown.open { display: block; }
+
+  /* Foon mobile-only ikoon-knoppies (verfris) */
+  #mobile-refresh { display: inline-flex; align-items: center; justify-content: center; padding: 12px; min-width: 44px; min-height: 44px; background: transparent; border: none; color: rgba(255,255,255,.85); font-size: 15px; cursor: pointer; }
+  #mobile-refresh.refreshing { animation: spin 1s linear infinite; }
+
+  /* Sticky page headers op foon */
+  .bates-hdr, .arbeid-hdr {
+    position: sticky;
+    top: calc(var(--mobile-nav-h, 56px) + env(safe-area-inset-top, 0px));
+    z-index: 50;
+  }
   .home-hero { padding: 28px 16px 22px; }
   .home-hero h2 { font-size: 22px; line-height: 1.15; }
   .home-tagline { font-size: 12px; padding: 0 8px; }
@@ -704,7 +737,7 @@ svg.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:n
 .klas-B{background:#dbeafe;color:#1e3a5f}
 .klas-C{background:#fef9c3;color:#713f12}
 .klas-D{background:#fce7f3;color:#9d174d}
-.veh-card-name{font-size:12px;font-weight:600;color:#1a1a1a;line-height:1.3;margin-bottom:8px}
+.veh-card-name{font-size:13px;font-weight:600;color:#1a1a1a;line-height:1.3;margin-bottom:8px}
 .veh-card-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280;margin-top:3px}
 .veh-card-divider{height:1px;background:#f0ece6;margin:8px 0}
 .veh-card-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}
@@ -765,7 +798,7 @@ svg.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:n
 .trac-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-2px)}
 .trac-card.hidden{display:none !important}
 .trac-card-code{font-size:9px;color:#9ca3af;font-weight:500;letter-spacing:.04em;margin-bottom:3px}
-.trac-card-name{font-size:12px;font-weight:600;color:#1a1a1a;line-height:1.3;margin-bottom:8px}
+.trac-card-name{font-size:13px;font-weight:600;color:#1a1a1a;line-height:1.3;margin-bottom:8px}
 .trac-card-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280;margin-top:3px}
 .trac-card-divider{height:1px;background:#f0ece6;margin:8px 0}
 .trac-card-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}
@@ -930,17 +963,18 @@ input:checked + .toggle-slider::before{transform:translateX(18px)}
     <button class="nav-link"        id="link-arbeid" onclick="showPage('arbeid')">&#128119; Arbeid</button>
     <button class="nav-link"        id="link-bates"  onclick="showPage('bates')">&#127959; Bates</button>
   </div>
-  <div style="display:flex;align-items:center;gap:8px;padding:0 8px 0 0;margin-left:auto">
+  <div style="display:flex;align-items:center;gap:4px;padding:0 8px 0 0;margin-left:auto">
     <span id="data-status" onclick="verfrisData()" title="Klik om data te verfris"
       style="font-size:10px;font-weight:600;letter-spacing:.03em;color:#94a3b8;cursor:pointer;
              padding:4px 10px;border:1px solid rgba(255,255,255,.12);border-radius:20px;
              transition:all .2s;white-space:nowrap;user-select:none">&#8635; Laai...</span>
+    <button id="mobile-refresh" onclick="verfrisDataMobiel(this)" aria-label="Verfris data" title="Verfris">&#8635;</button>
     <div class="gsearch-wrap" style="margin-left:0;padding-left:0">
       <div class="gsearch-input-wrap">
-        <span class="gsearch-icon">&#128269;</span>
+        <span class="gsearch-icon" onclick="openMobielSoek()" role="button" aria-label="Soek" tabindex="0">&#128269;</span>
         <input class="gsearch-input" id="gSearchInput" type="text" placeholder="Soek..." oninput="onGSearch(this.value)" onkeydown="onGSearchKey(event)" autocomplete="off">
         <span class="gsearch-shortcut" id="gSearchShortcut">⌘K</span>
-        <span class="gsearch-clear" id="gSearchClear" onclick="clearGSearch()">&#10005;</span>
+        <span class="gsearch-clear" id="gSearchClear" onclick="sluitMobielSoek()" role="button" aria-label="Sluit soek" tabindex="0">&#10005;</span>
       </div>
       <div class="gsearch-dropdown" id="gSearchDropdown"></div>
     </div>
@@ -2321,6 +2355,9 @@ function onGSearchKey(e) {
 function closeGSearch() {
   document.getElementById("gSearchDropdown").classList.remove("open");
   gSearchResults = []; gSearchActive = -1;
+  // Sluit ook mobiele soek-oortjie indien aktief
+  const nav = document.querySelector('.nav');
+  if(nav?.classList.contains('gsearch-on')) nav.classList.remove('gsearch-on');
 }
 
 function clearGSearch() {
@@ -2331,6 +2368,41 @@ function clearGSearch() {
   if(document.getElementById("arbeid-dashboard-view")) {
     renderArbeidSoekResultate("");
   }
+}
+
+// ── MOBIELE SOEK & VERFRIS ─────────────────────────────────
+function openMobielSoek(){
+  const nav = document.querySelector('.nav');
+  if(!nav) return;
+  if(window.innerWidth > 768){
+    document.getElementById('gSearchInput')?.focus();
+    return;
+  }
+  nav.classList.add('gsearch-on');
+  setTimeout(() => document.getElementById('gSearchInput')?.focus(), 50);
+}
+
+function sluitMobielSoek(){
+  const nav = document.querySelector('.nav');
+  if(!nav) return;
+  const inp = document.getElementById('gSearchInput');
+  if(inp) inp.value = '';
+  closeGSearch();
+  if(document.getElementById('arbeid-dashboard-view')) renderArbeidSoekResultate('');
+  nav.classList.remove('gsearch-on');
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    const nav = document.querySelector('.nav');
+    if(nav?.classList.contains('gsearch-on')) sluitMobielSoek();
+  }
+});
+
+function verfrisDataMobiel(btn){
+  if(btn) btn.classList.add('refreshing');
+  verfrisData();
+  setTimeout(() => btn?.classList.remove('refreshing'), 1200);
 }
 
 document.addEventListener("click", e => {
@@ -2704,15 +2776,27 @@ function sheetNaVoert(s) {
   };
 }
 
+function valideerWerknemer(e){
+  if (!e || typeof e !== 'object') return false;
+  if (!e.naam || String(e.naam).trim() === '') return false;
+  return true;
+}
+function valideerBate(b){
+  if (!b || typeof b !== 'object') return false;
+  if (!b.naam || String(b.naam).trim() === '') return false;
+  return true;
+}
+
 function pasToeData(data) {
-  if (data.equipment?.length)
-    EQ_DATA.splice(0, EQ_DATA.length, ...data.equipment.map(sheetNaImpl).filter(Boolean));
-  if (data.tractors?.length)
-    TRAC_DATA.splice(0, TRAC_DATA.length, ...data.tractors.map(sheetNaTrek).filter(Boolean));
-  if (data.vehicles?.length)
-    VEH_DATA.splice(0, VEH_DATA.length, ...data.vehicles.map(sheetNaVoert).filter(Boolean));
-  if (data.employees?.length)
-    ARBEID_DATA = data.employees.filter(sheetIsAktief);
+  if (!data || typeof data !== 'object') return;
+  if (Array.isArray(data.equipment) && data.equipment.length)
+    EQ_DATA.splice(0, EQ_DATA.length, ...data.equipment.filter(valideerBate).map(sheetNaImpl).filter(Boolean));
+  if (Array.isArray(data.tractors) && data.tractors.length)
+    TRAC_DATA.splice(0, TRAC_DATA.length, ...data.tractors.filter(valideerBate).map(sheetNaTrek).filter(Boolean));
+  if (Array.isArray(data.vehicles) && data.vehicles.length)
+    VEH_DATA.splice(0, VEH_DATA.length, ...data.vehicles.filter(valideerBate).map(sheetNaVoert).filter(Boolean));
+  if (Array.isArray(data.employees) && data.employees.length)
+    ARBEID_DATA = data.employees.filter(valideerWerknemer).filter(sheetIsAktief);
 
   // Herbou aktiewe Bates-aansig (hub of een van die kategorieë)
   const hub = document.getElementById('bates-hub');
@@ -2764,6 +2848,21 @@ function bsToonStatus(ts, offline) {
   }
 }
 
+function toonToast(boodskap, tipe = 'info'){
+  let t = document.getElementById('app-toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'app-toast';
+    t.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:max(24px,env(safe-area-inset-bottom));background:#0d2818;color:#fff;padding:12px 18px;border-radius:24px;font-size:13px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90vw;text-align:center';
+    document.body.appendChild(t);
+  }
+  t.style.background = tipe === 'fout' ? '#b91c1c' : tipe === 'sukses' ? '#15803d' : '#0d2818';
+  t.textContent = boodskap;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2600);
+}
+
 async function laaiLiveData(forseer = false) {
   if (!forseer) {
     const kas = bsLeesKas();
@@ -2771,10 +2870,25 @@ async function laaiLiveData(forseer = false) {
   }
   try {
     const res  = await fetch(BS_API + '?action=getAllData');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
-    if (json.success) { bsSkryfKas(json); pasToeData(json); }
-    else throw new Error(json.error);
-  } catch { bsToonStatus(null, true); }
+    if (json.success) {
+      bsSkryfKas(json);
+      pasToeData(json);
+      if (forseer) toonToast('✓ Data verfris', 'sukses');
+    } else {
+      throw new Error(json.error || 'Onbekende fout');
+    }
+  } catch (err) {
+    bsToonStatus(null, true);
+    const kas = bsLeesKas();
+    if (kas) {
+      pasToeData(kas);
+      toonToast('⚠ Offline — wys gestoor data', 'info');
+    } else {
+      toonToast('⚠ Geen verbinding — geen data beskikbaar', 'fout');
+    }
+  }
 }
 
 function verfrisData() {
