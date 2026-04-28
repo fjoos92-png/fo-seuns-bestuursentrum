@@ -1323,7 +1323,15 @@ function renderArbeidDashboard(){
     ngCache[naam] = alles;
     return alles;
   };
+  const isDirekteur = naam => {
+    const p = data.find(e => e.naam === naam);
+    if(!p) return false;
+    if(p.vlak === 'Vlak 1') return true;
+    const baas = (p.raporteerAan || '').trim();
+    return !baas || baas.toLowerCase() === 'direksie';
+  };
   const spanTop5 = Object.keys(direkteVan)
+    .filter(naam => !isDirekteur(naam))
     .map(naam => [naam, naganger(naam)])
     .sort((a,b)=>b[1].length-a[1].length)
     .slice(0,5);
