@@ -1045,7 +1045,7 @@ const PAGES = {
             <span class="bates-search-icon">&#128269;</span>
             <input class="bates-search-input" id="vehSearch" type="text" placeholder="Soek voertuig of kode..." oninput="filterVehicles()" autocomplete="off">
           </div>
-          <select id="vfKlas" class="bates-select" onchange="filterVehicles()"><option value="">Alle Klasse</option><option>A+</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+          <select id="vfKlas" class="bates-select" onchange="filterVehicles()"><option value="">Alle Klasse</option></select>
           <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()"><option value="">Alle Afdelings</option></select>
           <select id="vfVerant" class="bates-select" onchange="filterVehicles()"><option value="">Alle Verantwoordelikes</option></select>
           <button class="bates-reset-btn" onclick="resetVehFilters()" title="Stel terug" aria-label="Stel terug">&#10006;</button>
@@ -1855,8 +1855,11 @@ function herbouTracDropdowns(){
 }
 
 function herbouVehDropdowns(){
+  const klasOrdre = ['A+','A','B','C','D'];
+  const klasse = klasOrdre.filter(k => VEH_DATA.some(v => v.klas === k));
   const afd = [...new Set(VEH_DATA.map(v=>v.afdeling).filter(Boolean))].sort();
   const ver = [...new Set(VEH_DATA.map(v=>v.verantwoordelike).filter(Boolean))].sort();
+  herbouDropdown('vfKlas', klasse, 'Alle Klasse');
   herbouDropdown('vfAfdeling', afd, 'Alle Afdelings');
   herbouDropdown('vfVerant', ver, 'Alle Verantwoordelikes');
 }
