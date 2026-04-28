@@ -131,26 +131,43 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
 }
 .bates-tab.active { box-shadow: var(--shadow-1); }
 
+/* Geen horisontale scroll nooit nie */
+html, body { overflow-x: hidden; max-width: 100%; }
+body { width: 100%; }
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .nav { padding: 8px 16px; }
-  .nav-brand { padding: 8px 16px; }
-  .nav-brand h1 { font-size: 14px; }
-  .nav-link { padding: 12px 14px; font-size: 12px; }
-  .gsearch-wrap { padding: 6px 12px; }
-  .gsearch-input { width: 140px; }
-  .gsearch-input:focus { width: 180px; }
-  .home-hero { padding: 48px 20px 40px; }
+  .nav { padding: 0; }
+  .nav-brand { padding: 8px 12px; border-right: none; }
+  .nav-brand h1, .nav-brand p { display: none; }
+  .nav-brand::before { content: "FO"; font-family:"Playfair Display",serif; color:#fff; font-size:18px; font-weight:700; letter-spacing:-.02em; }
+  .nav-link { padding: 10px 12px; font-size: 12px; }
+  .gsearch-wrap { padding: 6px 10px; margin-left: auto; }
+  .gsearch-input { width: 120px; font-size: 12px; }
+  .gsearch-input:focus { width: 150px; }
+  .gsearch-shortcut { display: none; }
+  .home-hero { padding: 36px 16px 28px; }
   .home-hero h2 { font-size: 26px; }
-  .home-stats { padding: 16px 20px; gap: 20px; }
+  .home-tagline { font-size: 12px; padding: 0 8px; }
+  .home-stats { padding: 14px 16px; gap: 14px; flex-wrap: wrap; }
   .home-stat-n { font-size: 22px; }
-  .home-modules { padding: 28px 20px; gap: 14px; grid-template-columns: 1fr; }
+  .home-modules { padding: 22px 14px 36px; gap: 14px; grid-template-columns: 1fr; }
+  .module-card { padding: 16px; }
+  .module-info h3 { font-size: 16px; }
+  .module-info p { font-size: 11px; }
   .ot-toolbar { padding: 12px 16px; gap: 6px; }
   .ot-filter-btn, .ot-afd-btn { padding: 6px 12px; font-size: 11px; }
   .eq-toolbar, .vreg-toolbar, .trac-toolbar { padding: 12px 16px; }
   .eq-grid, .vreg-grid, .trac-grid { padding: 16px; }
   .tab-summary-bar { padding: 12px 16px; gap: 16px; }
-  .bates-hdr { padding: 16px 20px; }
+  .bates-hdr { padding: 16px 16px; }
+  .bates-hdr h2 { font-size: 18px; }
+  .bates-hdr p { font-size: 10px; }
+  .arbeid-hdr h2 { font-size: 18px; }
+  .arbeid-hdr p { font-size: 10px; }
+  .bates-toolbar-main { gap: 6px; }
+  .bates-select { flex: 1; min-width: 0; max-width: 100%; }
+  .bates-search-wrap, .bates-search-input { width: 100%; }
 }
 
 /* Print polish */
@@ -278,10 +295,22 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
 .ad-bc-back{display:inline-flex;align-items:center;gap:4px;color:#15803d;background:transparent;border:none;cursor:pointer;font-size:13px;font-weight:600;padding:3px 7px;border-radius:6px;font-family:"DM Sans",sans-serif}
 .ad-bc-back:hover{background:#f0f5ee}
 
-.ad-dd-list{padding:24px 28px 28px}
-.ad-dd-group{margin-bottom:22px}
-.ad-dd-group-hdr{font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.ad-dd-group-count{background:#e0dbd0;color:#374151;font-size:10px;font-weight:600;padding:1px 7px;border-radius:9px;letter-spacing:0;text-transform:none}
+.ad-dd-list{padding:18px 28px 28px}
+.ad-dd-group{margin-bottom:18px}
+.ad-dd-group-hdr{font-size:12px;font-weight:700;color:#0d2818;text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#eaf4ee 0%,#f5f2eb 100%);border-left:3px solid #14532d;border-radius:0 6px 6px 0}
+.ad-dd-group-hdr-Vlak2{border-left-color:#14532d;background:linear-gradient(90deg,#dcfce7 0%,#f5f2eb 100%)}
+.ad-dd-group-hdr-Vlak3{border-left-color:#1d4ed8;background:linear-gradient(90deg,#dbeafe 0%,#f5f2eb 100%)}
+.ad-dd-group-hdr-Vlak5{border-left-color:#475569;background:linear-gradient(90deg,#f1f5f9 0%,#f5f2eb 100%)}
+.ad-dd-group-hdr-Kontrakteurs{border-left-color:#fb923c;background:linear-gradient(90deg,#fff7ed 0%,#f5f2eb 100%)}
+.ad-dd-group-count{background:#fff;color:#0d2818;font-size:11px;font-weight:700;padding:2px 8px;border-radius:9px;letter-spacing:0;text-transform:none;border:1px solid rgba(0,0,0,.06)}
+
+.ad-dd-subgroup{margin-bottom:8px}
+.ad-dd-subhdr{width:100%;text-align:left;display:flex;align-items:center;gap:8px;padding:9px 12px;background:#fff;border:1px solid #e0dbd0;border-radius:8px;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;color:#1a1a1a;transition:all .15s;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.ad-dd-subhdr:hover{background:#f8f6f2;border-color:#cfc8b8}
+.ad-dd-subhdr-caret{display:inline-block;color:#94a3b8;font-size:14px;transition:transform .2s ease;width:10px;text-align:center}
+.ad-dd-subhdr-label{flex:1;text-transform:none;letter-spacing:0}
+.ad-dd-subhdr-count{background:#f0f5ee;color:#14532d;font-size:11px;font-weight:700;padding:2px 8px;border-radius:9px;border:1px solid #d6e6dc}
+.ad-dd-subbody{margin:8px 0 4px 12px;padding-left:6px;border-left:2px solid #e0dbd0}
 
 .ad-dd-cards{display:flex;flex-direction:column;gap:8px}
 .ad-card{background:#fff;border:1px solid #e0dbd0;border-radius:10px;border-left:3px solid #94a3b8;padding:13px 14px 13px 14px;display:flex;align-items:flex-start;gap:11px;cursor:pointer;transition:all .15s;position:relative}
@@ -522,6 +551,7 @@ svg.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:n
 .bates-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 8px;border-radius:11px;background:rgba(0,0,0,.03);border:1px solid #e0dbd0;font-size:11px;color:#374151;font-weight:500;line-height:1.4;border-left:3px solid var(--chip,#475569)}
 .bates-chip b{font-weight:700;color:#0d2818;font-variant-numeric:tabular-nums}
 .bates-chip-empty{font-size:11px;color:#9ca3af;font-style:italic}
+.bates-chip-break{flex-basis:100%;height:0;display:block}
 .bates-hub-card .module-footer{display:flex;justify-content:space-between;align-items:center;padding-top:4px;margin-top:auto}
 .bates-hub-card .module-arrow{color:#94a3b8;font-size:18px;transition:transform .25s var(--ease),color .25s var(--ease)}
 .bates-hub-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(29,78,216,.15);border-color:#bfdbfe}
@@ -551,8 +581,8 @@ svg.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:n
 .bates-toolbar-main{padding:12px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .bates-select{padding:7px 11px;border:1px solid #e0dbd0;border-radius:6px;font-family:"DM Sans",sans-serif;font-size:12px;color:#374151;background:#fff;cursor:pointer;outline:none}
 .bates-select:focus{border-color:#1d4ed8}
-.bates-reset-btn{padding:7px 12px;border:1px solid #fca5a5;border-radius:6px;background:#fff;color:#dc2626;font-family:"DM Sans",sans-serif;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s;white-space:nowrap}
-.bates-reset-btn:hover{background:#fef2f2}
+.bates-reset-btn{width:32px;height:32px;padding:0;border:1px solid #fca5a5;border-radius:6px;background:#fff;color:#dc2626;font-family:"DM Sans",sans-serif;font-size:14px;cursor:pointer;font-weight:600;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.bates-reset-btn:hover{background:#fef2f2;border-color:#dc2626}
 
 /* Person / quick-filter pills */
 .bates-person-bar{padding:6px 28px 10px;border-top:1px solid #f0ece6;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -964,18 +994,9 @@ const PAGES = {
             <input class="bates-search-input" id="eqSearch" type="text" placeholder="Soek implement of kode..." oninput="filterEquipment()" autocomplete="off">
           </div>
           <select id="fClass" class="bates-select" onchange="filterEquipment()"><option value="">Alle Klassifikasies</option><option>Baler</option><option>Bossiekapper</option><option>Dieselkar</option><option>Generator</option><option>Lusernhark</option><option>Menger</option><option>Milktaxi</option><option>Planter</option><option>Ploeg/hak</option><option>Snytafel</option><option>Spuit</option><option>Strooier</option><option>Topper</option><option>Trailer</option><option>Vangwa</option><option>Waterkar</option><option>Wrapper</option></select>
-          <button class="bates-reset-btn" onclick="resetFilters()">&#10006; Stel terug</button>
-        </div>
-        <div class="bates-person-bar">
-          <span class="bates-person-label">Verantwoordelike</span>
-          <div class="bpills">
-            <button class="bpill active" id="eqP-all" onclick="setEqPerson('',this)">Almal</button>
-            <button class="bpill" id="eqP-Cornelis" onclick="setEqPerson('Cornelis',this)">Cornelis</button>
-            <button class="bpill" id="eqP-David" onclick="setEqPerson('David',this)">David</button>
-            <button class="bpill" id="eqP-Dian" onclick="setEqPerson('Dian',this)">Dian</button>
-            <button class="bpill" id="eqP-Frikkie" onclick="setEqPerson('Frikkie',this)">Frikkie</button>
-            <button class="bpill" id="eqP-Rikus" onclick="setEqPerson('Rikus',this)">Rikus</button>
-          </div>
+          <select id="fAfd" class="bates-select" onchange="filterEquipment()"><option value="">Alle Afdelings</option></select>
+          <select id="fVerant" class="bates-select" onchange="filterEquipment()"><option value="">Alle Verantwoordelikes</option></select>
+          <button class="bates-reset-btn" onclick="resetFilters()" title="Stel terug" aria-label="Stel terug">&#10006;</button>
         </div>
         <div class="tab-summary-bar" id="eqStats"></div>
       </div>
@@ -995,18 +1016,9 @@ const PAGES = {
             <input class="bates-search-input" id="tracSearch" type="text" placeholder="Soek trekker of kode..." oninput="filterTractors()" autocomplete="off">
           </div>
           <select id="tfKlas" class="bates-select" onchange="filterTractors()"><option value="">Alle Klassifikasies</option><option>Digger</option><option>Kerwer</option><option>Lorrie</option><option>Macdon</option><option>Parsmasjien</option><option>Selflooperspuit</option><option>Trekker</option><option>Trekker &lt;90kw</option><option>Virk trekker</option></select>
-          <button class="bates-reset-btn" onclick="resetTracFilters()">&#10006; Stel terug</button>
-        </div>
-        <div class="bates-person-bar">
-          <span class="bates-person-label">Verantwoordelike</span>
-          <div class="bpills">
-            <button class="bpill active" id="tracP-all" onclick="setTracPerson('',this)">Almal</button>
-            <button class="bpill" id="tracP-Cornelis" onclick="setTracPerson('Cornelis',this)">Cornelis</button>
-            <button class="bpill" id="tracP-David" onclick="setTracPerson('David',this)">David</button>
-            <button class="bpill" id="tracP-Dian" onclick="setTracPerson('Dian',this)">Dian</button>
-            <button class="bpill" id="tracP-Frikkie" onclick="setTracPerson('Frikkie',this)">Frikkie</button>
-            <button class="bpill" id="tracP-Rikus" onclick="setTracPerson('Rikus',this)">Rikus</button>
-          </div>
+          <select id="tfAfd" class="bates-select" onchange="filterTractors()"><option value="">Alle Afdelings</option></select>
+          <select id="tfVerant" class="bates-select" onchange="filterTractors()"><option value="">Alle Verantwoordelikes</option></select>
+          <button class="bates-reset-btn" onclick="resetTracFilters()" title="Stel terug" aria-label="Stel terug">&#10006;</button>
         </div>
         <div class="tab-summary-bar" id="tracStats"></div>
       </div>
@@ -1025,19 +1037,10 @@ const PAGES = {
             <span class="bates-search-icon">&#128269;</span>
             <input class="bates-search-input" id="vehSearch" type="text" placeholder="Soek voertuig of kode..." oninput="filterVehicles()" autocomplete="off">
           </div>
-          <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()"><option value="">Alle Afdelings</option><option>Admin</option><option>Saai</option><option>Suiwel</option><option>Wingerd</option></select>
-          <button class="bates-reset-btn" onclick="resetVehFilters()">&#10006; Stel terug</button>
-        </div>
-        <div class="bates-person-bar">
-          <span class="bates-person-label">Voertuigklas</span>
-          <div class="bpills">
-            <button class="bpill active" id="vehK-all" onclick="setVehKlas('',this)">Almal</button>
-            <button class="bpill bpill-a" id="vehK-Aplus" onclick="setVehKlas('A+',this)">Klas A+</button>
-            <button class="bpill bpill-a" id="vehK-A" onclick="setVehKlas('A',this)">Klas A</button>
-            <button class="bpill bpill-b" id="vehK-B" onclick="setVehKlas('B',this)">Klas B</button>
-            <button class="bpill bpill-c" id="vehK-C" onclick="setVehKlas('C',this)">Klas C</button>
-            <button class="bpill bpill-d" id="vehK-D" onclick="setVehKlas('D',this)">Klas D</button>
-          </div>
+          <select id="vfKlas" class="bates-select" onchange="filterVehicles()"><option value="">Alle Klasse</option><option>A+</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+          <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()"><option value="">Alle Afdelings</option></select>
+          <select id="vfVerant" class="bates-select" onchange="filterVehicles()"><option value="">Alle Verantwoordelikes</option></select>
+          <button class="bates-reset-btn" onclick="resetVehFilters()" title="Stel terug" aria-label="Stel terug">&#10006;</button>
         </div>
         <div class="tab-summary-bar" id="vehStats"></div>
       </div>
@@ -1405,6 +1408,15 @@ function arbeidNaPlaasbtrd(naam){
   renderArbeidDrill('right');
 }
 
+function toggleSubgroep(id){
+  const body = document.getElementById(id);
+  const caret = document.getElementById(id + '-caret');
+  if(!body) return;
+  const oop = body.style.display !== 'none';
+  body.style.display = oop ? 'none' : '';
+  if(caret) caret.style.transform = oop ? '' : 'rotate(90deg)';
+}
+
 function arbeidDrillIn(naam){
   arbeidPath.push(naam);
   window.scrollTo(0, 0);
@@ -1477,9 +1489,38 @@ function renderArbeidDrill(richting){
     });
     lysHtml = DRILL_GROUP_ORDER.concat(['Ander']).filter(g => groepe[g] && groepe[g].length).map(g => {
       const label = DRILL_GROUP_LABELS[g] || g;
+      let inhoud;
+      // Sub-group Werknemers (Vlak 5) by posbeskrywing — collapsible, default toe
+      if (g === 'Vlak 5' && groepe[g].length > 1) {
+        const subGroepe = {};
+        groepe[g].forEach(e => {
+          const pb = (e.posbeskrywing || 'Ander').trim();
+          if(!subGroepe[pb]) subGroepe[pb] = [];
+          subGroepe[pb].push(e);
+        });
+        const subRye = Object.entries(subGroepe).sort((a,b)=>b[1].length-a[1].length);
+        if (subRye.length === 1) {
+          // Net een posbeskrywing — geen onderverdeling nodig
+          inhoud = `<div class="ad-dd-cards">${groepe[g].map(renderArbeidCard).join('')}</div>`;
+        } else {
+          inhoud = subRye.map(([pb, lys], idx) => {
+            const sgId = 'sg-' + g.replace(/\W/g,'') + '-' + idx;
+            return `<div class="ad-dd-subgroup">
+              <button class="ad-dd-subhdr" type="button" onclick="toggleSubgroep('${sgId}')">
+                <span class="ad-dd-subhdr-caret" id="${sgId}-caret">&rsaquo;</span>
+                <span class="ad-dd-subhdr-label">${pb}</span>
+                <span class="ad-dd-subhdr-count">${lys.length}</span>
+              </button>
+              <div class="ad-dd-cards ad-dd-subbody" id="${sgId}" style="display:none">${lys.map(renderArbeidCard).join('')}</div>
+            </div>`;
+          }).join('');
+        }
+      } else {
+        inhoud = `<div class="ad-dd-cards">${groepe[g].map(renderArbeidCard).join('')}</div>`;
+      }
       return `<div class="ad-dd-group">
-        <div class="ad-dd-group-hdr">${label}<span class="ad-dd-group-count">${groepe[g].length}</span></div>
-        <div class="ad-dd-cards">${groepe[g].map(renderArbeidCard).join('')}</div>
+        <div class="ad-dd-group-hdr ad-dd-group-hdr-${g.replace(/\W/g,'')}">${label}<span class="ad-dd-group-count">${groepe[g].length}</span></div>
+        ${inhoud}
       </div>`;
     }).join('');
   }
@@ -1645,7 +1686,7 @@ function buildEquipmentGrid(data){
   }).join("");
 
   updateEqStats(data.length);
-  herbouEqPille();
+  herbouEqDropdowns();
 }
 
 function updateEqStats(visible){
@@ -1662,8 +1703,9 @@ function updateEqStats(visible){
 }
 
 function filterEquipment(){
-  const ver  = eqPersonFilter;
   const cls  = document.getElementById("fClass")?.value || "";
+  const afd  = document.getElementById("fAfd")?.value || "";
+  const ver  = document.getElementById("fVerant")?.value || "";
   const q    = (document.getElementById("eqSearch")?.value || "").trim().toLowerCase();
 
   let visible = 0;
@@ -1672,6 +1714,7 @@ function filterEquipment(){
     const code = card.querySelector(".eq-card-code")?.textContent.toLowerCase() || "";
     const show = (!ver  || card.dataset.verant   === ver)
               && (!cls  || card.dataset.class    === cls)
+              && (!afd  || card.dataset.afdeling === afd)
               && (!q    || name.includes(q) || code.includes(q));
     card.classList.toggle("hidden", !show);
     if(show) visible++;
@@ -1694,52 +1737,40 @@ function filterEquipment(){
 }
 
 function resetFilters(){
-  eqPersonFilter = '';
-  ["fClass","eqSearch"].forEach(id => { const el=document.getElementById(id); if(el) el.value=""; });
-  const ec = document.getElementById('eqP-all')?.parentElement;
-  if(ec) ec.querySelectorAll('.bpill').forEach(b=>b.classList.remove('active'));
-  const ap = document.getElementById("eqP-all"); if(ap) ap.classList.add("active");
+  ["fClass","fAfd","fVerant","eqSearch"].forEach(id => { const el=document.getElementById(id); if(el) el.value=""; });
   filterEquipment();
 }
 
 // ── Bates person / klas quick-filter state ──────────────
 let eqPersonFilter = '', tracPersonFilter = '', vehKlasFilter = '';
 
-function setEqPerson(person, btn){
-  eqPersonFilter = person;
-  const c = document.getElementById('eqP-all')?.parentElement;
-  if(c) c.querySelectorAll('.bpill').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  filterEquipment();
-}
-function setTracPerson(person, btn){
-  tracPersonFilter = person;
-  const c = document.getElementById('tracP-all')?.parentElement;
-  if(c) c.querySelectorAll('.bpill').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  filterTractors();
+function herbouDropdown(selId, opsies, leeg){
+  const sel = document.getElementById(selId);
+  if(!sel) return;
+  const huidig = sel.value;
+  sel.innerHTML = `<option value="">${leeg}</option>` + opsies.map(o=>`<option>${o}</option>`).join('');
+  sel.value = opsies.includes(huidig) ? huidig : '';
 }
 
-function herbouEqPille(){
-  const allBtn = document.getElementById('eqP-all');
-  if(!allBtn) return;
-  const container = allBtn.parentElement;
-  const names = [...new Set(EQ_DATA.map(e=>e.verantwoordelike).filter(Boolean))].sort();
-  eqPersonFilter = '';
-  container.innerHTML =
-    `<button class="bpill active" id="eqP-all" onclick="setEqPerson('',this)">Almal</button>` +
-    names.map(n=>`<button class="bpill" onclick="setEqPerson(${JSON.stringify(n)},this)">${n}</button>`).join('');
+function herbouEqDropdowns(){
+  const afd = [...new Set(EQ_DATA.map(e=>e.afdeling).filter(Boolean))].sort();
+  const ver = [...new Set(EQ_DATA.map(e=>e.verantwoordelike).filter(Boolean))].sort();
+  herbouDropdown('fAfd', afd, 'Alle Afdelings');
+  herbouDropdown('fVerant', ver, 'Alle Verantwoordelikes');
 }
 
-function herbouTracPille(){
-  const allBtn = document.getElementById('tracP-all');
-  if(!allBtn) return;
-  const container = allBtn.parentElement;
-  const names = [...new Set(TRAC_DATA.map(t=>t.verantwoordelike).filter(Boolean))].sort();
-  tracPersonFilter = '';
-  container.innerHTML =
-    `<button class="bpill active" id="tracP-all" onclick="setTracPerson('',this)">Almal</button>` +
-    names.map(n=>`<button class="bpill" onclick="setTracPerson(${JSON.stringify(n)},this)">${n}</button>`).join('');
+function herbouTracDropdowns(){
+  const afd = [...new Set(TRAC_DATA.map(t=>t.afdeling).filter(Boolean))].sort();
+  const ver = [...new Set(TRAC_DATA.map(t=>t.verantwoordelike).filter(Boolean))].sort();
+  herbouDropdown('tfAfd', afd, 'Alle Afdelings');
+  herbouDropdown('tfVerant', ver, 'Alle Verantwoordelikes');
+}
+
+function herbouVehDropdowns(){
+  const afd = [...new Set(VEH_DATA.map(v=>v.afdeling).filter(Boolean))].sort();
+  const ver = [...new Set(VEH_DATA.map(v=>v.verantwoordelike).filter(Boolean))].sort();
+  herbouDropdown('vfAfdeling', afd, 'Alle Afdelings');
+  herbouDropdown('vfVerant', ver, 'Alle Verantwoordelikes');
 }
 function setVehKlas(klas, btn){
   vehKlasFilter = klas;
@@ -1781,7 +1812,15 @@ function rendererBatesHub(){
   if(eqMini)  eqMini.innerHTML = batesAfdMini(EQ_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('') || '<span class="bates-chip-empty">Geen data</span>';
   if(trMini)  trMini.innerHTML = batesAfdMini(TRAC_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('') || '<span class="bates-chip-empty">Geen data</span>';
   const klasKleure = {'A+':'#0d2818',A:'#14532d',B:'#15803d',C:'#65a30d',D:'#a3a3a3'};
-  if(vhMini)  vhMini.innerHTML = vehKlasMini(VEH_DATA).map(([k,n])=>chip('Klas '+k,n,klasKleure[k])).join('') || '<span class="bates-chip-empty">Geen data</span>';
+  if(vhMini){
+    const afdRy  = batesAfdMini(VEH_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('');
+    const klasRy = vehKlasMini(VEH_DATA).map(([k,n])=>chip('Klas '+k,n,klasKleure[k])).join('');
+    if(afdRy || klasRy){
+      vhMini.innerHTML = afdRy + (afdRy && klasRy ? '<span class="bates-chip-break"></span>' : '') + klasRy;
+    } else {
+      vhMini.innerHTML = '<span class="bates-chip-empty">Geen data</span>';
+    }
+  }
 }
 
 function showBatesCat(cat){
@@ -1867,6 +1906,7 @@ function buildVehicleGrid(data){
     </div>`;
   }).join("");
   updateVehStats(data.length);
+  herbouVehDropdowns();
 }
 
 function updateVehStats(visible){
@@ -1882,8 +1922,9 @@ function updateVehStats(visible){
 }
 
 function filterVehicles(){
+  const klas=document.getElementById("vfKlas")?.value||"";
   const afd=document.getElementById("vfAfdeling")?.value||"";
-  const klas=vehKlasFilter;
+  const ver=document.getElementById("vfVerant")?.value||"";
   const q=(document.getElementById("vehSearch")?.value||"").trim().toLowerCase();
   let visible=0;
   document.querySelectorAll(".veh-card").forEach(card=>{
@@ -1891,6 +1932,7 @@ function filterVehicles(){
     const code=card.querySelector(".veh-card-code")?.textContent.toLowerCase()||"";
     const show=(!afd||card.dataset.afdeling===afd)
             &&(!klas||card.dataset.klas===klas)
+            &&(!ver||card.dataset.verant===ver)
             &&(!q||name.includes(q)||code.includes(q));
     card.classList.toggle("hidden",!show);
     if(show)visible++;
@@ -1909,10 +1951,7 @@ function filterVehicles(){
 }
 
 function resetVehFilters(){
-  vehKlasFilter = '';
-  ["vfAfdeling","vehSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
-  document.querySelectorAll(".bpill[id^='vehK-']").forEach(b=>b.classList.remove("active"));
-  const ap=document.getElementById("vehK-all"); if(ap) ap.classList.add("active");
+  ["vfKlas","vfAfdeling","vfVerant","vehSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
   filterVehicles();
 }
 
@@ -2158,7 +2197,7 @@ function buildTractorGrid(data){
     </div>`;
   }).join("");
   updateTracStats(data.length);
-  herbouTracPille();
+  herbouTracDropdowns();
 }
 
 function updateTracStats(visible){
@@ -2175,13 +2214,15 @@ function updateTracStats(visible){
 
 function filterTractors(){
   const klas=document.getElementById("tfKlas")?.value||"";
-  const ver=tracPersonFilter;
+  const afd=document.getElementById("tfAfd")?.value||"";
+  const ver=document.getElementById("tfVerant")?.value||"";
   const q=(document.getElementById("tracSearch")?.value||"").trim().toLowerCase();
   let visible=0;
   document.querySelectorAll(".trac-card").forEach(card=>{
     const name=card.querySelector(".trac-card-name")?.textContent.toLowerCase()||"";
     const code=card.querySelector(".trac-card-code")?.textContent.toLowerCase()||"";
     const show=(!klas||card.dataset.klas===klas)
+            &&(!afd||card.dataset.afd===afd)
             &&(!ver||card.dataset.verant===ver)
             &&(!q||name.includes(q)||code.includes(q));
     card.classList.toggle("hidden",!show);
@@ -2201,11 +2242,7 @@ function filterTractors(){
 }
 
 function resetTracFilters(){
-  tracPersonFilter = '';
-  ["tfKlas","tracSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
-  const tc = document.getElementById('tracP-all')?.parentElement;
-  if(tc) tc.querySelectorAll('.bpill').forEach(b=>b.classList.remove('active'));
-  const ap=document.getElementById("tracP-all"); if(ap) ap.classList.add("active");
+  ["tfKlas","tfAfd","tfVerant","tracSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
   filterTractors();
 }
 
