@@ -195,6 +195,59 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
   animation: skeleton-shimmer 1.4s ease-in-out infinite;
 }
 
+/* ── ARBEID HEADER (consistent with Bates) ── */
+.arbeid-hdr{background:linear-gradient(135deg,#0d2818 0%,#14532d 60%,#166534 100%);padding:22px 32px}
+.arbeid-hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
+.arbeid-hdr h2{font-family:"Playfair Display",serif;color:#fff;font-size:22px;letter-spacing:-.015em}
+.arbeid-hdr p{color:#86efac;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.arbeid-stats{display:flex;gap:24px;flex-wrap:wrap}
+.arbeid-stat{text-align:right;min-width:70px}
+.arbeid-stat-n{font-family:"Playfair Display",serif;font-size:24px;font-weight:700;color:#fff;line-height:1;letter-spacing:-.02em}
+.arbeid-stat-l{font-size:10px;color:#86efac;text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+
+/* ── ORG TOOLBAR LAYOUT ── */
+.ot-toolbar { row-gap: 8px; }
+.ot-toolbar-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ot-toolbar-label{font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-right:6px}
+.ot-toolbar-divider{width:1px;background:#e0dbd0;height:22px}
+.ot-toolbar-spacer{flex:1;min-width:8px}
+.ot-action-btn{padding:7px 12px;border-radius:6px;border:1px solid #e0dbd0;background:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;color:#374151;cursor:pointer;transition:all .15s}
+.ot-action-btn:hover{background:#f5f2eb;border-color:#14532d;color:#14532d}
+
+/* ── BATES IN-TAB SEARCH ── */
+.bates-search-wrap{position:relative;display:flex;align-items:center}
+.bates-search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:13px;pointer-events:none}
+.bates-search-input{padding:7px 14px 7px 32px;border:1px solid #e0dbd0;border-radius:6px;font-family:"DM Sans",sans-serif;font-size:12px;color:#1a1a1a;background:#fff;outline:none;width:220px;transition:all .2s var(--ease)}
+.bates-search-input::placeholder{color:#9ca3af}
+.bates-search-input:focus{border-color:#1d4ed8;box-shadow:0 0 0 3px rgba(29,78,216,.1);width:260px}
+
+/* ── BATES EMPTY-STATE ── */
+.bates-empty{flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;background:#f5f2eb;text-align:center;gap:14px}
+.bates-empty-icon{font-size:40px;opacity:.4}
+.bates-empty-msg{font-size:14px;font-weight:600;color:#6b7280}
+.bates-empty-btn{padding:8px 18px;border-radius:6px;border:1px solid #1d4ed8;background:#1d4ed8;color:#fff;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.bates-empty-btn:hover{background:#1e40af;border-color:#1e40af}
+
+/* ── EXTRA MOBILE TWEAKS ── */
+@media (max-width: 768px) {
+  .arbeid-hdr { padding: 16px 18px; }
+  .arbeid-hdr-top { gap: 12px; }
+  .arbeid-hdr h2 { font-size: 18px; }
+  .arbeid-stats { gap: 14px; width: 100%; justify-content: space-between; }
+  .arbeid-stat { text-align: center; min-width: 0; flex: 1; }
+  .arbeid-stat-n { font-size: 18px; }
+  .arbeid-stat-l { font-size: 9px; }
+  .ot-toolbar { padding: 10px 14px; flex-direction: column; align-items: stretch; }
+  .ot-toolbar-divider, .ot-toolbar-spacer { display: none; }
+  .ot-toolbar-group { justify-content: flex-start; }
+  .ot-toolbar-label { width: 100%; margin-bottom: 2px; }
+  .bates-search-input, .bates-search-input:focus { width: 100%; }
+  .bates-search-wrap { width: 100%; margin-bottom: 6px; }
+  .eq-toolbar, .vreg-toolbar, .trac-toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
+  .eq-filters, .vreg-filters, .trac-filters { width: 100%; }
+  .eq-filters select, .vreg-filters select, .trac-filters select { flex: 1; min-width: 130px; }
+}
+
 /* ── RESET & BASE ── */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:"DM Sans",sans-serif;color:#1a1a1a;background:#f5f2eb}
@@ -687,7 +740,7 @@ const PAGES = {
       </div>
       <div class="module-card" onclick="showPage('bates')">
         <div class="module-top"><div class="module-icon">&#127959;</div><div class="module-info"><h3>Bates</h3><p>Voertuie, implemente, trekkers, geboue en grond. Bateregister met waardebepaling en onderhoudstatus.</p></div></div>
-        <div class="module-footer"><span class="module-badge badge-binnekort">In ontwikkeling</span><span class="module-arrow">&#8594;</span></div>
+        <div class="module-footer"><span class="module-badge badge-aktief">Aktief</span><span class="module-arrow">&#8594;</span></div>
       </div>
       <div class="module-card disabled">
         <div class="module-top"><div class="module-icon">&#127807;</div><div class="module-info"><h3>Produksie</h3><p>Melkproduksie, suiwelprestasie, graanskote en druiwe-oeste per seisoen en per plaas.</p></div></div>
@@ -705,41 +758,52 @@ const PAGES = {
   `,
 
   arbeid: `
+    <div class="arbeid-hdr">
+      <div class="arbeid-hdr-top">
+        <div><h2>Arbeid</h2><p>Frikkie Oosthuizen &amp; Seuns (Edms) Bpk</p></div>
+        <div class="arbeid-stats" id="arbeidStats"></div>
+      </div>
+    </div>
 
     <div class="ot-toolbar">
-      <span style="font-size:12px;font-weight:600;color:#374151;margin-right:8px">Vlak:</span>
-      <button class="ot-filter-btn active" id="btn-vlak-direksie" onclick="setLevel('direksie',this)">Direksie</button>
-      <button class="ot-filter-btn" id="btn-vlak-bestuur" onclick="setLevel('bestuur',this)">Bestuur</button>
-      <button class="ot-filter-btn" id="btn-vlak-toesig" onclick="setLevel('toesig',this)">Toesighouers</button>
-      <button class="ot-filter-btn" id="btn-vlak-almal" onclick="setLevel('almal',this)">Almal</button>
-      <div style="width:1px;background:#e0dbd0;height:20px;margin:0 12px"></div>
-      <span style="font-size:12px;font-weight:600;color:#374151;margin-right:8px">Afdeling:</span>
-      <button class="ot-afd-btn active" id="btn-afd-all" onclick="setFilter('all',this)">Alle</button>
-      <button class="ot-afd-btn" id="btn-afd-suiwel" onclick="setFilter('suiwel',this)">🐄 Suiwel</button>
-      <button class="ot-afd-btn" id="btn-afd-wingerd" onclick="setFilter('wingerd',this)">🍇 Wingerd</button>
-      <button class="ot-afd-btn" id="btn-afd-graan" onclick="setFilter('graan',this)">🌾 Graan</button>
-      <button class="ot-afd-btn" id="btn-afd-finansies" onclick="setFilter('finansies',this)">💼 Finansies</button>
-    </div>
-      <span style="font-size:12px;font-weight:600;color:#374151;margin-right:8px">Afdeling:</span>
-      <button class="ot-filter-btn" onclick="setFilter('suiwel',this)">🐄 Suiwel</button>
-      <button class="ot-filter-btn" onclick="setFilter('wingerd',this)">🍇 Wingerd</button>
-      <button class="ot-filter-btn" onclick="setFilter('graan',this)">🌾 Graan</button>
-      <button class="ot-filter-btn" onclick="setFilter('finansies',this)">💼 Finansies</button>
-      <div style="width:1px;background:#e0dbd0;height:20px;margin:0 8px"></div>
-      <label class="toggle-wrap" style="cursor:pointer">
-        <div class="toggle-switch">
-          <input type="checkbox" id="btnW" checked onchange="toggleWorkers()">
-          <span class="toggle-slider"></span>
-        </div>
-        <span class="toggle-label" style="color:#374151">Werkers</span>
-      </label>
-      <label class="toggle-wrap" style="cursor:pointer">
-        <div class="toggle-switch">
-          <input type="checkbox" id="btnC" checked onchange="toggleContract()">
-          <span class="toggle-slider"></span>
-        </div>
-        <span class="toggle-label" style="color:#374151">Kontrakteurs</span>
-      </label>
+      <div class="ot-toolbar-group">
+        <span class="ot-toolbar-label">Vlak</span>
+        <button class="ot-filter-btn active" id="btn-vlak-direksie" onclick="setLevel('direksie',this)">Direksie</button>
+        <button class="ot-filter-btn" id="btn-vlak-bestuur" onclick="setLevel('bestuur',this)">Bestuur</button>
+        <button class="ot-filter-btn" id="btn-vlak-toesig" onclick="setLevel('toesig',this)">Toesighouers</button>
+        <button class="ot-filter-btn" id="btn-vlak-almal" onclick="setLevel('almal',this)">Almal</button>
+      </div>
+      <div class="ot-toolbar-divider"></div>
+      <div class="ot-toolbar-group">
+        <span class="ot-toolbar-label">Afdeling</span>
+        <button class="ot-afd-btn active" id="btn-afd-all" onclick="setFilter('all',this)">Alle</button>
+        <button class="ot-afd-btn" id="btn-afd-suiwel" onclick="setFilter('suiwel',this)">🐄 Suiwel</button>
+        <button class="ot-afd-btn" id="btn-afd-wingerd" onclick="setFilter('wingerd',this)">🍇 Wingerd</button>
+        <button class="ot-afd-btn" id="btn-afd-graan" onclick="setFilter('graan',this)">🌾 Graan</button>
+        <button class="ot-afd-btn" id="btn-afd-finansies" onclick="setFilter('finansies',this)">💼 Finansies</button>
+      </div>
+      <div class="ot-toolbar-divider"></div>
+      <div class="ot-toolbar-group">
+        <label class="toggle-wrap" title="Wys/versteek werkers">
+          <div class="toggle-switch">
+            <input type="checkbox" id="btnW" checked onchange="toggleWorkers()">
+            <span class="toggle-slider"></span>
+          </div>
+          <span class="toggle-label" style="color:#374151">Werkers</span>
+        </label>
+        <label class="toggle-wrap" title="Wys/versteek kontrakteurs">
+          <div class="toggle-switch">
+            <input type="checkbox" id="btnC" checked onchange="toggleContract()">
+            <span class="toggle-slider"></span>
+          </div>
+          <span class="toggle-label" style="color:#374151">Kontrakteurs</span>
+        </label>
+      </div>
+      <div class="ot-toolbar-spacer"></div>
+      <div class="ot-toolbar-group">
+        <button class="ot-action-btn" onclick="expandToLevel(9)" title="Vou die hele organisasiestruktuur uit">⊞ Vou alles uit</button>
+        <button class="ot-action-btn" onclick="collapseToRoot()" title="Vou die struktuur op tot direksievlak">⊟ Vou alles toe</button>
+      </div>
     </div>
     <div id="ot-tree-view">
       <div class="ot-wrap" id="otWrap">
@@ -1052,6 +1116,10 @@ const PAGES = {
     <div id="bates-equipment">
       <div class="tab-summary-bar" id="eqStats"></div>
       <div class="eq-toolbar">
+        <div class="bates-search-wrap">
+          <span class="bates-search-icon">&#128269;</span>
+          <input class="bates-search-input" id="eqSearch" type="text" placeholder="Soek implement..." oninput="filterEquipment()" autocomplete="off">
+        </div>
         <div class="eq-filters">
           <select id="fAfdeling" onchange="filterEquipment()"><option value="">Alle Afdelings</option><option>Saai en Meganies</option><option>Suiwel</option><option>Wingerd</option></select>
           <select id="fPlaas" onchange="filterEquipment()"><option value="">Alle Plase</option><option>Saai en Meganies</option><option>Vaandrigsdrift</option><option>Pleasant View</option><option>Voorhuis</option><option>Uitvlugt</option></select>
@@ -1061,10 +1129,19 @@ const PAGES = {
         </div>
       </div>
       <div id="eqGrid" class="eq-grid"></div>
+      <div id="eqEmpty" class="bates-empty" style="display:none">
+        <div class="bates-empty-icon">&#128269;</div>
+        <div class="bates-empty-msg">Geen implemente pas by hierdie filters nie</div>
+        <button class="bates-empty-btn" onclick="resetFilters()">Stel filters terug</button>
+      </div>
     </div>
     <div id="bates-tractors" style="display:none">
       <div class="tab-summary-bar" id="tracStats"></div>
       <div class="trac-toolbar">
+        <div class="bates-search-wrap">
+          <span class="bates-search-icon">&#128269;</span>
+          <input class="bates-search-input" id="tracSearch" type="text" placeholder="Soek trekker / masjien..." oninput="filterTractors()" autocomplete="off">
+        </div>
         <div class="trac-filters">
           <select id="tfKlas" onchange="filterTractors()"><option value="">Alle Klassifikasies</option><option>Digger</option><option>Kerwer</option><option>Lorrie</option><option>Macdon</option><option>Parsmasjien</option><option>Selflooperspuit</option><option>Trekker</option><option>Trekker &lt;90kw</option><option>Virk trekker</option></select>
           <select id="tfAfd" onchange="filterTractors()"><option value="">Alle Afdelings</option><option>Saaie en Meganies</option><option>Suiwel</option><option>Wingerd</option></select>
@@ -1074,10 +1151,19 @@ const PAGES = {
         </div>
       </div>
       <div id="tracGrid" class="trac-grid"></div>
+      <div id="tracEmpty" class="bates-empty" style="display:none">
+        <div class="bates-empty-icon">&#128269;</div>
+        <div class="bates-empty-msg">Geen trekkers pas by hierdie filters nie</div>
+        <button class="bates-empty-btn" onclick="resetTracFilters()">Stel filters terug</button>
+      </div>
     </div>
     <div id="bates-vehicles" style="display:none">
       <div class="tab-summary-bar" id="vehStats"></div>
       <div class="vreg-toolbar">
+        <div class="bates-search-wrap">
+          <span class="bates-search-icon">&#128269;</span>
+          <input class="bates-search-input" id="vehSearch" type="text" placeholder="Soek voertuig..." oninput="filterVehicles()" autocomplete="off">
+        </div>
         <div class="vreg-filters">
           <select id="vfAfdeling" onchange="filterVehicles()"><option value="">Alle Afdelings</option><option>Hoofkantoor</option><option>Saai</option><option>Suiwel</option><option>Meganies</option><option>Wingerd</option></select>
           <select id="vfPlaas" onchange="filterVehicles()"><option value="">Alle Plase</option><option>Pleasant view</option><option>Vaandrigsdrift</option><option>Voorhuis</option></select>
@@ -1087,6 +1173,11 @@ const PAGES = {
         </div>
       </div>
       <div id="vehGrid" class="vreg-grid"></div>
+      <div id="vehEmpty" class="bates-empty" style="display:none">
+        <div class="bates-empty-icon">&#128269;</div>
+        <div class="bates-empty-msg">Geen voertuie pas by hierdie filters nie</div>
+        <button class="bates-empty-btn" onclick="resetVehFilters()">Stel filters terug</button>
+      </div>
     </div>
 `
 };
@@ -1100,7 +1191,7 @@ function showPage(id){
   const link = document.getElementById("link-"+id);
   if(link) link.classList.add("active");
   window.scrollTo(0,0);
-  if(id==="arbeid") setTimeout(()=>{ initCollapsibleTree(); applyFilters(); }, 150);
+  if(id==="arbeid") setTimeout(()=>{ initCollapsibleTree(); applyFilters(); updateArbeidStats(); }, 150);
   if(id==="bates")  setTimeout(initBates, 100);
 }
 
@@ -1188,6 +1279,33 @@ function applyFilters(){
 function toggleWorkers(){const cb=document.getElementById("btnW");workersOn=cb?cb.checked:!workersOn;applyFilters();}
 function toggleContract(){const cb=document.getElementById("btnC");contractOn=cb?cb.checked:!contractOn;applyFilters();}
 
+function updateArbeidStats(){
+  const el = document.getElementById("arbeidStats");
+  if(!el) return;
+  // Count managers, supervisors, worker groups, contractors directly from the tree
+  const dirs       = document.querySelectorAll(".ot-root .ot-dir").length;
+  const execs      = document.querySelectorAll(".ot-root .ot-exec, .ot-root .ot-suiwel, .ot-root .ot-fin, .ot-root .ot-wingerd, .ot-root .ot-grain, .ot-root .ot-dairy").length;
+  // Count workers from group cards (the count is in parens in the name, e.g. "Bonnievale – Wingerd (7)")
+  let workers = 0, contractors = 0;
+  document.querySelectorAll(".ot-root .ot-worker .ot-name").forEach(n => {
+    const m = n.textContent.match(/\((\d+)\)/);
+    if(m) workers += parseInt(m[1], 10);
+  });
+  document.querySelectorAll(".ot-root .ot-contract .ot-name").forEach(n => {
+    const m = n.textContent.match(/\((\d+)\)/);
+    if(m) contractors += parseInt(m[1], 10);
+  });
+  const stats = [
+    {n: dirs,        l: "Direkteure"},
+    {n: execs,       l: "Bestuur & Toesig"},
+    {n: workers,     l: "Werkers"},
+    {n: contractors, l: "Kontrakteurs"},
+  ];
+  el.innerHTML = stats.map(s =>
+    `<div class="arbeid-stat"><div class="arbeid-stat-n">${s.n}</div><div class="arbeid-stat-l">${s.l}</div></div>`
+  ).join("");
+}
+
 window.addEventListener("resize",()=>{ if(document.getElementById("svgLines")) setTimeout(drawLines,100); });
 
 
@@ -1262,13 +1380,17 @@ function filterEquipment(){
   const plaas= document.getElementById("fPlaas")?.value || "";
   const ver  = document.getElementById("fVerant")?.value || "";
   const cls  = document.getElementById("fClass")?.value || "";
+  const q    = (document.getElementById("eqSearch")?.value || "").trim().toLowerCase();
 
   let visible = 0;
   document.querySelectorAll(".eq-card").forEach(card => {
+    const name = card.querySelector(".eq-card-name")?.textContent.toLowerCase() || "";
+    const code = card.querySelector(".eq-card-code")?.textContent.toLowerCase() || "";
     const show = (!afd  || card.dataset.afdeling === afd)
               && (!plaas|| card.dataset.plaas    === plaas)
               && (!ver  || card.dataset.verant   === ver)
-              && (!cls  || card.dataset.class    === cls);
+              && (!cls  || card.dataset.class    === cls)
+              && (!q    || name.includes(q) || code.includes(q));
     card.classList.toggle("hidden", !show);
     if(show) visible++;
   });
@@ -1279,11 +1401,18 @@ function filterEquipment(){
     sec.classList.toggle("all-hidden", !any);
   });
 
+  const empty = document.getElementById("eqEmpty");
+  const grid  = document.getElementById("eqGrid");
+  if(empty && grid){
+    empty.style.display = visible === 0 ? "flex" : "none";
+    grid.style.display  = visible === 0 ? "none" : "";
+  }
+
   updateEqStats(visible);
 }
 
 function resetFilters(){
-  ["fAfdeling","fPlaas","fVerant","fClass"].forEach(id => {
+  ["fAfdeling","fPlaas","fVerant","fClass","eqSearch"].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.value = "";
   });
@@ -1380,12 +1509,16 @@ function filterVehicles(){
   const plaas=document.getElementById("vfPlaas")?.value||"";
   const ver=document.getElementById("vfVerant")?.value||"";
   const klas=document.getElementById("vfKlas")?.value||"";
+  const q=(document.getElementById("vehSearch")?.value||"").trim().toLowerCase();
   let visible=0;
   document.querySelectorAll(".veh-card").forEach(card=>{
+    const name=card.querySelector(".veh-card-name")?.textContent.toLowerCase()||"";
+    const code=card.querySelector(".veh-card-code")?.textContent.toLowerCase()||"";
     const show=(!afd||card.dataset.afdeling===afd)
             &&(!plaas||card.dataset.plaas===plaas)
             &&(!ver||card.dataset.verant===ver)
-            &&(!klas||card.dataset.klas===klas);
+            &&(!klas||card.dataset.klas===klas)
+            &&(!q||name.includes(q)||code.includes(q));
     card.classList.toggle("hidden",!show);
     if(show)visible++;
   });
@@ -1393,11 +1526,17 @@ function filterVehicles(){
     const any=Array.from(sec.querySelectorAll(".veh-card")).some(c=>!c.classList.contains("hidden"));
     sec.classList.toggle("all-hidden",!any);
   });
+  const empty=document.getElementById("vehEmpty");
+  const grid=document.getElementById("vehGrid");
+  if(empty&&grid){
+    empty.style.display = visible===0 ? "flex" : "none";
+    grid.style.display  = visible===0 ? "none" : "";
+  }
   updateVehStats(visible);
 }
 
 function resetVehFilters(){
-  ["vfAfdeling","vfPlaas","vfVerant","vfKlas"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  ["vfAfdeling","vfPlaas","vfVerant","vfKlas","vehSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
   filterVehicles();
 }
 
@@ -1650,12 +1789,16 @@ function filterTractors(){
   const afd=document.getElementById("tfAfd")?.value||"";
   const plaas=document.getElementById("tfPlaas")?.value||"";
   const ver=document.getElementById("tfVerant")?.value||"";
+  const q=(document.getElementById("tracSearch")?.value||"").trim().toLowerCase();
   let visible=0;
   document.querySelectorAll(".trac-card").forEach(card=>{
+    const name=card.querySelector(".trac-card-name")?.textContent.toLowerCase()||"";
+    const code=card.querySelector(".trac-card-code")?.textContent.toLowerCase()||"";
     const show=(!klas||card.dataset.klas===klas)
             &&(!afd||card.dataset.afd===afd)
             &&(!plaas||card.dataset.plaas===plaas)
-            &&(!ver||card.dataset.verant===ver);
+            &&(!ver||card.dataset.verant===ver)
+            &&(!q||name.includes(q)||code.includes(q));
     card.classList.toggle("hidden",!show);
     if(show)visible++;
   });
@@ -1663,11 +1806,17 @@ function filterTractors(){
     const any=Array.from(sec.querySelectorAll(".trac-card")).some(c=>!c.classList.contains("hidden"));
     sec.classList.toggle("all-hidden",!any);
   });
+  const empty=document.getElementById("tracEmpty");
+  const grid=document.getElementById("tracGrid");
+  if(empty&&grid){
+    empty.style.display = visible===0 ? "flex" : "none";
+    grid.style.display  = visible===0 ? "none" : "";
+  }
   updateTracStats(visible);
 }
 
 function resetTracFilters(){
-  ["tfKlas","tfAfd","tfPlaas","tfVerant"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  ["tfKlas","tfAfd","tfPlaas","tfVerant","tracSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
   filterTractors();
 }
 
@@ -1751,15 +1900,15 @@ function collapseToRoot(){
   const card = root.querySelector(":scope > .ot-card");
   if(card) card.classList.add("ot-expanded");
   // Update vlak buttons
-  document.querySelectorAll("[id^='btn-']").forEach(b=>b.classList.remove("active"));
-  const db = document.getElementById("btn-direksie");
+  document.querySelectorAll("[id^='btn-vlak-']").forEach(b=>b.classList.remove("active"));
+  const db = document.getElementById("btn-vlak-direksie");
   if(db) db.classList.add("active");
   setTimeout(updateConnectors,50);
 }
 
 
 function setLevel(level, btn){
-  document.querySelectorAll(".ot-toolbar > button:not([id^='btn-afd'])").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll("[id^='btn-vlak-']").forEach(b=>b.classList.remove("active"));
   if(btn) btn.classList.add("active");
 
   // First collapse everything
@@ -1975,8 +2124,8 @@ function expandToLevel(level){
     current = next;
   }
   // Update active button
-  const btnMap = {2:"btn-bestuur",4:"btn-toesig",9:"btn-almal"};
-  document.querySelectorAll("[id^='btn-']").forEach(b=>b.classList.remove("active"));
+  const btnMap = {1:"btn-vlak-direksie",2:"btn-vlak-bestuur",4:"btn-vlak-toesig",9:"btn-vlak-almal"};
+  document.querySelectorAll("[id^='btn-vlak-']").forEach(b=>b.classList.remove("active"));
   const active = document.getElementById(btnMap[level]);
   if(active) active.classList.add("active");
   setTimeout(updateConnectors,50);
