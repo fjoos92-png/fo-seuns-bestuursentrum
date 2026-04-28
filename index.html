@@ -591,6 +591,7 @@ svg.lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:n
 .afd-saai{border-left-color:#d97706}.afd-saai .eq-afd-badge{background:#fef3c7;color:#92400e}
 .afd-suiwel{border-left-color:#16a34a}.afd-suiwel .eq-afd-badge{background:#dcfce7;color:#14532d}
 .afd-wingerd{border-left-color:#ca8a04}.afd-wingerd .eq-afd-badge{background:#fef9c3;color:#713f12}
+.afd-admin{border-left-color:#475569}.afd-admin .eq-afd-badge{background:#e2e8f0;color:#1e293b}
 .coming-soon-wrap{padding:60px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;background:#f5f2eb;min-height:300px;justify-content:center}
 .coming-soon-icon{font-size:52px;opacity:.3}
 .coming-soon-badge{background:#fef9c3;color:#713f12;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:1px solid #fde68a}
@@ -1024,13 +1025,14 @@ const PAGES = {
             <span class="bates-search-icon">&#128269;</span>
             <input class="bates-search-input" id="vehSearch" type="text" placeholder="Soek voertuig of kode..." oninput="filterVehicles()" autocomplete="off">
           </div>
-          <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()"><option value="">Alle Afdelings</option><option>Hoofkantoor</option><option>Saai</option><option>Suiwel</option><option>Meganies</option><option>Wingerd</option></select>
+          <select id="vfAfdeling" class="bates-select" onchange="filterVehicles()"><option value="">Alle Afdelings</option><option>Admin</option><option>Saai</option><option>Suiwel</option><option>Wingerd</option></select>
           <button class="bates-reset-btn" onclick="resetVehFilters()">&#10006; Stel terug</button>
         </div>
         <div class="bates-person-bar">
           <span class="bates-person-label">Voertuigklas</span>
           <div class="bpills">
             <button class="bpill active" id="vehK-all" onclick="setVehKlas('',this)">Almal</button>
+            <button class="bpill bpill-a" id="vehK-Aplus" onclick="setVehKlas('A+',this)">Klas A+</button>
             <button class="bpill bpill-a" id="vehK-A" onclick="setVehKlas('A',this)">Klas A</button>
             <button class="bpill bpill-b" id="vehK-B" onclick="setVehKlas('B',this)">Klas B</button>
             <button class="bpill bpill-c" id="vehK-C" onclick="setVehKlas('C',this)">Klas C</button>
@@ -1272,7 +1274,10 @@ function renderArbeidDashboard(){
 
   // Section A: Span of Control — top-5 managers by direct report count
   const drMap = {};
-  data.forEach(e => { const b = e.raporteerAan?.trim(); if(b) drMap[b] = (drMap[b]||0)+1; });
+  data.forEach(e => {
+    const b = e.raporteerAan?.trim();
+    if(b && b.toLowerCase() !== 'direksie') drMap[b] = (drMap[b]||0)+1;
+  });
   const spanTop5 = Object.entries(drMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const maxSpan = Math.max(...spanTop5.map(d=>d[1]),1);
 
@@ -1427,18 +1432,19 @@ function renderArbeidDrill(richting){
 
   let employees;
   if(arbeidPath.length === 0){
-    // Top-vlak: eksplisiet Vlak 1 OF geen raporteerAan (ware wortel-node)
+    // Top-vlak: Vlak 1 / geen raporteerAan / rapporteer aan "Direksie" (virtuele wortel)
     const seen = new Set();
     employees = ARBEID_DATA.filter(e => {
       if(seen.has(e.naam)) return false;
       const topVlak = e.vlak === 'Vlak 1';
-      const geenBaas = !e.raporteerAan || e.raporteerAan.trim() === '';
+      const baas = (e.raporteerAan || '').trim();
+      const geenBaas = !baas || baas.toLowerCase() === 'direksie';
       if(topVlak || geenBaas){ seen.add(e.naam); return true; }
       return false;
     });
   } else {
     const huidige = arbeidPath[arbeidPath.length - 1];
-    employees = ARBEID_DATA.filter(e => e.raporteerAan === huidige);
+    employees = ARBEID_DATA.filter(e => (e.raporteerAan || '').trim() === huidige);
   }
 
   const bcParts = [`<button class="ad-bc-back" onclick="arbeidTerugDashboard()">&#8592; Dashboard</button>`,
@@ -1543,7 +1549,7 @@ function renderArbeidSoekResultate(query){
 
 // ── INISIALISERING ─────────────────────────────────────
 function buildArbeidGrid(employees){
-  ARBEID_DATA = employees || [];
+  ARBEID_DATA = (employees || []).filter(sheetIsAktief);
   herbouSoekIndeks(ARBEID_DATA);
   if(arbeidViewMode === 'drill') renderArbeidDrill('left');
   else renderArbeidDashboard();
@@ -1564,7 +1570,7 @@ function initArbeid(){
   }
   const kas = bsLeesKas();
   if(kas?.employees?.length){
-    ARBEID_DATA = kas.employees;
+    ARBEID_DATA = kas.employees.filter(sheetIsAktief);
     herbouSoekIndeks(ARBEID_DATA);
     renderArbeidDashboard();
     return;
@@ -1594,8 +1600,10 @@ const EQ_DATA = [{"code": "3582/034", "name": "Welger Baler RP202", "afdeling": 
 
 const AFD_CLASS = {
   "Saai en Meganies": "afd-saai",
+  "Saai": "afd-saai",
   "Suiwel": "afd-suiwel",
-  "Wingerd": "afd-wingerd"
+  "Wingerd": "afd-wingerd",
+  "Admin": "afd-admin"
 };
 
 function buildEquipmentGrid(data){
@@ -1757,7 +1765,7 @@ function batesAfdMini(items, key){
 }
 
 function vehKlasMini(items){
-  const m = {A:0,B:0,C:0,D:0};
+  const m = {'A+':0,A:0,B:0,C:0,D:0};
   items.forEach(v => { if(m[v.klas]!==undefined) m[v.klas]++; });
   return Object.entries(m).filter(([,n])=>n>0);
 }
@@ -1772,7 +1780,7 @@ function rendererBatesHub(){
   const afdKleure = {Suiwel:'#1d4ed8',Saai:'#0f6e56','Saai en Meganies':'#0f6e56','Saaie en Meganies':'#0f6e56',Wingerd:'#7c3aed',Hoofkantoor:'#888780',Meganies:'#374151',Admin:'#888780'};
   if(eqMini)  eqMini.innerHTML = batesAfdMini(EQ_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('') || '<span class="bates-chip-empty">Geen data</span>';
   if(trMini)  trMini.innerHTML = batesAfdMini(TRAC_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('') || '<span class="bates-chip-empty">Geen data</span>';
-  const klasKleure = {A:'#0d2818',B:'#14532d',C:'#15803d',D:'#65a30d'};
+  const klasKleure = {'A+':'#0d2818',A:'#14532d',B:'#15803d',C:'#65a30d',D:'#a3a3a3'};
   if(vhMini)  vhMini.innerHTML = vehKlasMini(VEH_DATA).map(([k,n])=>chip('Klas '+k,n,klasKleure[k])).join('') || '<span class="bates-chip-empty">Geen data</span>';
 }
 
@@ -1811,6 +1819,7 @@ const VEH_DATA = [{"name": "Land Rover disc Erik- CER 2870", "code": "3583/024",
 
 const VEH_AFD_CLASS = {
   "Hoofkantoor":"vafd-hoofkantoor",
+  "Admin":"vafd-hoofkantoor",
   "Suiwel":"vafd-suiwel",
   "Saai":"vafd-saai",
   "Meganies":"vafd-meganies",
@@ -2097,6 +2106,8 @@ const TRAC_DATA = [{"name": "JCB 3Cx Sitemaster 2017 CER 3269", "code": "3583/10
 
 const TRAC_AFD_CLASS = {
   "Saaie en Meganies":"tafd-saai",
+  "Saai en Meganies":"tafd-saai",
+  "Saai":"tafd-saai",
   "Suiwel":"tafd-suiwel",
   "Wingerd":"tafd-wingerd",
   "Stukkend":"tafd-stukkend"
@@ -2348,12 +2359,40 @@ function bsSkryfKas(data) {
 }
 
 // ── Vertaal Sheet-velde na die formaat wat die grids verwag ──
+function sheetIsAktief(s) {
+  // Sheet "Aktief" column: "Yes" / "No". Treat missing as active for safety.
+  if (s == null) return false;
+  const a = s.aktief;
+  if (a == null || a === '') return true;
+  return String(a).trim().toLowerCase() === 'yes';
+}
+
+function sheetVeld(s, ...sleutels) {
+  // Try each candidate key, then try a fuzzy lowercase-letters-only match
+  for (const k of sleutels) {
+    if (s[k] != null && s[k] !== '') return s[k];
+  }
+  const target = sleutels.map(k => k.toLowerCase().replace(/[^a-z0-9]/g,''));
+  for (const sk of Object.keys(s)) {
+    const norm = sk.toLowerCase().replace(/[^a-z0-9]/g,'');
+    if (target.some(t => norm === t || norm.startsWith(t))) {
+      if (s[sk] != null && s[sk] !== '') return s[sk];
+    }
+  }
+  return undefined;
+}
+
 function sheetNaImpl(s) {
-  // Sheet: {id, naam, klassifikasie, afdeling, plaas, verantwoordelike}
+  // Sheet: {id, naam, klassifikasie, afdeling, plaas, verantwoordelike, aktief}
+  if (!sheetIsAktief(s)) return null;
   return { code: s.id || '', name: s.naam, classification: s.klassifikasie,
            afdeling: s.afdeling, plaas: s.plaas, verantwoordelike: s.verantwoordelike };
 }
 function sheetNaTrek(s) {
+  if (!sheetIsAktief(s)) return null;
+  const enjin = sheetVeld(s, 'enjingrootteKw','enjingrootteKW','enjingrootte','enjingrootteKwh','kw','enjingroottekw');
+  const kwStr = enjin == null || enjin === '' ? '—'
+              : (String(enjin).toLowerCase().includes('kw') ? String(enjin) : String(enjin) + ' kW');
   return {
     code: s.id || '',
     name: s.naam,
@@ -2361,14 +2400,15 @@ function sheetNaTrek(s) {
     afdeling: s.afdeling,
     plaas: s.plaas,
     verantwoordelike: s.verantwoordelike,
-    jaar: s.jaarmodel || '—',
-    aankoop: s.aankoopdatum || '—',
-    kw_str: s.enjingrootte || '—',
+    jaar: sheetVeld(s, 'jaarmodel','jaar') || '—',
+    aankoop: sheetVeld(s, 'aankoopdatum','aankoop') || '—',
+    kw_str: kwStr,
     hours_str: '—',
     hours: 0
   };
 }
 function sheetNaVoert(s) {
+  if (!sheetIsAktief(s)) return null;
   return {
     code: s.id || '',
     name: s.naam,
@@ -2376,8 +2416,8 @@ function sheetNaVoert(s) {
     afdeling: s.afdeling,
     plaas: s.plaas,
     verantwoordelike: s.verantwoordelike,
-    jaar: s.jaarmodel || '—',
-    aankoop: s.aankoopdatum || '—',
+    jaar: sheetVeld(s, 'jaarmodel','jaar') || '—',
+    aankoop: sheetVeld(s, 'aankoopdatum','aankoop') || '—',
     km_str: '—',
     repair_str: '—',
     km: 0,
@@ -2387,26 +2427,13 @@ function sheetNaVoert(s) {
 
 function pasToeData(data) {
   if (data.equipment?.length)
-    EQ_DATA.splice(0, EQ_DATA.length, ...data.equipment.map(sheetNaImpl));
-  if (data.tractors?.length) {
-    // Preserve hardcoded kw/jaar/aankoop when API doesn't return these columns yet
-    const bestaand = {};
-    TRAC_DATA.forEach(t => { if (t.code) bestaand[t.code] = t; });
-    TRAC_DATA.splice(0, TRAC_DATA.length, ...data.tractors.map(s => {
-      const m = sheetNaTrek(s);
-      const v = bestaand[m.code];
-      if (v) {
-        if (m.kw_str === '—' && v.kw_str !== '—') m.kw_str = v.kw_str;
-        if (m.jaar  === '—' && v.jaar  !== '—') m.jaar  = v.jaar;
-        if (m.aankoop === '—' && v.aankoop !== '—') m.aankoop = v.aankoop;
-      }
-      return m;
-    }));
-  }
+    EQ_DATA.splice(0, EQ_DATA.length, ...data.equipment.map(sheetNaImpl).filter(Boolean));
+  if (data.tractors?.length)
+    TRAC_DATA.splice(0, TRAC_DATA.length, ...data.tractors.map(sheetNaTrek).filter(Boolean));
   if (data.vehicles?.length)
-    VEH_DATA.splice(0, VEH_DATA.length, ...data.vehicles.map(sheetNaVoert));
+    VEH_DATA.splice(0, VEH_DATA.length, ...data.vehicles.map(sheetNaVoert).filter(Boolean));
   if (data.employees?.length)
-    ARBEID_DATA = data.employees;
+    ARBEID_DATA = data.employees.filter(sheetIsAktief);
 
   // Herbou aktiewe Bates-aansig (hub of een van die kategorieë)
   const hub = document.getElementById('bates-hub');
@@ -2429,12 +2456,13 @@ function pasToeData(data) {
 function dateerStatistieke(data){
   const stel=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
   if(data.employees){
-    stel('stat-werknemers',  data.employees.filter(e=>e.tipe!=='Kontrakteur').length);
-    stel('stat-kontrakteurs',data.employees.filter(e=>e.tipe==='Kontrakteur').length);
+    const aktief = data.employees.filter(sheetIsAktief);
+    stel('stat-werknemers',  aktief.filter(e=>e.tipe!=='Kontrakteur').length);
+    stel('stat-kontrakteurs',aktief.filter(e=>e.tipe==='Kontrakteur').length);
   }
-  if(data.equipment) stel('stat-implemente', data.equipment.length);
-  if(data.tractors)  stel('stat-trekkers',   data.tractors.length);
-  if(data.vehicles)  stel('stat-voertuie',   data.vehicles.length);
+  if(data.equipment) stel('stat-implemente', data.equipment.filter(sheetIsAktief).length);
+  if(data.tractors)  stel('stat-trekkers',   data.tractors.filter(sheetIsAktief).length);
+  if(data.vehicles)  stel('stat-voertuie',   data.vehicles.filter(sheetIsAktief).length);
 }
 
 function initHome(){
