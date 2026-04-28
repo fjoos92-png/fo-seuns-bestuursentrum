@@ -287,7 +287,7 @@ body { width: 100%; }
 
 /* DRILL-DOWN */
 .ad-dd{padding:0 0 32px}
-.ad-breadcrumb{padding:14px 28px 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;background:#fff;border-bottom:1px solid #e0dbd0;position:sticky;top:50px;z-index:5;box-shadow:0 4px 8px -4px rgba(0,0,0,.06)}
+.ad-breadcrumb{padding:14px 28px 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;background:#fff;border-bottom:1px solid #e0dbd0}
 .ad-bc-item{color:#15803d;cursor:pointer;font-weight:600;padding:3px 7px;border-radius:6px;transition:background .15s}
 .ad-bc-item:hover{background:#f0f5ee}
 .ad-bc-current{color:#1a1a1a;font-weight:700;padding:3px 7px}
@@ -1332,25 +1332,6 @@ function renderArbeidDashboard(){
         }).join('')}
       </div>
     </div>` : ''}
-    ${plaasRye.length ? `<div class="ad-section">
-      <div class="ad-section-title">Plase &amp; Bestuurders</div>
-      <div class="ad-plaas-list">
-        ${plaasRye.map(({plaas,btrd,tel})=>{
-          const kleur = ad_afdColor(btrd?.afdeling||'');
-          const init  = ad_init(btrd?.naam||'');
-          const veilig = (btrd?.naam||'').replace(/'/g,"\\'");
-          return `<div class="ad-plaas-row" onclick="arbeidNaPlaasbtrd('${veilig}')">
-            <div class="ad-init" style="background:${kleur};width:34px;height:34px;font-size:10px">${init}</div>
-            <div class="ad-plaas-body">
-              <div class="ad-plaas-naam">${plaas}</div>
-              <div class="ad-plaas-btrd">${btrd?.naam||'—'}</div>
-            </div>
-            <div class="ad-plaas-cnt">${tel}</div>
-            <div class="ad-card-arrow" style="color:#9ca3af;font-size:16px">&rsaquo;</div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>` : ''}
     <div class="ad-cta-wrap">
       <button class="ad-cta-btn" onclick="arbeidGaanNaDrill()">Bekyk Personeel &rarr;</button>
     </div>
@@ -1499,22 +1480,17 @@ function renderArbeidDrill(richting){
           subGroepe[pb].push(e);
         });
         const subRye = Object.entries(subGroepe).sort((a,b)=>b[1].length-a[1].length);
-        if (subRye.length === 1) {
-          // Net een posbeskrywing — geen onderverdeling nodig
-          inhoud = `<div class="ad-dd-cards">${groepe[g].map(renderArbeidCard).join('')}</div>`;
-        } else {
-          inhoud = subRye.map(([pb, lys], idx) => {
-            const sgId = 'sg-' + g.replace(/\W/g,'') + '-' + idx;
-            return `<div class="ad-dd-subgroup">
-              <button class="ad-dd-subhdr" type="button" onclick="toggleSubgroep('${sgId}')">
-                <span class="ad-dd-subhdr-caret" id="${sgId}-caret">&rsaquo;</span>
-                <span class="ad-dd-subhdr-label">${pb}</span>
-                <span class="ad-dd-subhdr-count">${lys.length}</span>
-              </button>
-              <div class="ad-dd-cards ad-dd-subbody" id="${sgId}" style="display:none">${lys.map(renderArbeidCard).join('')}</div>
-            </div>`;
-          }).join('');
-        }
+        inhoud = subRye.map(([pb, lys], idx) => {
+          const sgId = 'sg-' + g.replace(/\W/g,'') + '-' + idx;
+          return `<div class="ad-dd-subgroup">
+            <button class="ad-dd-subhdr" type="button" onclick="toggleSubgroep('${sgId}')">
+              <span class="ad-dd-subhdr-caret" id="${sgId}-caret">&rsaquo;</span>
+              <span class="ad-dd-subhdr-label">${pb}</span>
+              <span class="ad-dd-subhdr-count">${lys.length}</span>
+            </button>
+            <div class="ad-dd-cards ad-dd-subbody" id="${sgId}" style="display:none">${lys.map(renderArbeidCard).join('')}</div>
+          </div>`;
+        }).join('');
       } else {
         inhoud = `<div class="ad-dd-cards">${groepe[g].map(renderArbeidCard).join('')}</div>`;
       }
@@ -1813,13 +1789,8 @@ function rendererBatesHub(){
   if(trMini)  trMini.innerHTML = batesAfdMini(TRAC_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('') || '<span class="bates-chip-empty">Geen data</span>';
   const klasKleure = {'A+':'#0d2818',A:'#14532d',B:'#15803d',C:'#65a30d',D:'#a3a3a3'};
   if(vhMini){
-    const afdRy  = batesAfdMini(VEH_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('');
-    const klasRy = vehKlasMini(VEH_DATA).map(([k,n])=>chip('Klas '+k,n,klasKleure[k])).join('');
-    if(afdRy || klasRy){
-      vhMini.innerHTML = afdRy + (afdRy && klasRy ? '<span class="bates-chip-break"></span>' : '') + klasRy;
-    } else {
-      vhMini.innerHTML = '<span class="bates-chip-empty">Geen data</span>';
-    }
+    const afdRy = batesAfdMini(VEH_DATA,'afdeling').slice(0,4).map(([a,n])=>chip(a,n,afdKleure[a])).join('');
+    vhMini.innerHTML = afdRy || '<span class="bates-chip-empty">Geen data</span>';
   }
 }
 
@@ -1870,11 +1841,12 @@ function buildVehicleGrid(data){
   if(!grid) return;
   const grouped = {};
   data.forEach(v=>{
-    const key = 'Klas ' + v.klas;
+    const key = v.afdeling || '—';
     if(!grouped[key]) grouped[key]=[];
     grouped[key].push(v);
   });
-  const afds = ['Klas A','Klas B','Klas C','Klas D'].filter(k=>grouped[k]);
+  const orde = ['Admin','Hoofkantoor','Saai','Suiwel','Wingerd','Meganies'];
+  const afds = orde.filter(k=>grouped[k]).concat(Object.keys(grouped).filter(k=>!orde.includes(k)).sort());
   grid.innerHTML = afds.map(afd=>{
     const items = grouped[afd];
     const cards = items.map(v=>{
@@ -2449,7 +2421,7 @@ function sheetNaVoert(s) {
   return {
     code: s.id || '',
     name: s.naam,
-    klas: s.klas,
+    klas: String(s.klas || '').trim(),
     afdeling: s.afdeling,
     plaas: s.plaas,
     verantwoordelike: s.verantwoordelike,
