@@ -1303,14 +1303,31 @@ function renderArbeidDashboard(){
       }).join('')}
     </div>`;
 
-  // Section A: Span of Control — top-5 managers by direct report count
-  const drMap = {};
+  // Section A: Span of Control — top-5 managers by FULL tree (incl. indirect reports)
+  const direkteVan = {};
   data.forEach(e => {
-    const b = e.raporteerAan?.trim();
-    if(b && b.toLowerCase() !== 'direksie') drMap[b] = (drMap[b]||0)+1;
+    const b = (e.raporteerAan||'').trim();
+    if(b && b.toLowerCase() !== 'direksie'){
+      if(!direkteVan[b]) direkteVan[b] = [];
+      direkteVan[b].push(e);
+    }
   });
-  const spanTop5 = Object.entries(drMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const maxSpan = Math.max(...spanTop5.map(d=>d[1]),1);
+  const ngCache = {};
+  const naganger = (naam, gesien=new Set()) => {
+    if(ngCache[naam]) return ngCache[naam];
+    if(gesien.has(naam)) return [];
+    gesien.add(naam);
+    const dir = direkteVan[naam] || [];
+    let alles = [...dir];
+    for(const d of dir) alles = alles.concat(naganger(d.naam, gesien));
+    ngCache[naam] = alles;
+    return alles;
+  };
+  const spanTop5 = Object.keys(direkteVan)
+    .map(naam => [naam, naganger(naam)])
+    .sort((a,b)=>b[1].length-a[1].length)
+    .slice(0,5);
+  const maxSpan = Math.max(...spanTop5.map(d=>d[1].length),1);
 
   // Section D: Plase & Bestuurders — one row per plaas with responsible manager + count
   const plaasGroepe = {};
@@ -1355,10 +1372,10 @@ function renderArbeidDashboard(){
         return 'Ander';
       };
       return `<div class="ad-section">
-        <div class="ad-section-title">Span of Control — Meeste Direkte Rapporte</div>
+        <div class="ad-section-title">Span of Control — Volle Toesig (Direk &amp; Indirek)</div>
         <div class="ad-span-list">
-          ${spanTop5.map(([naam,n],i)=>{
-            const reports = data.filter(e => (e.raporteerAan||'').trim() === naam);
+          ${spanTop5.map(([naam,reports],i)=>{
+            const n = reports.length;
             const tipes = {};
             reports.forEach(e => { const t = klassifiseer(e); tipes[t] = (tipes[t]||0)+1; });
             const lys = tipeOrdre.filter(t => tipes[t]);
