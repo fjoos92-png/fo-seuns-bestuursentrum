@@ -1589,8 +1589,11 @@ function renderAfdelingHub(){
     const n = ARBEID_DATA.filter(e => e.afdeling === id).length;
     const seen = new Set();
     const dirs = ARBEID_DATA.filter(e => {
-      if(seen.has(e.naam)||!isTop(e)) return false;
-      if(hetRapporte(e.naam, id)){ seen.add(e.naam); return true; }
+      if(seen.has(e.naam) || !isTop(e)) return false;
+      if(hetRapporte(e.naam, id) || e.afdeling === id){
+        seen.add(e.naam);
+        return true;
+      }
       return false;
     });
     const miniHtml = dirs.map(e => `<span style="font-size:11px;font-weight:600;color:${kleur}">${e.naam.split(' ').slice(0,2).join(' ')}</span>`).join('<span style="color:#d1d5db;margin:0 5px">&middot;</span>');
@@ -1690,24 +1693,20 @@ function renderArbeidDrill(richting){
   let employees;
   if(arbeidPath.length === 0){
     if(arbeidAfdelingFilter){
-      // Wys slegs direkteure wie se direkte rapporte in hierdie afdeling is
+      // Wys 'n direkteur as hulle (a) direkte rapporte in hierdie afdeling het, OF
+      // (b) self in hierdie afdeling werk — sodat bv. Ian (Suiwel-direkteur sonder
+      // direkte rapporte) steeds onder Suiwel verskyn
       const seen = new Set();
       const isTop = e => { const b=(e.raporteerAan||'').trim(); return e.vlak==='Vlak 1'||!b||b.toLowerCase()==='direksie'; };
       const hetRapporte = naam => ARBEID_DATA.some(e => (e.raporteerAan||'').trim()===naam && e.afdeling===arbeidAfdelingFilter);
       employees = ARBEID_DATA.filter(e => {
-        if(seen.has(e.naam)||!isTop(e)) return false;
-        if(hetRapporte(e.naam)){ seen.add(e.naam); return true; }
+        if(seen.has(e.naam) || !isTop(e)) return false;
+        if(hetRapporte(e.naam) || e.afdeling === arbeidAfdelingFilter){
+          seen.add(e.naam);
+          return true;
+        }
         return false;
       });
-      // Terugval: as geen direkte rapporte gevind, wys diegene in die afdeling self
-      if(!employees.length){
-        const seen2 = new Set();
-        employees = ARBEID_DATA.filter(e => {
-          if(seen2.has(e.naam)||!isTop(e)) return false;
-          if(e.afdeling===arbeidAfdelingFilter){ seen2.add(e.naam); return true; }
-          return false;
-        });
-      }
     } else {
       // Top-vlak: Vlak 1 / geen raporteerAan / rapporteer aan "Direksie" (virtuele wortel)
       const seen = new Set();
