@@ -394,6 +394,7 @@ body { width: 100%; }
 .ad-dd-group-hdr-Vlak3{border-left-color:#1d4ed8;background:linear-gradient(90deg,#dbeafe 0%,#f5f2eb 100%)}
 .ad-dd-group-hdr-Vlak5{border-left-color:#475569;background:linear-gradient(90deg,#f1f5f9 0%,#f5f2eb 100%)}
 .ad-dd-group-hdr-Kontrakteurs{border-left-color:#fb923c;background:linear-gradient(90deg,#fff7ed 0%,#f5f2eb 100%)}
+.ad-dd-group-hdr-Direkteur{border-left-color:#a16207;background:linear-gradient(90deg,#fef3c7 0%,#f5f2eb 100%)}
 .ad-dd-group-count{background:#fff;color:#0d2818;font-size:11px;font-weight:700;padding:2px 8px;border-radius:9px;letter-spacing:0;text-transform:none;border:1px solid rgba(0,0,0,.06)}
 
 .ad-dd-subgroup{margin-bottom:8px}
@@ -1759,25 +1760,17 @@ function renderArbeidDrill(richting){
     });
   }
 
-  let lysHtml = '';
-  if(!employees.length){
-    lysHtml = `<div class="ad-empty" style="background:transparent;min-height:200px;padding:50px 24px">
-      <div class="ad-empty-icon">&#128101;</div>
-      <div class="ad-empty-msg">Geen direkte rapporte nie</div>
-    </div>`;
-  } else if(arbeidPath.length === 0){
-    lysHtml = `<div class="ad-dd-cards">${employees.map(renderArbeidCard).join('')}</div>`;
-  } else {
+  // Helperfunksie: groepeer 'n lys werknemers volgens Vlak/Tipe en render dit
+  function groepeerEnRender(lys){
     const groepe = {'Vlak 2':[], 'Vlak 3':[], 'Vlak 5':[], 'Kontrakteurs':[], 'Ander':[]};
-    employees.forEach(e => {
+    lys.forEach(e => {
       if(e.tipe === 'Kontrakteur') groepe['Kontrakteurs'].push(e);
       else if(groepe[e.vlak]) groepe[e.vlak].push(e);
       else groepe['Ander'].push(e);
     });
-    lysHtml = DRILL_GROUP_ORDER.concat(['Ander']).filter(g => groepe[g] && groepe[g].length).map(g => {
+    return DRILL_GROUP_ORDER.concat(['Ander']).filter(g => groepe[g] && groepe[g].length).map(g => {
       const label = DRILL_GROUP_LABELS[g] || g;
       let inhoud;
-      // Sub-group Werknemers (Vlak 5) and Kontrakteurs by posbeskrywing — collapsible, default toe
       if ((g === 'Vlak 5' || g === 'Kontrakteurs') && groepe[g].length > 1) {
         const subGroepe = {};
         groepe[g].forEach(e => {
@@ -1786,15 +1779,15 @@ function renderArbeidDrill(richting){
           subGroepe[pb].push(e);
         });
         const subRye = Object.entries(subGroepe).sort((a,b)=>b[1].length-a[1].length);
-        inhoud = subRye.map(([pb, lys], idx) => {
+        inhoud = subRye.map(([pb, sublys], idx) => {
           const sgId = 'sg-' + g.replace(/\W/g,'') + '-' + idx;
           return `<div class="ad-dd-subgroup">
             <button class="ad-dd-subhdr" type="button" onclick="toggleSubgroep('${sgId}')">
               <span class="ad-dd-subhdr-caret" id="${sgId}-caret">&rsaquo;</span>
               <span class="ad-dd-subhdr-label">${pb}</span>
-              <span class="ad-dd-subhdr-count">${lys.length}</span>
+              <span class="ad-dd-subhdr-count">${sublys.length}</span>
             </button>
-            <div class="ad-dd-cards ad-dd-subbody" id="${sgId}" style="display:none">${lys.map(renderArbeidCard).join('')}</div>
+            <div class="ad-dd-cards ad-dd-subbody" id="${sgId}" style="display:none">${sublys.map(renderArbeidCard).join('')}</div>
           </div>`;
         }).join('');
       } else {
@@ -1807,6 +1800,28 @@ function renderArbeidDrill(richting){
     }).join('');
   }
 
+  let lysHtml = '';
+  if(!employees.length){
+    lysHtml = `<div class="ad-empty" style="background:transparent;min-height:200px;padding:50px 24px">
+      <div class="ad-empty-icon">&#128101;</div>
+      <div class="ad-empty-msg">Geen direkte rapporte nie</div>
+    </div>`;
+  } else if(arbeidPath.length === 0 && arbeidAfdelingFilter){
+    // Wys Direkteur(s) bo + al hul direkte rapporte gegroepeer onder — geen tussenklik nodig
+    const direkteurNaam = new Set(employees.map(e => e.naam));
+    const direkteRapporte = ARBEID_DATA.filter(e => direkteurNaam.has((e.raporteerAan||'').trim()));
+    const direkteurKaarte = employees.map(e => renderArbeidCard(e, {nieKlikbaar:true})).join('');
+    const direkteurBlok = `<div class="ad-dd-group">
+      <div class="ad-dd-group-hdr ad-dd-group-hdr-Direkteur">Direkteur<span class="ad-dd-group-count">${employees.length}</span></div>
+      <div class="ad-dd-cards">${direkteurKaarte}</div>
+    </div>`;
+    lysHtml = direkteurBlok + groepeerEnRender(direkteRapporte);
+  } else if(arbeidPath.length === 0){
+    lysHtml = `<div class="ad-dd-cards">${employees.map(renderArbeidCard).join('')}</div>`;
+  } else {
+    lysHtml = groepeerEnRender(employees);
+  }
+
   const animKlas = richting === 'left' ? 'ad-slide-left' : 'ad-slide-right';
   view.innerHTML = `<div class="ad-dd">
     <div class="ad-breadcrumb">${bcParts.join('')}</div>
@@ -1814,13 +1829,13 @@ function renderArbeidDrill(richting){
   </div>`;
 }
 
-function renderArbeidCard(e){
+function renderArbeidCard(e, opts){
   const afd = e.afdeling || '';
   const kleur = ad_afdColor(afd);
   const reports = ad_directReports(e.naam);
   const heeftReports = reports.length > 0;
   const isKontrak = e.tipe === 'Kontrakteur';
-  const klikbaar = heeftReports;
+  const klikbaar = heeftReports && !(opts && opts.nieKlikbaar);
   const klas = `ad-card ad-afd-${afd}${klikbaar ? '' : ' ad-card-leaf'}`;
   const onclick = klikbaar ? `onclick="arbeidDrillIn('${(e.naam||'').replace(/'/g,"\\'")}')"` : '';
   return `<div class="${klas}" ${onclick}>
@@ -1829,7 +1844,7 @@ function renderArbeidCard(e){
       <div class="ad-card-name">${e.naam || '—'}</div>
       ${e.posbeskrywing ? `<div class="ad-card-pos">${e.posbeskrywing}</div>` : ''}
       <div class="ad-card-meta">${[afd, e.plaas].filter(Boolean).join(' · ')}</div>
-      ${heeftReports ? `<div class="ad-card-reports">${reports.length} direkte ${reports.length===1?'rapport':'rapporte'} &rarr;</div>` : ''}
+      ${heeftReports && klikbaar ? `<div class="ad-card-reports">${reports.length} direkte ${reports.length===1?'rapport':'rapporte'} &rarr;</div>` : ''}
     </div>
     ${klikbaar ? `<div class="ad-card-arrow">&rsaquo;</div>` : ''}
     ${isKontrak ? `<div class="ad-kbadge">Kontrakteur</div>` : ''}
