@@ -1807,9 +1807,14 @@ function renderArbeidDrill(richting){
       <div class="ad-empty-msg">Geen direkte rapporte nie</div>
     </div>`;
   } else if(arbeidPath.length === 0 && arbeidAfdelingFilter){
-    // Wys Direkteur(s) bo + al hul direkte rapporte gegroepeer onder — geen tussenklik nodig
+    // Wys Direkteur(s) bo + hul direkte rapporte gegroepeer onder — geen tussenklik nodig
+    // Filter rapporte streng op die geselekteerde afdeling sodat 'n direkteur wat ook
+    // ander afdelings bestuur nie hul oor-mense onder hierdie afdeling wys nie
     const direkteurNaam = new Set(employees.map(e => e.naam));
-    const direkteRapporte = ARBEID_DATA.filter(e => direkteurNaam.has((e.raporteerAan||'').trim()));
+    const direkteRapporte = ARBEID_DATA.filter(e =>
+      direkteurNaam.has((e.raporteerAan||'').trim()) &&
+      e.afdeling === arbeidAfdelingFilter
+    );
     const direkteurKaarte = employees.map(e => renderArbeidCard(e, {nieKlikbaar:true})).join('');
     const direkteurBlok = `<div class="ad-dd-group">
       <div class="ad-dd-group-hdr ad-dd-group-hdr-Direkteur">Direkteur<span class="ad-dd-group-count">${employees.length}</span></div>
