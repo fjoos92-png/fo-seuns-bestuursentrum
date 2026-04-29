@@ -5,22 +5,21 @@
 // die nuwe weergawe kry by volgende app-oopmaak.
 // ================================================================
 
-const CACHE_NAME = 'bestuursentrum-v26';
+const CACHE_NAME = 'bestuursentrum-v31';
 
 // Kernlêers wat altyd gecache word (verpligtend vir offline)
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './fonts/dm-sans.woff2',
+  './fonts/playfair-display.woff2',
 ];
 
-// CDN-bates: beste poging — fail gracefully
-const CDN_ASSETS = [
-  'https://unpkg.com/react@18/umd/react.production.min.js',
-  'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
-  'https://unpkg.com/@babel/standalone/babel.min.js',
-  'https://cdn.tailwindcss.com',
-];
+// CDN-bates: app gebruik geen CDN-biblioteke — vanille HTML/CSS/JS slegs
+// (Voorheen het ons React/Babel/Tailwind ingelaai wat nooit gebruik is —
+//  ~500KB onnodige aflaai op elke gebruiker se eerste besoek.)
+const CDN_ASSETS = [];
 
 // ── Installeer ───────────────────────────────────────────────
 self.addEventListener('install', (event) => {
