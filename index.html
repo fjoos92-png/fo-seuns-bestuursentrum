@@ -10,6 +10,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d2818">
 
+<link rel="preconnect" href="https://script.google.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ════════════════════════════════════════════════════════
@@ -53,9 +56,28 @@ button:focus-visible, select:focus-visible, input:focus-visible, [onclick]:focus
 /* Mobile tap feedback — verwyder default grys flits, vervang met subtle scale */
 * { -webkit-tap-highlight-color: transparent; }
 
+/* Tabulêre syfers regdeur — getalle moet visueel align in lyste & stat-blokke */
+.home-stat-n, .ad-stat-n, .ad-pb-n, .ad-span-n, .ad-afd-card-n,
+.veh-card-row, .trac-card-row, .eq-card-meta-row,
+.veh-card-code, .trac-card-code, .eq-card-code,
+#stat-werknemers, #stat-kontrakteurs, #stat-implemente, #stat-trekkers, #stat-voertuie {
+  font-variant-numeric: tabular-nums;
+}
+
 /* Spinner-animasie vir verfris-knoppie */
 @keyframes spin { to { transform: rotate(360deg); } }
 #mobile-refresh { display: none; }
+
+/* Respekteer gebruikers met motion-sensitiwiteit (WCAG 2.3.3 + Apple HIG) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ad-skel, .skeleton { animation: none !important; background: #ece8df !important; }
+}
 .module-card:active:not(.disabled),
 .bates-hub-card:active,
 .ad-card:not(.ad-card-leaf):active,
@@ -2672,6 +2694,7 @@ function bsLeesKas() {
   try {
     const r = JSON.parse(localStorage.getItem(BS_KEY) || 'null');
     if (!r || Date.now() - r.ts > BS_TTL) return null;
+    if (r.data && typeof r.data === 'object') r.data._ts = r.ts;
     return r.data;
   } catch { return null; }
 }
@@ -2864,29 +2887,37 @@ function toonToast(boodskap, tipe = 'info'){
 }
 
 async function laaiLiveData(forseer = false) {
-  if (!forseer) {
-    const kas = bsLeesKas();
-    if (kas) { pasToeData(kas); return; }
+  // Stale-while-revalidate: wys gestoorde data dadelik, haal dan vars op die agtergrond
+  const kas = bsLeesKas();
+  if (kas && !forseer) {
+    pasToeData(kas);
+    // Hervalideer in stilte op die agtergrond (slegs as die kas ouer is as 5 min)
+    const ouderdom = Date.now() - (kas._ts || 0);
+    if (ouderdom < 5 * 60 * 1000) return;
   }
+  // Fetch met 'n 12-sek timeout — kritiek vir landelike SA-konnektiwiteit
+  const ctrl = new AbortController();
+  const tOut = setTimeout(() => ctrl.abort(), 12000);
   try {
-    const res  = await fetch(BS_API + '?action=getAllData');
+    const res = await fetch(BS_API + '?action=getAllData', { signal: ctrl.signal });
+    clearTimeout(tOut);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
-    if (json.success) {
-      bsSkryfKas(json);
-      pasToeData(json);
-      if (forseer) toonToast('✓ Data verfris', 'sukses');
-    } else {
-      throw new Error(json.error || 'Onbekende fout');
-    }
+    if (!json.success) throw new Error(json.error || 'Onbekende fout');
+    bsSkryfKas(json);
+    pasToeData(json);
+    if (forseer) toonToast('✓ Data verfris', 'sukses');
   } catch (err) {
+    clearTimeout(tOut);
     bsToonStatus(null, true);
-    const kas = bsLeesKas();
-    if (kas) {
-      pasToeData(kas);
+    const kasNou = bsLeesKas();
+    if (kasNou && !kas) {
+      pasToeData(kasNou);
       toonToast('⚠ Offline — wys gestoor data', 'info');
-    } else {
+    } else if (!kas && !kasNou) {
       toonToast('⚠ Geen verbinding — geen data beskikbaar', 'fout');
+    } else if (forseer) {
+      toonToast('⚠ Kon nie verfris nie — wys laaste gestoor data', 'info');
     }
   }
 }
