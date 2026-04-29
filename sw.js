@@ -5,13 +5,15 @@
 // die nuwe weergawe kry by volgende app-oopmaak.
 // ================================================================
 
-const CACHE_NAME = 'bestuursentrum-v30';
+const CACHE_NAME = 'bestuursentrum-v31';
 
 // Kernlêers wat altyd gecache word (verpligtend vir offline)
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './fonts/dm-sans.woff2',
+  './fonts/playfair-display.woff2',
 ];
 
 // CDN-bates: app gebruik geen CDN-biblioteke — vanille HTML/CSS/JS slegs
